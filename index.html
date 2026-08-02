@@ -689,6 +689,179 @@ input[type=text]{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15r
 .eigen .balken::before{content:'';position:absolute;left:28.5%;top:0;bottom:0;width:1px;
   background:rgba(255,255,255,.35)}
 
+/* ============================================================
+   ABENTEUERSPIEL — Figurenauswahl, Weltkarte, Level, Ergebnis
+   ============================================================ */
+
+/* ---------- Figurenauswahl ---------- */
+.wahl-kopf{text-align:center;margin:6px 0 14px}
+.figurgitter{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.figurkarte{position:relative;background:linear-gradient(180deg,rgba(45,40,86,.95),rgba(24,26,54,.95));
+  border:2px solid rgba(201,162,39,.35);border-radius:var(--r-m);padding:8px 6px 10px;cursor:pointer;
+  font-family:inherit;color:var(--mondstein);display:flex;flex-direction:column;align-items:center;
+  transition:transform .12s ease, border-color .12s ease, box-shadow .12s ease}
+.figurkarte:active{transform:translateY(2px)}
+.figurkarte.an{border-color:var(--haus);box-shadow:0 0 0 3px color-mix(in srgb,var(--haus) 40%,transparent),
+  0 10px 26px rgba(0,0,0,.4);transform:translateY(-2px)}
+.figurkarte.zu{opacity:.45;cursor:default}
+.figurbuehne{width:100%;aspect-ratio:1/1.1;display:block}
+.fk-name{font-weight:800;font-size:.92rem;line-height:1.15;text-align:center;margin-top:2px}
+.fk-rolle{font-family:'Caveat',cursive;font-weight:600;font-size:.98rem;color:var(--haus2);text-align:center;line-height:1.15}
+.figurdetail{margin-top:14px}
+.werte{display:grid;gap:5px;margin:8px 0}
+.wertzeile{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px;font-size:.82rem;
+  font-weight:700;color:#20264A}
+.wertzeile .balken{background:rgba(40,60,110,.18);border-color:rgba(40,60,110,.3)}
+.wertzeile .balken i{background:linear-gradient(90deg,#8E7318,#C9A227)}
+.faehigkeiten{display:grid;gap:8px;grid-template-columns:1fr 1fr;margin-top:8px}
+.fk-block{background:rgba(40,60,110,.09);border:1px solid rgba(40,60,110,.2);border-radius:10px;padding:8px}
+.fk-block b{display:block;color:#20264A;font-size:.92rem;margin-top:3px}
+.fk-block span:last-child{display:block;color:#5A6288;font-size:.83rem;line-height:1.35}
+@media (max-width:420px){ .faehigkeiten{grid-template-columns:1fr} }
+@media (min-width:720px){ .figurgitter{grid-template-columns:repeat(4,1fr)} }
+
+/* ---------- Storyszene ---------- */
+.storyszene{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(180deg,var(--o1),var(--o2))}
+.story-bg{position:absolute;inset:0;opacity:.85}
+.story-bg svg{width:100%;height:100%}
+.story-kopf{position:relative;display:flex;align-items:center;gap:10px;padding:10px 12px;z-index:2}
+.story-fortschritt{margin-left:auto;font-size:.8rem;opacity:.8}
+.story-mitte{position:relative;flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;z-index:2}
+.story-figur{width:min(220px,52vw);height:min(240px,44vh);display:block}
+.story-unten{position:relative;z-index:2;padding:0 12px 14px;max-width:600px;margin:0 auto;width:100%}
+.story-name{display:inline-block;background:var(--pergament);color:#20264A;border:2px solid var(--messing);
+  border-radius:999px;padding:3px 14px;font-weight:800;font-size:.88rem;margin-bottom:-6px;position:relative;z-index:3}
+.story-name span{display:block;font-family:'Caveat',cursive;font-weight:600;font-size:.92rem;color:#6E5510}
+.story-text{min-height:92px;cursor:pointer}
+.story-text p{margin:0;color:#20264A;font-size:1.02rem;line-height:1.55}
+.story-knoepfe{display:flex;justify-content:center;margin-top:10px}
+
+/* ---------- Weltkarte ---------- */
+.kampagne-kopf{display:flex;align-items:center;gap:10px;padding:8px 12px;flex:0 0 auto;
+  background:rgba(19,26,51,.8);border-bottom:1px solid rgba(201,162,39,.25)}
+.figur-knopf{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);border:2px solid rgba(201,162,39,.4);
+  border-radius:999px;padding:3px 12px 3px 3px;color:var(--mondstein);font-family:inherit;cursor:pointer}
+.figurmini{width:34px;height:38px;display:block}
+.figur-knopf b{display:block;font-size:.86rem}
+.figur-knopf span span{font-size:.72rem;color:var(--haus2)}
+.splitter-anzeige{margin-left:auto;display:flex;align-items:center;gap:3px;font-size:.76rem;color:var(--haus2);font-weight:800}
+.splitter-anzeige i{width:9px;height:12px;background:rgba(255,255,255,.14);
+  clip-path:polygon(50% 0,100% 30%,80% 100%,20% 100%,0 30%)}
+.splitter-anzeige i.an{background:linear-gradient(180deg,#F3E3A8,#C9A227);box-shadow:0 0 8px rgba(201,162,39,.7)}
+.splitter-anzeige span{margin-left:5px}
+
+.weltkarte{position:relative;flex:1;min-height:0;overflow:hidden}
+.wk-hintergrund{position:absolute;inset:0;width:100%;height:100%}
+.wk-linien{position:absolute;inset:0;width:100%;height:100%}
+.wk-weg{stroke:#3A3F6B;stroke-width:3;stroke-dasharray:5 6;vector-effect:non-scaling-stroke}
+.wk-weg.offen{stroke:var(--haus);stroke-width:4;opacity:.75}
+.wk-knoten{position:absolute;inset:0}
+.wk-punkt{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;
+  gap:2px;background:transparent;border:0;padding:0;cursor:pointer;font-family:inherit;color:var(--mondstein)}
+.wkp-kreis{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:1.1rem;
+  background:linear-gradient(180deg,#39406E,#242850);border:3px solid var(--haus);color:var(--mondstein);
+  box-shadow:0 5px 16px rgba(0,0,0,.5);transition:transform .15s ease}
+.wk-punkt:hover .wkp-kreis,.wk-punkt:focus-visible .wkp-kreis{transform:scale(1.1)}
+.wk-punkt.zu{opacity:.45;cursor:default}
+.wk-punkt.zu .wkp-kreis{border-color:#5E6472;background:#22263F}
+.wk-punkt.fertig .wkp-kreis{background:linear-gradient(180deg,#4E8A4C,#2F5C2E);border-color:#8FE08A}
+.wk-punkt.naechstes .wkp-kreis{animation:wkpuls 1.8s ease-in-out infinite}
+@keyframes wkpuls{0%,100%{box-shadow:0 5px 16px rgba(0,0,0,.5)}
+  50%{box-shadow:0 5px 16px rgba(0,0,0,.5),0 0 0 8px color-mix(in srgb,var(--haus) 30%,transparent)}}
+.wk-punkt.art-unterricht .wkp-kreis,.wk-punkt.art-nebenquest .wkp-kreis{width:38px;height:38px;border-width:2px}
+.wk-punkt.art-kommt .wkp-kreis{background:#1E2140;border-style:dashed}
+.wkp-name{font-family:'Caveat',cursive;font-weight:700;font-size:1rem;white-space:nowrap;max-width:34vw;
+  overflow:hidden;text-overflow:ellipsis;background:rgba(10,13,30,.72);border-radius:6px;padding:0 6px}
+.wkp-sterne{font-size:.75rem;color:#E8D48A;letter-spacing:1px}
+
+.zielliste{display:grid;gap:4px;text-align:left;margin:8px 0}
+.zielzeile{display:flex;align-items:flex-start;gap:7px;font-size:.88rem;color:#20264A;line-height:1.35}
+.zielliste.hell .zielzeile{color:var(--mondstein)}
+.zstern{color:#9AA8C0;font-size:1rem;line-height:1.2}
+.zstern.an{color:#E8D48A}
+
+/* ---------- Ergebnis ---------- */
+.ergebnis{max-width:440px;width:100%;text-align:center}
+.sternreihe{display:flex;gap:10px;justify-content:center;margin:8px 0}
+.gross-stern{font-size:2.6rem;color:rgba(221,229,248,.22);line-height:1}
+.gross-stern.an{color:#E8D48A;text-shadow:0 0 22px rgba(232,212,138,.8);animation:sternPop .5s cubic-bezier(.2,.9,.3,1.6) backwards}
+@keyframes sternPop{from{transform:scale(0) rotate(-40deg);opacity:0}to{transform:none;opacity:1}}
+
+/* ---------- Spiel-HUD ---------- */
+#szene-plattform,#szene-laeufer{background:#0C1024}
+/* Die Spielfläche bleibt breiter als hoch. Auf einem hochkanten Handy
+   nimmt sie den oberen Teil ein, die Daumenknöpfe sitzen darunter —
+   sonst stünde die Figur mitten im Steuerkreuz. */
+#spielLeinwand,#laufLeinwand{position:absolute;left:0;right:0;top:0;
+  height:100%;display:block;touch-action:none}
+@media (max-aspect-ratio: 5/6){
+  #spielLeinwand,#laufLeinwand{height:min(100%, max(72%, 100vw * 0.78))}
+}
+.spiel-hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;
+  padding:8px 10px;z-index:6;pointer-events:none}
+.spiel-hud .ikon-btn{pointer-events:auto}
+.leben-reihe{display:flex;gap:3px}
+.herz{color:#E8785A;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
+.herz.leer{color:rgba(255,255,255,.18)}
+.herz.schild{color:#8FE0FF}
+.hud-mitte{display:flex;gap:8px;margin-left:auto;margin-right:auto}
+.hud-zahl{display:inline-flex;align-items:center;gap:4px;font-weight:900;font-size:.86rem;color:#EDF2FF;
+  background:rgba(9,12,26,.6);border-radius:999px;padding:4px 10px;text-shadow:0 1px 3px #000}
+.kraft-leiste{position:absolute;top:44px;left:10px;z-index:6;display:flex;flex-direction:column;gap:4px;pointer-events:none}
+.kraftchip{display:inline-flex;align-items:center;gap:5px;background:rgba(9,12,26,.65);border:1px solid rgba(143,224,255,.5);
+  border-radius:999px;padding:3px 9px;font-size:.74rem;font-weight:800;color:#8FE0FF}
+.spiel-meldung{position:absolute;top:32%;left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;
+  font-family:'Caveat',cursive;font-weight:700;font-size:1.5rem;color:#EDF2FF;text-align:center;
+  text-shadow:0 2px 12px #000;opacity:0;transition:opacity .25s;max-width:86vw}
+.spiel-meldung.an{opacity:1}
+.faehig-knopf{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;
+  font-size:.72rem;color:var(--haus2);background:rgba(9,12,26,.6);border-radius:999px;padding:2px 10px}
+.jaeger-leiste{position:absolute;top:44px;left:50%;transform:translateX(-50%);width:min(240px,70vw);height:10px;
+  background:rgba(9,12,26,.6);border:1px solid rgba(232,120,90,.5);border-radius:999px;z-index:6;pointer-events:none}
+.jaeger-leiste i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#6A1030,#E8785A);
+  width:0;transition:width .2s}
+.jaeger-leiste span{position:absolute;top:12px;left:50%;transform:translateX(-50%);font-size:.66rem;
+  color:#E8A08A;font-weight:800}
+
+/* ---------- Gabelung ---------- */
+.gabel-wahl{position:absolute;inset:0;z-index:9;display:none;align-items:center;justify-content:center;
+  flex-direction:column;background:rgba(8,10,22,.72);backdrop-filter:blur(2px);padding:16px}
+.gabel-wahl.an{display:flex}
+.gabel-titel{font-size:1.6rem;color:var(--haus2);margin-bottom:10px}
+.gabel-karten{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:520px;width:100%}
+.gabel-karte{background:var(--pergament);color:#20264A;border:3px solid var(--messing);border-radius:var(--r-m);
+  padding:12px 10px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:3px;text-align:center}
+.gabel-karte .pfeil{font-size:1.6rem;color:#8E7318}
+.gabel-karte b{font-size:.98rem}
+.gabel-karte span{font-size:.85rem;color:#5A6288;line-height:1.3}
+.gabel-karte.riskant{border-color:#C0492E}
+.gabel-karte.riskant .pfeil{color:#C0492E}
+.gabel-karte:active{transform:translateY(2px)}
+
+/* ---------- Bildschirmsteuerung ---------- */
+.tastfeld{position:absolute;left:0;right:0;bottom:0;z-index:8;display:flex;justify-content:space-between;
+  align-items:flex-end;padding:10px 12px 14px;pointer-events:none;gap:10px}
+.tk-gruppe{display:flex;gap:8px;pointer-events:auto}
+.tk-gruppe.rechts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.tk{width:56px;height:56px;border-radius:50%;border:2px solid rgba(221,229,248,.35);
+  background:rgba(20,24,48,.55);color:#EDF2FF;font-size:1.2rem;font-weight:900;cursor:pointer;
+  display:grid;place-items:center;pointer-events:auto;backdrop-filter:blur(2px);
+  transition:transform .08s ease, background .08s ease;touch-action:none;-webkit-user-select:none;user-select:none}
+.tk.gedrueckt{transform:scale(.9);background:rgba(201,162,39,.5)}
+.tk.sprung{background:rgba(201,162,39,.4);border-color:var(--haus)}
+.tk.zauber{background:rgba(140,90,220,.4);border-color:#B9A8F0}
+.tk.faehig{background:rgba(78,138,76,.4);border-color:#8FE08A}
+.tk.gross{width:66px;height:66px;font-size:1.5rem}
+.tastfeld.laeufer{justify-content:space-between;align-items:center;bottom:6px}
+.tastfeld.laeufer .tk-mitte{display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+@media (min-width:900px) and (pointer:fine){ .tastfeld{opacity:.28} .tastfeld:hover{opacity:1} }
+@media (max-height:520px){ .tk{width:46px;height:46px} .tk.gross{width:54px;height:54px} }
+
+@media (prefers-reduced-motion: reduce){
+  .wk-punkt.naechstes .wkp-kreis,.gross-stern.an{animation:none}
+}
+
 </style>
 </head>
 <body>
@@ -698,6 +871,12 @@ input[type=text]{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15r
   <section class="szene" id="szene-name"></section>
   <section class="szene" id="szene-stab"></section>
   <section class="szene" id="szene-verteilung"></section>
+  <section class="szene" id="szene-figurwahl"></section>
+  <section class="szene" id="szene-story"></section>
+  <section class="szene" id="szene-kampagne"></section>
+  <section class="szene" id="szene-plattform"></section>
+  <section class="szene" id="szene-laeufer"></section>
+  <section class="szene" id="szene-ergebnis"></section>
   <section class="szene" id="szene-karte"></section>
   <section class="szene" id="szene-gespraech"></section>
   <section class="szene" id="szene-journal"></section>
@@ -983,6 +1162,190 @@ function invNehmen(st, id, n){
 }
 function invHat(st, id, n){ return (st.inventar && st.inventar[id] || 0) >= (n===undefined?1:n); }
 
+/* ---------- Kampagne (rein) ---------- */
+function sterneBerechnen(ziele){ return (ziele||[]).filter(Boolean).length; }
+function kapStand(st, id){
+  if(!st.kampagne) st.kampagne = {};
+  if(!st.kampagne[id]) st.kampagne[id] = { geschafft:false, sterne:0, gefunden:[], versuche:0 };
+  return st.kampagne[id];
+}
+function kapErgebnisSpeichern(st, id, ziele, gefunden){
+  const k = kapStand(st, id);
+  k.geschafft = true;
+  k.sterne = Math.max(k.sterne, sterneBerechnen(ziele));
+  (gefunden||[]).forEach(g => { if(k.gefunden.indexOf(g) < 0) k.gefunden.push(g); });
+  return k;
+}
+function figurWaehlen(st, id, alle){
+  if(!st.figuren || st.figuren.indexOf(id) < 0) return false;
+  st.figur = id;
+  return true;
+}
+/* Größte Bodenlücke einer Kachelkarte — für Leveltests */
+function groessteLuecke(karte){
+  const boden = karte[karte.length-1];
+  let l = 0, max = 0;
+  for(const c of boden){ if(c === '.'){ l++; if(l > max) max = l; } else l = 0; }
+  return max;
+}
+
+/* ============================================================
+   LEVELPRÜFUNG — ist die Karte wirklich schaffbar?
+   Modell: waagerechte Standflächen als Knoten, Sprungbögen als Kanten.
+   Gerechnet wird mit der schwächsten Figur, plus Sicherheitsabschlag.
+   Wird sowohl von den Tests als auch vom Spiel-Bot benutzt.
+   ============================================================ */
+const PHYS = { schwer:2100, kachel:30, heldB:18, heldH:34, sprung:640, tempo:225 };
+
+function sprungHoehe(kraft, schwer){
+  kraft = kraft || PHYS.sprung;
+  return kraft*kraft / (2*(schwer || PHYS.schwer));
+}
+/* Waagerechte Reichweite eines Sprungs, wenn das Ziel `hoch` px höher liegt.
+   hoch < 0 bedeutet: Ziel liegt tiefer. -1 = unerreichbar hoch. */
+function wurfWeite(kraft, tempo, hoch, schwer){
+  kraft = kraft || PHYS.sprung; tempo = tempo || PHYS.tempo;
+  schwer = schwer || PHYS.schwer;
+  if(hoch > 0){
+    const rest = kraft*kraft - 2*schwer*hoch;
+    if(rest <= 0) return -1;
+    return tempo * ((kraft + Math.sqrt(rest)) / schwer) * 0.72;
+  }
+  const vy = Math.sqrt(kraft*kraft + 2*schwer*(-hoch));
+  return tempo * ((kraft + vy) / schwer) * 0.72;
+}
+
+/* G = Geheimwand: sieht aus wie Stein, die Figur geht hindurch. Darum
+   zählt sie weder als fest noch als begehbar. */
+const KACHEL_FEST = ch => ch === '#';
+const KACHEL_EINWEG = ch => ch === '=' || ch === 'B' || ch === 'D';
+
+/* Alle Flächen, auf denen die Figur wirklich stehen kann (mit Kopffreiheit) */
+function flaechenFinden(karte){
+  const H = karte.length, B = karte[0].length;
+  const z = (x,y) => {
+    if(x < 0 || x >= B) return '#';
+    if(y < 0 || y >= H) return '.';
+    return karte[y][x] || '.';
+  };
+  /* Figur ist 34 px hoch, also müssen zwei Kacheln darüber frei sein */
+  const kopffrei = (x,y) => !KACHEL_FEST(z(x,y-1)) && !KACHEL_FEST(z(x,y-2));
+  const steht = (x,y) => {
+    const c = z(x,y);
+    return (KACHEL_FEST(c) || KACHEL_EINWEG(c)) && kopffrei(x,y);
+  };
+  const out = [];
+  for(let y=0;y<H;y++){
+    let x = 0;
+    while(x < B){
+      if(steht(x,y)){
+        const ew = KACHEL_EINWEG(z(x,y));
+        let x2 = x;
+        while(x2+1 < B && steht(x2+1,y) && KACHEL_EINWEG(z(x2+1,y)) === ew) x2++;
+        out.push({ id:out.length, y, x1:x, x2:x2, einweg:ew });
+        x = x2 + 1;
+      } else x++;
+    }
+  }
+  return out;
+}
+
+/* Waagerechter Abstand zweier Flächen in Pixeln (0 = sie überlappen) */
+function flaechenAbstand(a, b){
+  const K = PHYS.kachel;
+  if(b.x1 > a.x2) return (b.x1 - a.x2 - 1) * K;
+  if(b.x2 < a.x1) return (a.x1 - b.x2 - 1) * K;
+  return 0;
+}
+
+/* Von welcher Fläche kommt man auf welche? */
+function flaechenGraph(flaechen, opt){
+  opt = opt || {};
+  const kraft = opt.sprung || PHYS.sprung, tempo = opt.tempo || PHYS.tempo;
+  const maxHoch = sprungHoehe(kraft) - 8;   /* Sicherheitsrand */
+  const K = PHYS.kachel;
+  return flaechen.map(a => {
+    const ziele = [];
+    flaechen.forEach(b => {
+      if(a.id === b.id) return;
+      const hoch = (a.y - b.y) * K;                 /* > 0: b liegt höher */
+      if(hoch > maxHoch) return;
+      const w = wurfWeite(kraft, tempo, hoch);
+      if(w < 0) return;
+      if(flaechenAbstand(a,b) > w) return;
+      /* Auf eine massive Fläche kommt man nicht von unten drauf — man
+         stößt an ihre Unterseite. Also muss ein Stück der Startfläche
+         seitlich neben ihr liegen. Einwegplattformen (= B D) sind von
+         unten durchlässig, da geht es. */
+      if(hoch > 0 && !b.einweg && a.x1 >= b.x1 && a.x2 <= b.x2) return;
+      ziele.push(b.id);
+    });
+    return ziele;
+  });
+}
+
+/* Alle Flächen, die man vom Startpunkt aus erreicht */
+function erreichbareFlaechen(karte, startX, startY, opt){
+  const fl = flaechenFinden(karte);
+  const kanten = flaechenGraph(fl, opt);
+  /* Startfläche: die nächste Fläche unter dem Startpunkt in derselben Spalte */
+  let start = -1, besteY = Infinity;
+  fl.forEach(f => {
+    if(startX < f.x1 || startX > f.x2) return;
+    if(f.y >= startY && f.y < besteY){ besteY = f.y; start = f.id; }
+  });
+  if(start < 0) return { flaechen:fl, erreicht:new Set(), start:-1 };
+  const erreicht = new Set([start]);
+  const stapel = [start];
+  while(stapel.length){
+    const i = stapel.pop();
+    kanten[i].forEach(j => { if(!erreicht.has(j)){ erreicht.add(j); stapel.push(j); } });
+  }
+  return { flaechen:fl, erreicht, start };
+}
+
+/* Ist eine Sache auf Kachel (tx,ty) von einer erreichten Fläche aus einsammelbar? */
+function sacheErreichbar(fl, erreicht, tx, ty, opt){
+  opt = opt || {};
+  const kraft = opt.sprung || PHYS.sprung, tempo = opt.tempo || PHYS.tempo;
+  const K = PHYS.kachel;
+  const maxHoch = sprungHoehe(kraft) - 8;
+  for(const f of fl){
+    if(!erreicht.has(f.id)) continue;
+    const hoch = (f.y - 1 - ty) * K;      /* Sache steht auf Kachel ty, Fläche auf f.y */
+    if(hoch > maxHoch || hoch < -K) continue;
+    const w = wurfWeite(kraft, tempo, hoch);
+    if(w < 0) continue;
+    let d = 0;
+    if(tx > f.x2) d = (tx - f.x2 - 1) * K;
+    else if(tx < f.x1) d = (f.x1 - tx - 1) * K;
+    if(d <= w) return true;
+  }
+  return false;
+}
+
+/* Vollprüfung einer Plattformer-Karte: findet alles, was unerreichbar ist. */
+function levelPruefen(karte, opt){
+  opt = opt || {};
+  const H = karte.length, B = karte[0].length;
+  let sx = 2, sy = H-4;
+  for(let y=0;y<H;y++) for(let x=0;x<B;x++) if(karte[y][x] === 'S'){ sx = x; sy = y; }
+  const { flaechen, erreicht, start } = erreichbareFlaechen(karte, sx, sy, opt);
+  const fehlend = [];
+  const wichtig = { 's':'Runensiegel', 'X':'Gewölbetor', 'C':'Kontrollpunkt', 'W':'Wappen',
+    'Z':'Wächter', 'H':'Schild', 'P':'Magnet', 'F':'Tempo', 'o':'Mondstein' };
+  const zaehler = {};
+  for(let y=0;y<H;y++) for(let x=0;x<B;x++){
+    const ch = karte[y][x];
+    if(!wichtig[ch]) continue;
+    zaehler[ch] = (zaehler[ch]||0) + 1;
+    if(!sacheErreichbar(flaechen, erreicht, x, y, opt))
+      fehlend.push({ zeichen:ch, was:wichtig[ch], x, y });
+  }
+  return { start, flaechen, erreicht, fehlend, zaehler,
+    inselFlaechen: flaechen.filter(f => !erreicht.has(f.id)).length };
+}
+
 /* ---------- Entscheidung anwenden (rein) ---------- */
 function entscheidungAnwenden(st, e){
   setzeFlagge(st, e.flagge);
@@ -1001,7 +1364,7 @@ function entscheidungAnwenden(st, e){
    ============================================================ */
 function neuerStand(){
   return {
-    v:2, name:'', haus:null, stab:null,
+    v:3, name:'', haus:null, stab:null,
     steine:60, gesamt:60,
     hauspunkte:{silberfuchs:120, flammenhirsch:120, moosdrache:120, sternenkauz:120},
     traenke:{}, wesen:{}, zutaten:{}, abzeichen:{},
@@ -1014,6 +1377,11 @@ function neuerStand(){
     letzterWald:0, waldOrt:0,
     stats:{ gebraut:0, ohneFehler:0, meisterwerke:0, fluege:0, quizPerfekt:0, hauspunkteEigen:0, entdeckt:0 },
     ton:true, ereignis:null, ereignisTag:0, gesehen:{},
+
+    /* --- ab Version 3: Abenteuerspiel --- */
+    figur:null, figuren:['lina','finn','mira','theo'],
+    kampagne:{}, splitter:[], begleiterTiere:[],
+    optionen:{ kameraRuckeln:true, bewegungReduziert:false },
 
     /* --- ab Version 2: Abenteuer --- */
     quests:{}, flaggen:{},
@@ -1033,25 +1401,30 @@ function standMischen(gespeichert){
   const frisch = neuerStand();
   if(!gespeichert || typeof gespeichert !== 'object') return frisch;
   const z = Object.assign({}, frisch, gespeichert);
-  const objs = ['hauspunkte','besitz','aktiv','stats','npc','lernstand'];
+  const objs = ['hauspunkte','besitz','aktiv','stats','npc','lernstand','optionen'];
   objs.forEach(k => { z[k] = Object.assign({}, frisch[k], gespeichert[k] || {}); });
   ['besen','staebe','begleiter','umhaenge','aufkleber'].forEach(k=>{
     if(!Array.isArray(z.besitz[k])) z.besitz[k] = frisch.besitz[k].slice();
   });
-  ['traenke','wesen','zutaten','abzeichen','quests','flaggen','inventar','rezeptbuch','missionen']
+  ['traenke','wesen','zutaten','abzeichen','quests','flaggen','inventar','rezeptbuch','missionen','kampagne']
     .forEach(k => { if(!z[k] || typeof z[k] !== 'object' || Array.isArray(z[k])) z[k] = {}; });
-  ['spuren','runen','orte','trophaeen'].forEach(k => { if(!Array.isArray(z[k])) z[k] = frisch[k].slice(); });
+  ['spuren','runen','orte','trophaeen','figuren','splitter','begleiterTiere']
+    .forEach(k => { if(!Array.isArray(z[k])) z[k] = frisch[k].slice(); });
+  if(z.figuren.length === 0) z.figuren = frisch.figuren.slice();
+  if(z.figur && z.figuren.indexOf(z.figur) < 0) z.figur = null;
   z.journal = Object.assign({}, frisch.journal, gespeichert.journal || {});
   if(!Array.isArray(z.journal.hinweise)) z.journal.hinweise = [];
   if(!Array.isArray(z.journal.entscheidungen)) z.journal.entscheidungen = [];
   if(z.orte.indexOf('schlafsaal') < 0) z.orte.unshift('schlafsaal');
-  z.v = 2;
+  z.v = 3;
   return z;
 }
 
 /* Für Node-Tests */
 if(typeof module !== 'undefined' && module.exports){
-  module.exports = { ACHSEN, ACHSE_NAME, mischFarbe, invGeben, invNehmen, invHat, entscheidungAnwenden, ZUTAT_EIGEN, leeresProfil, profilPlus, brauen, trankSignatur,
+  module.exports = { ACHSEN, ACHSE_NAME, mischFarbe, sterneBerechnen, kapStand, kapErgebnisSpeichern, figurWaehlen, groessteLuecke,
+    PHYS, sprungHoehe, wurfWeite, flaechenFinden, flaechenGraph, erreichbareFlaechen, sacheErreichbar, levelPruefen,
+    invGeben, invNehmen, invHat, entscheidungAnwenden, ZUTAT_EIGEN, leeresProfil, profilPlus, brauen, trankSignatur,
     profilAbstand, ergebnisFinden, nebenprodukt, NEBENPRODUKTE, aufgabeErfuellt,
     runeErkennen, vorlageVorbereiten, runeVorbereiten, neuAbtasten,
     questStand, questStarten, questAktuellerSchritt, questWeiter, questFertig, flagge, setzeFlagge,
@@ -2222,14 +2595,14 @@ function kopfAktualisieren(){
   document.querySelectorAll('[data-kopf]').forEach(k => {
     const h = HAEUSER[S.haus];
     k.innerHTML =
-      (k.dataset.zurueck ? '<button class="ikon-btn" data-zurueck aria-label="Zurück zur Karte">'+ico('zurueck',22)+'</button>' :
+      (k.dataset.zurueck ? '<button class="ikon-btn" data-zurueck aria-label="Zurück zur Weltkarte">'+ico('zurueck',22)+'</button>' :
         '<div class="wappen">'+(h?wappen(S.haus,34):'')+'</div>') +
       '<div class="wer"><div class="nam">'+esc(S.name||'Neuling')+'</div>'+
       '<div class="rang">'+(h?esc(h.name)+' · ':'')+rangVon(fortschrittZahl())+'</div></div>'+
       '<div class="muenzen">'+ico('mondstein',17)+'<span>'+S.steine+'</span></div>'+
       '<button class="ikon-btn" data-ton aria-label="Ton an oder aus">'+ico(S.ton?'ton':'tonAus',20)+'</button>';
   });
-  document.querySelectorAll('[data-zurueck]').forEach(b => b.onclick = ()=>{ Ton.klick(); karteZeigen(); });
+  document.querySelectorAll('[data-zurueck]').forEach(b => b.onclick = ()=>{ Ton.klick(); weltkarteZeigen(); });
   document.querySelectorAll('[data-ton]').forEach(b => b.onclick = ()=>{
     S.ton = !S.ton; if(S.ton){ Ton.start(); Ton.auf(); } sichern(); kopfAktualisieren();
   });
@@ -2255,6 +2628,3187 @@ function dialog(inhalt, opt){
   d.querySelectorAll('[data-zu]').forEach(b => b.onclick = ()=>{ Ton.klick(); schliessen(); });
   if(opt.klickAussen !== false) d.onclick = e => { if(e.target===d) schliessen(); };
   return { el:d, schliessen:schliessen };
+}
+
+
+/* ===== motor.js ===== */
+/* ============================================================
+   MOTOR — Spielschleife, Eingabe, Kamera, Teilchen, Bildschirmknöpfe
+   Eigener kompakter Kern statt großer Fremdbibliothek:
+   fester Zeitschritt, Coyote-Zeit, Sprungpuffer, 2,5-D-Projektion.
+   ============================================================ */
+
+const SCHRITT = 1/120;              /* Physik läuft fest mit 120 Hz */
+const MAX_NACHHOLEN = 5;
+
+/* ---------- EINGABE ---------- */
+const Eing = {
+  tasten:{}, gedrueckt:{}, losgelassen:{},
+  wischStart:null, wischZeit:0,
+  gamepadIndex:null,
+  aktiv:false,
+
+  start(){
+    if(this.aktiv) return;
+    this.aktiv = true;
+    window.addEventListener('keydown', this._ab = e => {
+      if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','Space'].includes(e.key)) e.preventDefault();
+      const t = this.karte(e.key);
+      if(!t) return;
+      if(!this.tasten[t]) this.gedrueckt[t] = true;
+      this.tasten[t] = true;
+    });
+    window.addEventListener('keyup', this._auf = e => {
+      const t = this.karte(e.key);
+      if(!t) return;
+      this.tasten[t] = false; this.losgelassen[t] = true;
+    });
+    window.addEventListener('gamepadconnected', e => { this.gamepadIndex = e.gamepad.index; });
+    window.addEventListener('gamepaddisconnected', ()=>{ this.gamepadIndex = null; });
+  },
+  karte(k){
+    const m = {
+      'ArrowLeft':'links','a':'links','A':'links',
+      'ArrowRight':'rechts','d':'rechts','D':'rechts',
+      'ArrowUp':'hoch','w':'hoch','W':'hoch',
+      'ArrowDown':'runter','s':'runter','S':'runter',
+      ' ':'sprung','Spacebar':'sprung',
+      'e':'zauber','E':'zauber','j':'zauber','J':'zauber',
+      'q':'faehig','Q':'faehig','k':'faehig','K':'faehig',
+      'Shift':'rutschen',
+      'Escape':'pause','p':'pause','P':'pause',
+      'Enter':'ok'
+    };
+    return m[k] || null;
+  },
+  gamepadLesen(){
+    if(this.gamepadIndex === null || !navigator.getGamepads) return;
+    const g = navigator.getGamepads()[this.gamepadIndex];
+    if(!g) return;
+    const ax = g.axes[0] || 0, ay = g.axes[1] || 0;
+    const setz = (name, wert) => {
+      if(wert && !this.tasten[name]) this.gedrueckt[name] = true;
+      if(!wert && this.tasten[name]) this.losgelassen[name] = true;
+      this.tasten[name] = wert;
+    };
+    setz('links',  ax < -.4 || (g.buttons[14] && g.buttons[14].pressed));
+    setz('rechts', ax >  .4 || (g.buttons[15] && g.buttons[15].pressed));
+    setz('hoch',   ay < -.4 || (g.buttons[12] && g.buttons[12].pressed));
+    setz('runter', ay >  .4 || (g.buttons[13] && g.buttons[13].pressed));
+    setz('sprung', !!(g.buttons[0] && g.buttons[0].pressed));
+    setz('zauber', !!(g.buttons[2] && g.buttons[2].pressed));
+    setz('faehig', !!(g.buttons[1] && g.buttons[1].pressed));
+    setz('rutschen', !!(g.buttons[3] && g.buttons[3].pressed));
+  },
+  neuerRahmen(){ this.gedrueckt = {}; this.losgelassen = {}; },
+  an(t){ return !!this.tasten[t]; },
+  neu(t){ return !!this.gedrueckt[t]; },
+  weg(t){ return !!this.losgelassen[t]; },
+  alleLos(){ this.tasten = {}; this.gedrueckt = {}; this.losgelassen = {}; },
+
+  /* Bildschirmknöpfe binden (Touch + Maus) */
+  knopfBinden(el, name){
+    if(!el) return;
+    const ab = e => { e.preventDefault(); if(!this.tasten[name]) this.gedrueckt[name] = true;
+      this.tasten[name] = true; el.classList.add('gedrueckt'); };
+    const auf = e => { if(e) e.preventDefault(); this.tasten[name] = false;
+      this.losgelassen[name] = true; el.classList.remove('gedrueckt'); };
+    el.addEventListener('pointerdown', ab);
+    el.addEventListener('pointerup', auf);
+    el.addEventListener('pointercancel', auf);
+    el.addEventListener('pointerleave', auf);
+  },
+  /* Wischgesten für den Läufer */
+  wischenBinden(el, aufWisch){
+    if(!el) return;
+    el.addEventListener('pointerdown', e => {
+      this.wischStart = { x:e.clientX, y:e.clientY }; this.wischZeit = performance.now();
+    });
+    const ende = e => {
+      if(!this.wischStart) return;
+      const dx = e.clientX - this.wischStart.x, dy = e.clientY - this.wischStart.y;
+      const dt = performance.now() - this.wischZeit;
+      this.wischStart = null;
+      if(dt > 700) return;
+      const w = 26;
+      if(Math.abs(dx) > Math.abs(dy)){
+        if(dx < -w) aufWisch('links'); else if(dx > w) aufWisch('rechts');
+        else aufWisch('tipp');
+      } else {
+        if(dy < -w) aufWisch('hoch'); else if(dy > w) aufWisch('runter');
+        else aufWisch('tipp');
+      }
+    };
+    el.addEventListener('pointerup', ende);
+    el.addEventListener('pointercancel', ()=>{ this.wischStart = null; });
+  }
+};
+
+/* ---------- KAMERA ---------- */
+function Kamera(){
+  return {
+    x:0, y:0, zielX:0, zielY:0, ruckeln:0, ruckelZeit:0,
+    folgen(zx, zy, dt, glatt){
+      this.zielX = zx; this.zielY = zy;
+      const f = Math.min(1, (glatt||6)*dt);
+      this.x += (this.zielX - this.x) * f;
+      this.y += (this.zielY - this.y) * f;
+    },
+    stoss(staerke){
+      if(S.optionen && S.optionen.kameraRuckeln === false) return;
+      this.ruckeln = Math.max(this.ruckeln, staerke);
+    },
+    ticken(dt){ this.ruckeln = Math.max(0, this.ruckeln - dt*26); this.ruckelZeit += dt; },
+    versatz(){
+      if(this.ruckeln <= 0) return { x:0, y:0 };
+      return { x: Math.sin(this.ruckelZeit*61)*this.ruckeln,
+               y: Math.cos(this.ruckelZeit*47)*this.ruckeln };
+    }
+  };
+}
+
+/* ---------- TEILCHEN ---------- */
+function Teilchen(){
+  const liste = [];
+  return {
+    liste,
+    los(x, y, anzahl, opt){
+      opt = opt || {};
+      const reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const n = reduziert ? Math.ceil(anzahl/3) : anzahl;
+      for(let i=0;i<n;i++){
+        const w = (opt.winkel !== undefined ? opt.winkel : Math.random()*Math.PI*2)
+                + (Math.random()-.5)*(opt.streuung !== undefined ? opt.streuung : Math.PI*2);
+        const v = (opt.tempo||120) * (0.5 + Math.random());
+        liste.push({
+          x, y, vx: Math.cos(w)*v + (opt.vx||0), vy: Math.sin(w)*v + (opt.vy||0),
+          leben: (opt.leben||0.6) * (0.6 + Math.random()*0.7),
+          maxLeben: (opt.leben||0.6),
+          groesse: (opt.groesse||3) * (0.6 + Math.random()*0.8),
+          farbe: opt.farbe || '#DDE5F8',
+          schwer: opt.schwer === undefined ? 380 : opt.schwer,
+          form: opt.form || 'punkt'
+        });
+      }
+    },
+    ticken(dt){
+      for(let i=liste.length-1;i>=0;i--){
+        const p = liste[i];
+        p.x += p.vx*dt; p.y += p.vy*dt; p.vy += p.schwer*dt;
+        p.vx *= 0.98;
+        p.leben -= dt;
+        if(p.leben <= 0) liste.splice(i,1);
+      }
+    },
+    malen(c, kx, ky){
+      for(const p of liste){
+        const a = Math.max(0, Math.min(1, p.leben / p.maxLeben));
+        c.globalAlpha = a;
+        c.fillStyle = p.farbe;
+        const x = p.x - kx, y = p.y - ky;
+        if(p.form === 'stern'){
+          c.save(); c.translate(x,y); c.rotate(p.leben*7);
+          c.fillRect(-p.groesse/2, -p.groesse/6, p.groesse, p.groesse/3);
+          c.fillRect(-p.groesse/6, -p.groesse/2, p.groesse/3, p.groesse);
+          c.restore();
+        } else {
+          c.beginPath(); c.arc(x, y, p.groesse*a, 0, 7); c.fill();
+        }
+      }
+      c.globalAlpha = 1;
+    },
+    leeren(){ liste.length = 0; }
+  };
+}
+
+/* ---------- SPIELSCHLEIFE ---------- */
+function Schleife(schritt, malen){
+  let raf = null, letzte = 0, rest = 0, laeuft = false;
+  const rahmen = (jetzt)=>{
+    if(!laeuft) return;
+    let dt = (jetzt - letzte)/1000;
+    letzte = jetzt;
+    if(!(dt > 0)) dt = SCHRITT;
+    if(dt > 0.25) dt = 0.25;
+    Eing.gamepadLesen();
+    rest += dt;
+    let n = 0;
+    while(rest >= SCHRITT && n < MAX_NACHHOLEN*8){ schritt(SCHRITT); rest -= SCHRITT; n++; }
+    if(n >= MAX_NACHHOLEN*8) rest = 0;
+    Eing.neuerRahmen();
+    malen(dt, jetzt);
+    raf = requestAnimationFrame(rahmen);
+  };
+  return {
+    start(){ if(laeuft) return; laeuft = true; letzte = performance.now(); rest = 0;
+      raf = requestAnimationFrame(rahmen); },
+    stopp(){ laeuft = false; cancelAnimationFrame(raf); },
+    get laeuft(){ return laeuft; }
+  };
+}
+
+/* ---------- CANVAS EINRICHTEN ---------- */
+function leinwandEinrichten(canvas){
+  const anpassen = ()=>{
+    const r = canvas.getBoundingClientRect();
+    /* Auf großen Fenstern die Pixeldichte begrenzen: ein 1280×800-Fenster
+       mit doppelter Dichte sind 4,1 Millionen Bildpunkte pro Bild, und
+       darunter bricht die Bildrate ein — gemessen: 4,1 Mio → 35 fps,
+       2,6 Mio → 51 fps, 1,9 Mio → 58 fps. Handys und Tablets bleiben
+       bei voller Dichte, nur große Fenster werden zurückgenommen. */
+    const MAXPUNKTE = 1900000;
+    const flaeche = Math.max(1, r.width * r.height);
+    const dprMax = Math.max(1, Math.min(2, Math.sqrt(MAXPUNKTE / flaeche)));
+    const dpr = Math.min(window.devicePixelRatio||1, dprMax);
+    canvas.width = Math.max(1, Math.round(r.width*dpr));
+    canvas.height = Math.max(1, Math.round(r.height*dpr));
+    const c = canvas.getContext('2d');
+    c.setTransform(dpr,0,0,dpr,0,0);
+    canvas.bw = r.width; canvas.bh = r.height;
+  };
+  anpassen();
+  return anpassen;
+}
+
+/* ---------- BILDSCHIRMKNÖPFE ---------- */
+function steuerungHtml(art){
+  if(art === 'laeufer'){
+    return '<div class="tastfeld laeufer" id="tastfeld">'+
+      '<button class="tk gross" data-t="links" aria-label="Nach links wechseln">◀</button>'+
+      '<div class="tk-mitte">'+
+        '<button class="tk" data-t="hoch" aria-label="Springen">▲</button>'+
+        '<button class="tk" data-t="runter" aria-label="Rutschen">▼</button>'+
+      '</div>'+
+      '<button class="tk gross" data-t="rechts" aria-label="Nach rechts wechseln">▶</button>'+
+      '<button class="tk zauber" data-t="zauber" aria-label="Zaubern">✦</button>'+
+    '</div>';
+  }
+  return '<div class="tastfeld" id="tastfeld">'+
+    '<div class="tk-gruppe links">'+
+      '<button class="tk" data-t="links" aria-label="Nach links laufen">◀</button>'+
+      '<button class="tk" data-t="rechts" aria-label="Nach rechts laufen">▶</button>'+
+    '</div>'+
+    '<div class="tk-gruppe rechts">'+
+      '<button class="tk zauber" data-t="zauber" aria-label="Zaubern">✦</button>'+
+      '<button class="tk faehig" data-t="faehig" aria-label="Besondere Fähigkeit">★</button>'+
+      '<button class="tk runter" data-t="runter" aria-label="Rutschen">▼</button>'+
+      '<button class="tk sprung" data-t="sprung" aria-label="Springen">▲</button>'+
+    '</div>'+
+  '</div>';
+}
+function steuerungBinden(){
+  document.querySelectorAll('#tastfeld [data-t]').forEach(b => Eing.knopfBinden(b, b.dataset.t));
+}
+
+/* ---------- HILFSMATHE ---------- */
+const lerp = (a,b,t) => a + (b-a)*t;
+function ueberlappt(a, b){
+  return a.x < b.x+b.b && a.x+a.b > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
+}
+function schattenText(c, text, x, y, groesse, farbe, ausrichtung){
+  c.save();
+  c.font = '800 '+groesse+'px Nunito, system-ui, sans-serif';
+  c.textAlign = ausrichtung || 'left';
+  c.textBaseline = 'middle';
+  c.lineWidth = Math.max(3, groesse*0.24);
+  c.strokeStyle = 'rgba(9,12,26,.85)';
+  c.strokeText(text, x, y);
+  c.fillStyle = farbe || '#EDF2FF';
+  c.fillText(text, x, y);
+  c.restore();
+}
+
+
+/* ===== figuren.js ===== */
+/* ============================================================
+   SPIELFIGUREN — vier eigenständige Held:innen, komplett gezeichnet
+   und prozedural animiert (idle · lauf · sprung · fall · rutsch ·
+   treffer · zauber · sieg)
+   ============================================================ */
+
+const SPIELFIGUREN = [
+  {
+    id:'lina', name:'Lina Nachtfeder', rolle:'Ausgeglichen · für den Anfang',
+    text:'Ruhig, gründlich, lässt sich nicht aus der Ruhe bringen. Ihr Umhang hat eine Feder am Kragen, '+
+         'die angeblich von einer Eule stammt, die es gar nicht geben dürfte.',
+    haut:'#E8C9A0', haar:'#2F3355', umhang:'#4C6FA8', zweit:'#DDE5F8', akzent:'#8FB8D9',
+    stil:'kapuze',
+    werte:{ tempo:250, sprung:690, beschleunigung:2400, luft:0.72, leben:4 },
+    traversal:{ id:'schild', name:'Mondschild', text:'Fängt einen Treffer ab. Lädt sich langsam wieder auf.' },
+    magie:{ id:'stoss', name:'Mondstoß', text:'Kräftiger Zauberstoß, der Gegner kurz betäubt.' },
+    tipp:'Beste Wahl, wenn du das Spiel zum ersten Mal spielst.'
+  },
+  {
+    id:'finn', name:'Finn Funkenlauf', rolle:'Schnell · wendig · dünnhäutig',
+    text:'Redet schnell, läuft schneller, denkt manchmal danach. Sein Schal ist zwei Meter lang und '+
+         'hat schon dreimal eine Tür zugeschlagen, hinter der er noch stand.',
+    haut:'#E2B183', haar:'#B8431F', umhang:'#D4553A', zweit:'#E8A33A', akzent:'#F3C86A',
+    stil:'schal',
+    werte:{ tempo:320, sprung:660, beschleunigung:3200, luft:0.9, leben:3 },
+    traversal:{ id:'sprint', name:'Funkensprint', text:'Kurzer Vorwärtsschub in der Luft — auch über Lücken.' },
+    magie:{ id:'funke', name:'Funkenkette', text:'Drei schnelle kleine Zauber hintereinander.' },
+    tipp:'Für alle, die lieber rennen als nachdenken.'
+  },
+  {
+    id:'mira', name:'Mira Mooslicht', rolle:'Erkundung · Geheimnisse',
+    text:'Kennt jede Pflanze der Akademie beim Vornamen. Wo andere eine Wand sehen, sieht sie eine Ranke, '+
+         'die dort noch nicht steht — aber gleich stehen wird.',
+    haut:'#D8A87A', haar:'#3E6B3A', umhang:'#5B8C5A', zweit:'#A97C50', akzent:'#93C97E',
+    stil:'zopf',
+    werte:{ tempo:225, sprung:640, beschleunigung:2100, luft:0.8, leben:4 },
+    traversal:{ id:'doppel', name:'Doppelsprung', text:'Ein zweiter Sprung mitten in der Luft.' },
+    magie:{ id:'ranke', name:'Rankenpodest', text:'Lässt eine kurzlebige Pflanzenplattform wachsen.' },
+    tipp:'Findet Wege, die sonst niemand sieht.'
+  },
+  {
+    id:'theo', name:'Theo Sternblick', rolle:'Runen · große Reichweite',
+    text:'Trägt drei Bücher zu viel und eine Brille, die dauernd beschlägt. Sieht Dinge, die nicht da sind — '+
+         'meistens, weil sie wirklich da sind, nur unsichtbar.',
+    haut:'#EBD3B4', haar:'#4A3F6B', umhang:'#8B7BC7', zweit:'#C9D6E8', akzent:'#B9A8F0',
+    stil:'hut',
+    werte:{ tempo:250, sprung:660, beschleunigung:2300, luft:0.74, leben:4 },
+    traversal:{ id:'puls', name:'Sternenpuls', text:'Macht versteckte Plattformen und Geheimgänge sichtbar.' },
+    magie:{ id:'strahl', name:'Runenstrahl', text:'Zauber mit doppelter Reichweite, geht durch Gegner.' },
+    tipp:'Wer alles finden will, nimmt Theo.'
+  }
+];
+const FIGUR_VON = {};
+SPIELFIGUREN.forEach(f => FIGUR_VON[f.id] = f);
+function aktiveFigur(){ return FIGUR_VON[S.figur] || SPIELFIGUREN[0]; }
+
+/* ============================================================
+   ZEICHNEN — Ursprung ist der Punkt zwischen den Füßen
+   ============================================================ */
+function figurMalen(c, f, zst, t, blick, skala){
+  skala = skala || 1;
+  const art = zst.art || 'idle';
+  c.save();
+  c.translate(0, 0);
+  c.scale(blick < 0 ? -skala : skala, skala);
+
+  /* --- Grundpose je Zustand --- */
+  let neige = 0, hoehe = 0, huefte = 0, kopfNeige = 0;
+  let beinL = 0, beinR = 0, armL = 0, armR = 0, kauern = 0;
+  const p = t;
+
+  if(art === 'idle'){
+    hoehe = Math.sin(p*2.4)*0.8;
+    armL = Math.sin(p*2.4)*4; armR = -Math.sin(p*2.4)*4;
+    kopfNeige = Math.sin(p*1.7)*0.03;
+  }
+  else if(art === 'lauf'){
+    const s = p*13;
+    beinL = Math.sin(s)*26; beinR = Math.sin(s+Math.PI)*26;
+    armL = Math.sin(s+Math.PI)*30; armR = Math.sin(s)*30;
+    hoehe = -Math.abs(Math.sin(s))*2.2;
+    neige = 0.13; huefte = Math.sin(s*2)*1.2;
+  }
+  else if(art === 'sprung'){
+    beinL = -22; beinR = -8; armL = -46; armR = -30; neige = -0.08; hoehe = -1;
+  }
+  else if(art === 'fall'){
+    beinL = 16; beinR = -14; armL = -62; armR = -50; neige = 0.1;
+  }
+  else if(art === 'rutsch'){
+    kauern = 11; beinL = 44; beinR = 12; armL = 30; armR = -18; neige = -0.34;
+  }
+  else if(art === 'treffer'){
+    neige = -0.32; armL = -54; armR = -40; beinL = -8; beinR = 12; hoehe = -1.6;
+  }
+  else if(art === 'zauber'){
+    const z = Math.min(1, (zst.phase||0)*4);
+    armR = -76 - z*14; armL = 22; neige = 0.06 + z*0.04;
+    beinL = 8; beinR = -6;
+  }
+  else if(art === 'sieg'){
+    hoehe = -Math.abs(Math.sin(p*6))*5;
+    armR = -132; armL = -20; beinL = -12; beinR = 10;
+    kopfNeige = -0.06;
+  }
+
+  const H = 44;                            /* Gesamthöhe */
+  const bodenY = -kauern + hoehe;
+  c.translate(0, bodenY);
+  c.rotate(neige);
+
+  const dreh = (g)=> g*Math.PI/180;
+  const bein = (winkel, farbe, x0)=>{
+    c.save();
+    c.translate(x0, -14);
+    c.rotate(dreh(winkel));
+    c.fillStyle = farbe;
+    c.beginPath(); c.roundRect(-3.2, 0, 6.4, 15, 3); c.fill();
+    c.fillStyle = '#2A2418';
+    c.beginPath(); c.roundRect(-4.2, 12.5, 8.4, 4.5, 2); c.fill();
+    c.restore();
+  };
+  const arm = (winkel, farbe, x0, hand)=>{
+    c.save();
+    c.translate(x0, -30);
+    c.rotate(dreh(winkel));
+    c.fillStyle = farbe;
+    c.beginPath(); c.roundRect(-2.6, 0, 5.2, 14, 2.6); c.fill();
+    if(hand){ c.fillStyle = f.haut; c.beginPath(); c.arc(0, 15, 2.8, 0, 7); c.fill(); }
+    c.restore();
+    return { x: x0 + Math.sin(dreh(winkel))*17, y: -30 + Math.cos(dreh(winkel))*17 };
+  };
+
+  /* Hinteres Bein und hinterer Arm */
+  bein(beinR, mischFarbe(f.umhang,'#000',0.35), -1.5);
+  arm(armR + 8, mischFarbe(f.umhang,'#000',0.28), -2, false);
+
+  /* Umhang / Mantel */
+  c.fillStyle = f.umhang;
+  c.beginPath();
+  if(f.stil === 'zopf'){
+    c.moveTo(-8, -34); c.quadraticCurveTo(-13, -18, -9, -8);
+    c.lineTo(9, -8); c.quadraticCurveTo(13, -18, 8, -34);
+  } else {
+    c.moveTo(-7.5, -34); c.quadraticCurveTo(-12 - Math.sin(p*7)*(art==='lauf'?2.5:0.7), -20, -8, -6);
+    c.lineTo(8, -6); c.quadraticCurveTo(12 + Math.sin(p*7)*(art==='lauf'?2.5:0.7), -20, 7.5, -34);
+  }
+  c.closePath(); c.fill();
+
+  /* Körper */
+  c.fillStyle = f.zweit;
+  c.beginPath(); c.roundRect(-6, -34, 12, 22, 5); c.fill();
+  c.fillStyle = f.akzent;
+  c.fillRect(-6, -24, 12, 2.4);
+
+  /* Vorderes Bein */
+  bein(beinL, f.umhang, 1.5);
+
+  /* Kopf */
+  c.save();
+  c.translate(0.5, -37);
+  c.rotate(kopfNeige);
+  c.fillStyle = f.haut;
+  c.beginPath(); c.ellipse(0, -3.5, 6.2, 6.8, 0, 0, 7); c.fill();
+  /* Augen */
+  c.fillStyle = '#20264A';
+  const blinzeln = (Math.sin(p*0.9) > 0.985) ? 0.15 : 1;
+  c.beginPath(); c.ellipse(2.4, -4, 1.15, 1.5*blinzeln, 0, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(-1.4, -4, 1.15, 1.5*blinzeln, 0, 0, 7); c.fill();
+  /* Mund */
+  c.strokeStyle = '#9A5F4A'; c.lineWidth = 0.9; c.lineCap='round';
+  c.beginPath();
+  if(art === 'treffer'){ c.arc(0.8, 0.4, 1.6, Math.PI, 0); }
+  else if(art === 'sieg'){ c.arc(0.8, -0.6, 2, 0.15, Math.PI-0.15); }
+  else { c.moveTo(-0.4, 0); c.lineTo(2.2, 0); }
+  c.stroke();
+
+  /* Haar / Kopfbedeckung je Stil */
+  if(f.stil === 'kapuze'){
+    c.fillStyle = f.umhang;
+    c.beginPath();
+    c.moveTo(-7.6, -2); c.quadraticCurveTo(-8.6, -15, 0.5, -15.4);
+    c.quadraticCurveTo(8.4, -14.6, 7.2, -2);
+    c.quadraticCurveTo(4, -6.2, 1.5, -6.6);
+    c.quadraticCurveTo(-3.5, -7, -7.6, -2);
+    c.closePath(); c.fill();
+    /* Feder am Kragen */
+    c.save(); c.translate(-6.5, -1); c.rotate(-0.5 + Math.sin(p*3)*0.08);
+    c.fillStyle = f.akzent;
+    c.beginPath(); c.ellipse(0, -4, 1.5, 5, 0, 0, 7); c.fill();
+    c.restore();
+  }
+  else if(f.stil === 'schal'){
+    c.fillStyle = f.haar;
+    c.beginPath();
+    c.moveTo(-6.6, -5.5);
+    c.lineTo(-5, -13.5); c.lineTo(-2.2, -8.5); c.lineTo(0.4, -15); c.lineTo(2.6, -8.6);
+    c.lineTo(5.4, -13); c.lineTo(6.6, -5.5);
+    c.quadraticCurveTo(0, -10, -6.6, -5.5);
+    c.closePath(); c.fill();
+  }
+  else if(f.stil === 'zopf'){
+    c.fillStyle = f.haar;
+    c.beginPath(); c.arc(0, -5, 7, Math.PI, 0); c.fill();
+    c.fillRect(-7, -5.4, 14, 3.2);
+    /* Zopf hinten */
+    c.save();
+    const schwung = Math.sin(p*(art==='lauf'?11:2.2))*(art==='lauf'?16:5);
+    c.translate(-5.5, -3); c.rotate(dreh(20 + schwung));
+    c.beginPath(); c.roundRect(-2.2, 0, 4.4, 15, 2.2); c.fill();
+    c.fillStyle = f.akzent;
+    c.beginPath(); c.arc(0, 15.5, 2, 0, 7); c.fill();
+    c.restore();
+  }
+  else if(f.stil === 'hut'){
+    c.fillStyle = f.haar;
+    c.beginPath(); c.arc(0, -4.5, 6.6, Math.PI, 0); c.fill();
+    c.fillStyle = mischFarbe(f.umhang, '#000', 0.25);
+    c.beginPath(); c.ellipse(0, -9.5, 10.5, 2.6, 0, 0, 7); c.fill();
+    c.beginPath();
+    c.moveTo(-6, -10);
+    c.quadraticCurveTo(-3 + Math.sin(p*2)*1.2, -21, 4 + Math.sin(p*2)*2.4, -25);
+    c.quadraticCurveTo(2, -16, 6, -10);
+    c.closePath(); c.fill();
+    c.fillStyle = f.akzent;
+    c.fillRect(-7, -12, 14, 2.2);
+    /* Brille */
+    c.strokeStyle = '#3A3550'; c.lineWidth = 0.9; c.beginPath();
+    c.arc(2.4, -4, 2.3, 0, 7); c.moveTo(-1.4+2.3, -4); c.arc(-1.4, -4, 2.3, 0, 7); c.stroke();
+  }
+  c.restore();
+
+  /* Vorderer Arm + Zauberstab */
+  const hand = arm(armL, f.zweit, 2, true);
+  c.save();
+  c.translate(hand.x, hand.y);
+  c.rotate(dreh(armL) + Math.PI/2);
+  c.strokeStyle = '#A97C50'; c.lineWidth = 1.8; c.lineCap = 'round';
+  c.beginPath(); c.moveTo(0,0); c.lineTo(10,0); c.stroke();
+  if(art === 'zauber'){
+    const gl = 3 + Math.sin(p*30)*1.4;
+    c.fillStyle = f.akzent; c.globalAlpha = .9;
+    c.beginPath(); c.arc(11, 0, gl, 0, 7); c.fill();
+    c.globalAlpha = .3;
+    c.beginPath(); c.arc(11, 0, gl*2.6, 0, 7); c.fill();
+    c.globalAlpha = 1;
+  }
+  c.restore();
+
+  /* Schal für Finn (wehend hinter der Figur) */
+  if(f.stil === 'schal'){
+    c.save();
+    c.strokeStyle = f.zweit; c.lineWidth = 4; c.lineCap = 'round'; c.lineJoin='round';
+    const w = art === 'lauf' ? 1 : 0.35;
+    c.beginPath();
+    c.moveTo(-3, -33);
+    c.quadraticCurveTo(-12 - w*6, -32 + Math.sin(p*10)*4*w, -20 - w*10, -26 + Math.cos(p*8)*5*w);
+    c.stroke();
+    c.restore();
+  }
+  c.restore();
+  return H;
+}
+
+/* Vorschau auf der Auswahlseite */
+const VORSCHAU = { raf:null, flaechen:[] };
+function vorschauStarten(){
+  vorschauStoppen();
+  VORSCHAU.flaechen = Array.from(document.querySelectorAll('canvas[data-figur]')).map(cv => {
+    const anpassen = leinwandEinrichten(cv);
+    window.addEventListener('resize', anpassen);
+    return { cv, ctx: cv.getContext('2d'), f: FIGUR_VON[cv.dataset.figur], anpassen,
+             folge: ['idle','lauf','sprung','zauber','sieg'], i:0, zeit:0 };
+  });
+  const t0 = performance.now();
+  const rahmen = (jetzt)=>{
+    if(!document.querySelector('canvas[data-figur]')) return;
+    const t = (jetzt - t0)/1000;
+    VORSCHAU.flaechen.forEach((v, idx)=>{
+      const c = v.ctx, w = v.cv.bw, h = v.cv.bh;
+      if(!w) return;
+      c.clearRect(0,0,w,h);
+      /* Bodenschatten */
+      c.fillStyle = 'rgba(0,0,0,.28)';
+      c.beginPath(); c.ellipse(w/2, h*0.86, 15, 4, 0, 0, 7); c.fill();
+      const zyklus = (t + idx*0.7) % 8;
+      let art = 'idle';
+      if(zyklus > 2 && zyklus <= 4.6) art = 'lauf';
+      else if(zyklus > 4.6 && zyklus <= 5.6) art = 'sprung';
+      else if(zyklus > 5.6 && zyklus <= 6.8) art = 'zauber';
+      else if(zyklus > 6.8) art = 'sieg';
+      c.save();
+      c.translate(w/2, h*0.86);
+      figurMalen(c, v.f, { art, phase:(zyklus%1) }, t, 1, Math.min(w,h)/62);
+      c.restore();
+    });
+    VORSCHAU.raf = requestAnimationFrame(rahmen);
+  };
+  VORSCHAU.raf = requestAnimationFrame(rahmen);
+}
+function vorschauStoppen(){ cancelAnimationFrame(VORSCHAU.raf); VORSCHAU.raf = null; }
+
+
+/* ===== story.js ===== */
+/* ============================================================
+   „DER ZERSPRUNGENE MONDSTEIN" — Figuren, Szenen, Kapiteldaten
+   ============================================================ */
+
+const STORY_FIGUREN = {
+  silbernacht: { name:'Rektorin Silbernacht', rolle:'Leitung der Akademie',
+    haut:'#E8D0B4', haar:'#C9D6E8', umhang:'#3A3550', akzent:'#C9A227', stil:'kapuze' },
+  halbritter:  { name:'Professor Halbritter', rolle:'Zaubertränke',
+    haut:'#E2B183', haar:'#B9B0A0', umhang:'#A97C50', akzent:'#E8D48A', stil:'hut' },
+  mohnfeld:    { name:'Professorin Mohnfeld', rolle:'Runenkunde',
+    haut:'#EBD3B4', haar:'#3A3550', umhang:'#8B7BC7', akzent:'#C9D6E8', stil:'hut' },
+  jorin:       { name:'Jorin Grauhand', rolle:'Mitschüler · schwer einzuschätzen',
+    haut:'#D8B48A', haar:'#5A5A66', umhang:'#5E6472', akzent:'#9AA8C0', stil:'schal' },
+  verhuellt:   { name:'Der Verhüllte', rolle:'?',
+    haut:'#2A2E52', haar:'#12162C', umhang:'#1A1636', akzent:'#7A4FD0', stil:'kapuze' },
+  bo:          { name:'Bo', rolle:'Eule, sehr beleidigt',
+    haut:'#C9D6E8', haar:'#8E96AC', umhang:'#5E6472', akzent:'#E8D48A', stil:'kapuze' }
+};
+
+/* Wer nicht gespielt wird, taucht als Mitschüler:in auf */
+function mitschueler(n){
+  const andere = SPIELFIGUREN.filter(f => f.id !== S.figur);
+  return andere[n % andere.length];
+}
+function figurSprecher(id){
+  if(STORY_FIGUREN[id]) return STORY_FIGUREN[id];
+  if(FIGUR_VON[id]) return FIGUR_VON[id];
+  if(id === 'held') return aktiveFigur();
+  if(id === 'freund1') return mitschueler(0);
+  if(id === 'freund2') return mitschueler(1);
+  return STORY_FIGUREN.silbernacht;
+}
+
+/* ---------- SZENEN ---------- */
+/* Ein Beat: { wer, text, ort, effekt } — ort färbt den Hintergrund */
+const SZENEN = {
+  ankunft_1: {
+    id:'ankunft_1', titel:'Die Ankunft', ort:'halle',
+    beats:[
+      { wer:'silbernacht', text:'„Willkommen in der Großen Halle. Über euch hängt der Mondstein — seit vierhundert Jahren."' },
+      { wer:'silbernacht', text:'„Er hält die Akademie zusammen. Die Treppen, die Türen, die Mauern. Alles hört auf ihn."' },
+      { wer:'freund1', text:'„Und wenn er mal Pause macht?"' },
+      { wer:'silbernacht', text:'„Dann würdet ihr euch wundern, wie wenig ein Gebäude an einem Ort bleiben will."' },
+      { wer:'held', text:'Du siehst nach oben. Der Stein dreht sich langsam. Er sieht müde aus, denkst du. Was Unsinn ist. Steine sind nicht müde.' }
+    ]
+  },
+  ankunft_2: {
+    id:'ankunft_2', titel:'Der Diebstahl', ort:'halle_dunkel',
+    beats:[
+      { wer:null, text:'Um Mitternacht geht das Licht aus. Nicht langsam. Auf einmal.', effekt:'dunkel' },
+      { wer:'verhuellt', text:'„Ihr habt ihn viel zu lange festgehalten."' },
+      { wer:'held', text:'Eine verhüllte Gestalt steht unter dem Mondstein. Sie hebt eine Hand — und der Stein kommt zu ihr herunter.' },
+      { wer:'halbritter', text:'„Halt! Nicht anfassen, das hält kein—"' },
+      { wer:null, text:'Ein Knall. Der Mondstein zerspringt in sieben Stücke und der Verhüllte ist weg.', effekt:'knall' },
+      { wer:null, text:'Die Splitter fliegen in alle Richtungen. Einer schlägt in eine Wand. Die Wand geht ein Stück zur Seite. Höflich, fast entschuldigend.', effekt:'beben' },
+      { wer:'silbernacht', text:'„Alle Schüler in die Schlafsäle. Sofort."' },
+      { wer:'freund2', text:'„Und wenn die Schlafsäle nicht mehr da sind, wo sie waren?"' },
+      { wer:'silbernacht', text:'„… dann sucht sie."' }
+    ]
+  },
+  kap1_vor: {
+    id:'kap1_vor', titel:'Die wandelnden Korridore', ort:'korridor',
+    beats:[
+      { wer:'mohnfeld', text:'„Der Ostflügel ordnet sich neu. Treppen fahren los, wenn man draufsteht. Bücher fliegen zurück ins Regal — mit Schwung."' },
+      { wer:'mohnfeld', text:'„Irgendwo dort oben steckt der erste Splitter. Und weil sonst niemand klein und schnell genug ist: du."' },
+      { wer:'jorin', text:'„Oder ich. Ich war schon zweimal oben."', effekt:'auftritt' },
+      { wer:'held', text:'Jorin Grauhand lehnt am Türrahmen, als hätte er dort schon eine Stunde gewartet. Vielleicht hat er das.' },
+      { wer:'mohnfeld', text:'„Jorin. Du warst noch nie oben. Du sagst das nur immer."' },
+      { wer:'jorin', text:'„Ich sage viele Dinge." Er lächelt. „Manche stimmen sogar."' },
+      { wer:'mohnfeld', text:'„Genug. Rüstungen greifen an, wenn sie dich hören. Bücher schlagen zu. Und pass auf, wo du stehst — nicht alles bleibt liegen."' }
+    ]
+  },
+  kap1_nach: {
+    id:'kap1_nach', titel:'Der erste Splitter', ort:'korridor',
+    beats:[
+      { wer:'held', text:'Der Splitter ist warm und wiegt nichts. Sobald du ihn hochhebst, stehen die Treppen still.' },
+      { wer:'jorin', text:'„Nicht schlecht." Jorin steht plötzlich hinter dir. „Sechs fehlen noch."' },
+      { wer:'held', text:'„Woher weißt du, dass es sieben sind?"' },
+      { wer:'jorin', text:'Pause. „Hab ich gezählt." Er geht.' },
+      { wer:'mohnfeld', text:'„Der Nächste liegt im Wald. Und im Wald ist heute Nacht etwas, das nicht in den Wald gehört."' }
+    ]
+  },
+  kap2_vor: {
+    id:'kap2_vor', titel:'Flucht durch den verbotenen Wald', ort:'wald',
+    beats:[
+      { wer:'halbritter', text:'„Die Tiere laufen alle in dieselbe Richtung. Weg von etwas." Er sagt nicht, wovon.' },
+      { wer:'halbritter', text:'„Du holst den Splitter und kommst zurück. Du bleibst nicht stehen. Egal was du hörst."' },
+      { wer:'held', text:'Hinter den Bäumen bewegt sich etwas, das größer ist als die Bäume.' },
+      { wer:'halbritter', text:'„Und wenn du eine Abkürzung siehst: die kurzen Wege sind die gefährlichen. Beide funktionieren."' }
+    ]
+  },
+  kap2_nach_eule: {
+    id:'kap2_nach_eule', titel:'Draußen', ort:'wald',
+    beats:[
+      { wer:'held', text:'Die Eule sitzt auf deiner Schulter und schimpft ununterbrochen. Der Käfig war eng, das Warten lang.' },
+      { wer:'bo', text:'„Schuhu." (Das heißt vermutlich: endlich.)' },
+      { wer:'halbritter', text:'„Das ist Bo. Sie gehörte der Rektorin, bevor sie beschloss, niemandem mehr zu gehören."' },
+      { wer:'halbritter', text:'„Sie findet Dinge, die versteckt sind. Ab jetzt findet sie sie für dich."' },
+      { wer:'held', text:'Der zweite Splitter liegt in deiner Tasche. Fünf fehlen.' }
+    ]
+  },
+  kap2_nach_ohne: {
+    id:'kap2_nach_ohne', titel:'Draußen', ort:'wald',
+    beats:[
+      { wer:'held', text:'Du bist draußen. Der Splitter ist in deiner Tasche. Hinter dir wird es wieder still.' },
+      { wer:'halbritter', text:'„Du warst schnell." Er schaut dich an. „Und im Käfig? Da war doch etwas."' },
+      { wer:'held', text:'„Ich hatte keine Zeit."' },
+      { wer:'halbritter', text:'Er nickt langsam. „Die hat man nie. Man nimmt sie sich."' },
+      { wer:'held', text:'Er sagt nichts mehr dazu. Aber er sagt es sehr deutlich.' }
+    ]
+  },
+  fortsetzung: {
+    id:'fortsetzung', titel:'Was als Nächstes kommt', ort:'halle',
+    beats:[
+      { wer:'silbernacht', text:'„Zwei von sieben. Der Rest liegt tiefer — in den Katakomben, über dem Nordturm, im Gewölbe."' },
+      { wer:'silbernacht', text:'„Ruh dich aus. Morgen geht es weiter."' },
+      { wer:'held', text:'Unter dem Boden der Großen Halle bewegt sich etwas. Ganz langsam. Als würde es sich umdrehen.' }
+    ]
+  }
+};
+
+/* ---------- KAMPAGNE ---------- */
+const KAPITEL_KAMPAGNE = [
+  { id:'prolog', nr:0, name:'Die Ankunft', art:'story', x:16, y:74,
+    text:'Deine erste Nacht an der Akademie — und die letzte ruhige.',
+    szeneVor:'ankunft_1', szeneNach:'ankunft_2', braucht:null },
+
+  { id:'kap1', nr:1, name:'Die wandelnden Korridore', art:'plattform', x:37, y:52,
+    text:'Der Ostflügel ordnet sich neu. Der erste Splitter liegt ganz oben.',
+    level:'korridore', szeneVor:'kap1_vor', szeneNach:'kap1_nach', braucht:'prolog',
+    ziele:['Erreiche den Splitter','Finde das versteckte Akademie-Wappen','Beende das Kapitel mit Leben übrig'] },
+
+  { id:'kap2', nr:2, name:'Flucht durch den verbotenen Wald', art:'laeufer', x:62, y:66,
+    text:'Etwas Großes jagt dich. Drei Spuren, viele Wurzeln, eine Entscheidung.',
+    level:'waldflucht', szeneVor:'kap2_vor', braucht:'kap1',
+    ziele:['Erreiche den Waldrand','Sammle 200 Mondsteine','Komm ohne Sturz durch'] },
+
+  { id:'neben1', nr:null, name:'Das Klopfen bei den alten Buchen', art:'nebenquest', x:84, y:40,
+    text:'Nebenaufgabe: ein Brief, ein Rätsel, ein Kitz aus Mondstein.',
+    braucht:'kap1' },
+
+  { id:'uebungen', nr:null, name:'Unterricht & Übungen', art:'unterricht', x:24, y:32,
+    text:'Tränke brauen, Runen zeichnen, den Nebelwald erkunden, Flugmissionen fliegen.',
+    braucht:'prolog' },
+
+  { id:'fortsetzung', nr:3, name:'Die Kesselkatakomben', art:'kommt', x:52, y:20,
+    text:'Kapitel 3 ist noch nicht geschrieben. Der Weg dorthin steht schon offen.',
+    braucht:'kap2' }
+];
+const KAP_VON = {};
+KAPITEL_KAMPAGNE.forEach(k => KAP_VON[k.id] = k);
+
+function kapitelStand(id){
+  if(!S.kampagne) S.kampagne = {};
+  if(!S.kampagne[id]) S.kampagne[id] = { geschafft:false, sterne:0, gefunden:[], versuche:0 };
+  return S.kampagne[id];
+}
+function kapitelOffen(k){
+  if(!k.braucht) return true;
+  return kapitelStand(k.braucht).geschafft;
+}
+function splitterZahl(){
+  return ['kap1','kap2'].filter(id => kapitelStand(id).geschafft).length;
+}
+
+/* ============================================================
+   SZENENSPIELER (überspringbar)
+   ============================================================ */
+const SZ = { szene:null, i:0, danach:null, timer:null, fertig:false };
+
+const ORT_HIMMEL = {
+  halle:        ['#3A3F72','#1B1F40'],
+  halle_dunkel: ['#1A1636','#080A18'],
+  korridor:     ['#33305E','#161A34'],
+  wald:         ['#1E3326','#0A1210']
+};
+
+function szeneSpielen(id, danach){
+  const s = SZENEN[id];
+  if(!s){ if(danach) danach(); return; }
+  SZ.szene = s; SZ.i = 0; SZ.danach = danach; SZ.fertig = false;
+  zeige('story', true);
+  szeneMalen();
+}
+beimVerlassen['story'] = ()=>{ clearTimeout(SZ.timer); };
+
+function szeneMalen(){
+  const s = SZ.szene, b = s.beats[SZ.i];
+  const el = $('#szene-story');
+  const farben = ORT_HIMMEL[s.ort] || ORT_HIMMEL.halle;
+  const spr = b.wer ? figurSprecher(b.wer) : null;
+  el.innerHTML =
+    '<div class="storyszene" style="--o1:'+farben[0]+';--o2:'+farben[1]+'">'+
+      '<div class="story-bg" aria-hidden="true">'+ORT_BILD(s.ort)+'</div>'+
+      '<div class="story-kopf">'+
+        '<span class="chip">'+esc(s.titel)+'</span>'+
+        '<span class="story-fortschritt">'+(SZ.i+1)+' / '+s.beats.length+'</span>'+
+        '<button class="btn klein geist" id="szeneSkip">Überspringen</button>'+
+      '</div>'+
+      '<div class="story-mitte">'+
+        (spr ? '<canvas class="story-figur" id="storyFigur" aria-label="'+esc(spr.name)+'"></canvas>' : '')+
+      '</div>'+
+      '<div class="story-unten">'+
+        (spr ? '<div class="story-name">'+esc(spr.name)+'<span>'+esc(spr.rolle||'')+'</span></div>' : '')+
+        '<div class="blatt story-text" id="storyText"><p id="storySatz"></p></div>'+
+        '<div class="story-knoepfe"><button class="btn" id="szeneWeiter">Weiter</button></div>'+
+      '</div>'+
+    '</div>';
+  $('#szeneSkip').onclick = ()=>{ Ton.klick(); szeneEnde(); };
+  $('#szeneWeiter').onclick = ()=>{ Ton.klick(); szeneWeiter(); };
+  $('#storyText').onclick = ()=>{ if(!SZ.fertig) szeneTextFertig(); };
+  if(b.effekt === 'knall'){ Ton.zisch(); Ton.note(70,.7,'sawtooth',.18); }
+  if(b.effekt === 'beben'){ Ton.note(52,.9,'sine',.15); }
+  if(spr) storyFigurZeichnen(spr, b.effekt);
+  szeneTippen(b.text);
+}
+function szeneTippen(text){
+  const p = $('#storySatz'); if(!p) return;
+  clearTimeout(SZ.timer);
+  SZ.fertig = false;
+  const schnell = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(schnell){ p.textContent = text; SZ.fertig = true; return; }
+  let i = 0; p.textContent = '';
+  const tick = ()=>{
+    if(!$('#storySatz')) return;
+    i += 2; p.textContent = text.slice(0,i);
+    if(i < text.length) SZ.timer = setTimeout(tick, 15); else SZ.fertig = true;
+  };
+  tick();
+}
+function szeneTextFertig(){
+  clearTimeout(SZ.timer);
+  const p = $('#storySatz');
+  if(p) p.textContent = SZ.szene.beats[SZ.i].text;
+  SZ.fertig = true;
+}
+function szeneWeiter(){
+  if(!SZ.fertig){ szeneTextFertig(); return; }
+  SZ.i++;
+  if(SZ.i >= SZ.szene.beats.length){ szeneEnde(); return; }
+  szeneMalen();
+}
+function szeneEnde(){
+  clearTimeout(SZ.timer);
+  const d = SZ.danach; SZ.danach = null; SZ.szene = null;
+  if(d) d(); else weltkarteZeigen();
+}
+
+let storyFigurRaf = null;
+function storyFigurZeichnen(spr, effekt){
+  cancelAnimationFrame(storyFigurRaf);
+  const cv = $('#storyFigur'); if(!cv) return;
+  const anpassen = leinwandEinrichten(cv);
+  window.addEventListener('resize', anpassen);
+  const ctx = cv.getContext('2d');
+  const t0 = performance.now();
+  const mal = (jetzt)=>{
+    if(!document.body.contains(cv)) return;
+    const t = (jetzt-t0)/1000;
+    const w = cv.bw, h = cv.bh;
+    if(w){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = 'rgba(0,0,0,.3)';
+      ctx.beginPath(); ctx.ellipse(w/2, h*0.93, 26, 6, 0, 0, 7); ctx.fill();
+      ctx.save();
+      ctx.translate(w/2, h*0.93);
+      const art = effekt === 'knall' ? 'treffer' : 'idle';
+      figurMalen(ctx, spr, { art, phase:0 }, t, 1, Math.min(w/70, h/56));
+      ctx.restore();
+    }
+    storyFigurRaf = requestAnimationFrame(mal);
+  };
+  storyFigurRaf = requestAnimationFrame(mal);
+}
+
+/* Einfache Kulisse je Ort */
+function ORT_BILD(ort){
+  if(ort === 'wald'){
+    return '<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMax slice">'+
+      '<g fill="#12241A"><path d="M0 240 V150 q40-30 80 0 V240Z"/><path d="M400 240 V140 q-50-34-90 0 V240Z"/></g>'+
+      '<g fill="#0C1A12">'+[40,110,190,270,350].map((x,i)=>
+        '<path d="M'+x+' 240 V'+(120-i*6)+' l-22 30 h44 Z"/><rect x="'+(x-6)+'" y="'+(150-i*6)+'" width="12" height="90"/>').join('')+'</g>'+
+      '<g fill="#DDE5F8" opacity=".5">'+Array.from({length:16},(_,i)=>
+        '<circle cx="'+(20+i*25)+'" cy="'+(20+(i*37)%70)+'" r="1.4"/>').join('')+'</g></svg>';
+  }
+  if(ort === 'korridor'){
+    return '<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice">'+
+      '<rect width="400" height="240" fill="#221F44"/>'+
+      '<g fill="#2C2856">'+[0,1,2,3,4].map(i=>'<rect x="'+(i*90)+'" y="40" width="52" height="200" rx="26"/>').join('')+'</g>'+
+      '<g fill="#E8D48A" opacity=".7">'+[0,1,2,3,4].map(i=>'<circle cx="'+(i*90+26)+'" cy="86" r="6"/>').join('')+'</g>'+
+      '<g stroke="#3E3A72" stroke-width="3" fill="none">'+[0,1,2,3].map(i=>
+        '<path d="M'+(i*100+20)+' 240 l40-46 h60"/>').join('')+'</g></svg>';
+  }
+  const dunkel = ort === 'halle_dunkel';
+  return '<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice">'+
+    '<rect width="400" height="240" fill="'+(dunkel?'#100C24':'#282351')+'"/>'+
+    '<g fill="'+(dunkel?'#171232':'#332C63')+'">'+
+      '<path d="M60 240 V90 q40-46 80 0 V240Z"/><path d="M260 240 V90 q40-46 80 0 V240Z"/></g>'+
+    '<g fill="'+(dunkel?'#2A2450':'#4A417F')+'"><rect x="150" y="120" width="100" height="120" rx="8"/></g>'+
+    (dunkel ? '' :
+      '<circle cx="200" cy="62" r="20" fill="#DDE5F8"/><circle cx="200" cy="62" r="42" fill="#DDE5F8" opacity=".18"/>'+
+      '<path d="M200 82 V120" stroke="#C9A227" stroke-width="2"/>')+
+    (dunkel ? '<g fill="#DDE5F8" opacity=".8">'+[[176,54],[214,70],[196,92],[228,48],[168,80]].map(p=>
+      '<path d="M'+p[0]+' '+p[1]+' l6 9 -6 9 -6-9Z"/>').join('')+'</g>' : '')+
+    '</svg>';
+}
+
+
+/* ===== level.js ===== */
+/* ============================================================
+   LEVELDATEN — handgebaut, datengetrieben, erweiterbar
+   Zeichen:  # Stein · = Plattform · B zerbricht · D verschwindet
+             ^ Stacheln · o Mondstein · s Runensiegel · W Wappen
+             C Kontrollpunkt · X Gewölbetor · S Start · G Geheimwand
+             M/V bewegliche Plattform · R Rankenpunkt
+             1 Fledermaus · 2 Lebendes Buch · 3 Rüstung · 4 Steinkäfer
+             H Schild · P Magnet · F Tempo · Z Wächter
+   ============================================================ */
+
+function reihenBauen(){
+  const teile = Array.prototype.slice.call(arguments);
+  const hoehe = teile[0].length;
+  const out = [];
+  for(let i=0;i<hoehe;i++) out.push(teile.map(t => t[i]).join(''));
+  return out;
+}
+const LEER = n => '.'.repeat(n);
+
+/* ---------- KAPITEL 1: DIE WANDELNDEN KORRIDORE ----------
+   Jeder Abschnitt ist 26 Spalten breit und 20 Reihen hoch.
+   Bauregeln, die `levelPruefen()` in den Tests nachrechnet:
+     · Boden liegt auf Reihe 17, Plattformen nur auf 15, 13, 11, 9, 7
+       — also immer genau 2 Kacheln (60 px) Höhenunterschied.
+       Die schwächste Figur schafft 97 px, das passt mit Reserve.
+     · Aufwärtssprünge überbrücken höchstens 2 Kacheln waagerecht,
+       ebene Lücken höchstens 3.
+     · Alles Wichtige (Siegel, Tor, Kontrollpunkte, Wappen, Kraftfelder)
+       muss vom Start aus erreichbar sein — das prüft der Test. */
+const A_ANKUNFT = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26),
+  '..........................',
+  '...........ooo............',
+  '..........=====...........',
+  '.....ooo..................',
+  '....=====.................',
+  '..S.................o.o...',
+  '#############...##########',
+  '#############...##########',
+  '#############...##########'
+];
+const B_TREPPEN = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26), LEER(26), LEER(26),
+  '.............ooo..........',
+  '............=====.........',
+  '.........o................',
+  '........===...............',
+  '.....o....................',
+  '....===...................',
+  '..o.......................',
+  '..===.............===.....',
+  '.........1.......o.o.o....',
+  '#####...####M####...######',
+  '#####...####.####...######',
+  '#####...####.####...######'
+];
+const C_BIBLIOTHEK = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26), LEER(26), LEER(26),
+  '..........s...............',
+  '........=======...........',
+  '.....ooo.......2..ooo.....',
+  '....=====........=====....',
+  '..........................',
+  '.......===........===.....',
+  '..o.o.........o...........',
+  '..===.........===.........',
+  '.........4......C.........',
+  '####...###################',
+  '####...###################',
+  '####...###################'
+];
+const D_AUFSTIEG = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  '.....GGGGGG...............',
+  '.....G....G...............',
+  '.....G.W..G...............',
+  '.....######...o.s.o.......',
+  '.............=======......',
+  '.........o.......o........',
+  '........===.....DDD.......',
+  '.................o........',
+  '...........===..===.......',
+  '..o...........o...........',
+  '..===.........===.........',
+  '...........1..............',
+  '##########################',
+  '##########################',
+  '##########################'
+];
+const E_RUESTUNG = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26), LEER(26), LEER(26),
+  '..........o.s.o...........',
+  '.........========.........',
+  '.....H..............P.....',
+  '....===............===....',
+  '..........................',
+  '.......===........===.....',
+  '..o...........o...........',
+  '..===.........===...R.....',
+  '......3.........4.....C...',
+  '###################...####',
+  '###################...####',
+  '###################...####'
+];
+const F_GEWOELBE = [
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  LEER(26), LEER(26), LEER(26), LEER(26), LEER(26),
+  '.....o..............o.....',
+  '....===............===....',
+  '..........................',
+  '......===.........===.....',
+  '..o...........o...........',
+  '..===.....Z...===.....o...',
+  '.....F................X...',
+  '##########################',
+  '##########################',
+  '##########################'
+];
+
+const LEVELS = {
+  korridore: {
+    id:'korridore', name:'Die wandelnden Korridore', art:'plattform',
+    karte: reihenBauen(A_ANKUNFT, B_TREPPEN, C_BIBLIOTHEK, D_AUFSTIEG, E_RUESTUNG, F_GEWOELBE),
+    hinweise:[
+      'Halte ← oder → gedrückt und drücke Leertaste zum Springen.',
+      'Zerbrechliche Bretter halten nur einen Moment.',
+      'Drei Runensiegel öffnen das Gewölbe.',
+      'Nicht jede Wand ist wirklich eine Wand.'
+    ]
+  }
+};
+
+/* ============================================================
+   KAPITEL 2: FLUCHT DURCH DEN VERBOTENEN WALD (Läufer)
+   Ereignisse liegen auf einer Tiefenachse z (Meter).
+   ============================================================ */
+/* Die Strecke entsteht aus handgeschriebenen Takten. Jeder Takt ist ein
+   kleines, durchdachtes Stück Weg; aneinandergereiht ergeben sie eine
+   Flucht von gut einer Minute statt einer Handvoll Sekunden.
+   Die Reihenfolge ist fest — kein Zufall, damit die Strecke jedes Mal
+   dieselbe bleibt und Tests etwas Verlässliches prüfen können. */
+const TAKTE = {
+  /* --- ruhig: Laufen lernen --- */
+  atem: (b, s) => { s.mond(b+20, 1, 5); },
+  wurzelReihe: (b, s) => { s.hin(b+20, 0, 'wurzel'); s.mond(b+30, 2, 4); s.hin(b+70, 2, 'wurzel'); },
+  steinwechsel: (b, s) => { s.hin(b+20, 2, 'stein'); s.mond(b+34, 1, 4); s.hin(b+80, 0, 'stein'); },
+  astDuck:     (b, s) => { s.hin(b+24, 1, 'ast'); s.mond(b+40, 1, 4); },
+
+  /* --- mittel: zwei Sachen gleichzeitig --- */
+  doppelWurzel: (b, s) => { s.hin(b+20, 0, 'wurzel'); s.hin(b+20, 1, 'wurzel'); s.mond(b+36, 2, 5); },
+  doppelAst:    (b, s) => { s.hin(b+22, 0, 'ast'); s.hin(b+22, 1, 'ast'); s.mond(b+40, 2, 4); },
+  zickzack:     (b, s) => { s.hin(b+16, 0, 'stein'); s.hin(b+52, 2, 'stein'); s.hin(b+88, 1, 'stein');
+                            s.mond(b+30, 1, 3); s.mond(b+66, 0, 3); },
+  wechselbad:   (b, s) => { s.hin(b+18, 1, 'wurzel'); s.hin(b+56, 1, 'ast'); s.mond(b+34, 0, 4); },
+
+  /* --- Zauber --- */
+  barriere:  (b, s) => { s.hin(b+34, 1, 'barriere'); s.mond(b+52, 1, 5); },
+  barriere2: (b, s) => { s.hin(b+30, 0, 'barriere'); s.hin(b+30, 2, 'barriere'); s.mond(b+50, 1, 4); },
+
+  /* --- Belohnung --- */
+  regen:  (b, s) => { s.mond(b+14, 0, 5, 9); s.mond(b+22, 2, 5, 9); },
+  gabe:   (b, s) => { s.kraft(b+30, 1, 'magnet'); s.mond(b+46, 1, 6); },
+  schild: (b, s) => { s.kraft(b+30, 0, 'schild'); s.mond(b+46, 2, 5); },
+  tempo:  (b, s) => { s.kraft(b+30, 2, 'tempo'); s.mond(b+46, 0, 5); },
+
+  /* --- eng: nur eine Spur bleibt --- */
+  nadel:   (b, s) => { s.hin(b+20, 0, 'stein'); s.hin(b+20, 2, 'stein'); s.mond(b+38, 1, 5); },
+  nadel2:  (b, s) => { s.hin(b+18, 0, 'wurzel'); s.hin(b+18, 2, 'ast'); s.mond(b+40, 1, 4); },
+  treppe:  (b, s) => { s.hin(b+16, 0, 'wurzel'); s.hin(b+44, 1, 'wurzel'); s.hin(b+72, 2, 'wurzel'); }
+};
+const TAKT_LAENGE = 120;
+
+/* Der Ablauf der Flucht: erst zeigen, dann fordern, dann hetzen. */
+const BAHN_PLAN = [
+  'atem','wurzelReihe','atem','steinwechsel','regen','astDuck','wurzelReihe','gabe',
+  'doppelWurzel','zickzack','barriere','regen','wechselbad','doppelAst','schild','nadel',
+  'GABEL1',
+  'zickzack','nadel2','regen','barriere','treppe','tempo','doppelWurzel','nadel',
+  'wechselbad','barriere2','regen','zickzack','doppelAst','gabe','treppe','nadel2',
+  'GABEL2',
+  'nadel','zickzack','regen','barriere','doppelWurzel','schild','treppe','wechselbad',
+  'FINALE',
+  'doppelAst','nadel2','zickzack','regen','treppe','barriere2','nadel','doppelWurzel',
+  'zickzack','regen','wechselbad','treppe','nadel2','barriere','doppelAst','zickzack',
+  'regen','treppe','nadel','wechselbad'
+];
+
+function bahnBauen(){
+  const e = [];
+  const werkzeug = {
+    hin: (z, spur, typ) => e.push({ z:Math.round(z), art:'hindernis', spur, typ }),
+    mond: (z, spur, n, abstand) => {
+      for(let i=0;i<(n||1);i++) e.push({ z:Math.round(z + i*(abstand||8)), art:'mond', spur });
+    },
+    kraft: (z, spur, typ) => e.push({ z:Math.round(z), art:'kraft', spur, typ })
+  };
+  /* Ereignisse eines Zweiges markieren */
+  const zweigAb = (ab, zweig) => { for(let i=ab;i<e.length;i++) if(!e[i].zweig) e[i].zweig = zweig; };
+
+  let z = 60;
+  BAHN_PLAN.forEach(name => {
+    if(name === 'GABEL1'){
+      e.push({ z:Math.round(z), art:'gabel', nr:1,
+        links:{ name:'Sicherer Pfad', text:'Breiter Weg am Bach entlang.' },
+        rechts:{ name:'Der eingestürzte Steg', text:'Kürzer. Und kaputt.' } });
+      /* Linke Route: ruhiger, weniger Mondsteine */
+      let ab = e.length;
+      ['atem','wurzelReihe','steinwechsel','astDuck','schild','atem'].forEach((t,i)=>
+        TAKTE[t](z + 40 + i*TAKT_LAENGE, werkzeug));
+      zweigAb(ab, 'links');
+      /* Rechte Route: enger, dafür viel mehr zu holen */
+      ab = e.length;
+      ['nadel','zickzack','barriere','regen','doppelAst','tempo','regen'].forEach((t,i)=>
+        TAKTE[t](z + 40 + i*TAKT_LAENGE, werkzeug));
+      zweigAb(ab, 'rechts');
+      z += 40 + 7*TAKT_LAENGE + 60;
+      return;
+    }
+    if(name === 'GABEL2'){
+      e.push({ z:Math.round(z), art:'gabel', nr:2,
+        links:{ name:'Freier Weg', text:'Nichts im Weg. Nur schnell.' },
+        rechts:{ name:'Zum Käfig', text:'Da ruft etwas. Und es ist eng.' } });
+      let ab = e.length;
+      ['atem','zickzack','regen','treppe','atem'].forEach((t,i)=>
+        TAKTE[t](z + 40 + i*TAKT_LAENGE, werkzeug));
+      zweigAb(ab, 'links');
+      ab = e.length;
+      ['nadel2','doppelAst','regen','barriere','nadel'].forEach((t,i)=>
+        TAKTE[t](z + 40 + i*TAKT_LAENGE, werkzeug));
+      /* Der Käfig steht mitten auf der riskanten Route, gut sichtbar */
+      e.push({ z:Math.round(z + 40 + 2*TAKT_LAENGE + 60), art:'kaefig', spur:1 });
+      zweigAb(ab, 'rechts');
+      z += 40 + 5*TAKT_LAENGE + 60;
+      return;
+    }
+    if(name === 'FINALE'){
+      e.push({ z:Math.round(z), art:'finale' });
+      z += 60;
+      return;
+    }
+    TAKTE[name](z, werkzeug);
+    z += TAKT_LAENGE;
+  });
+
+  e.push({ z:Math.round(z + 80), art:'ziel' });
+  e.sort((a,b)=>a.z-b.z);
+  return e;
+}
+
+const BAHN = bahnBauen();
+LEVELS.waldflucht = {
+  id:'waldflucht', name:'Flucht durch den verbotenen Wald', art:'laeufer',
+  laenge: BAHN[BAHN.length-1].z + 40,
+  tempoStart: 175, tempoEnde: 330,
+  ereignisse: BAHN,
+  hinweise:[
+    '← → wechseln die Spur, ↑ springt, ↓ rutscht.',
+    'Vor Zauberbarrieren die Zaubertaste drücken.',
+    'An Gabelungen entscheidest du selbst.'
+  ]
+};
+
+
+/* ===== plattform.js ===== */
+/* ============================================================
+   PLATTFORMER — Seitwärts-Level mit Physik, Gegnern, Zaubern,
+   Kontrollpunkten, Geheimnissen und Endgegner
+   ============================================================ */
+
+const KACHEL = 30;
+const P = {
+  level:null, karte:[], breite:0, hoehe:0,
+  held:null, kam:null, teil:null, schleife:null,
+  gegner:[], schuesse:[], sachen:[], plattformen:[], ranken:[],
+  boss:null, zeit:0, pause:false, fertig:false,
+  siegel:0, siegelGesamt:3, monde:0, gefunden:[], tode:0,
+  puls:0, meldung:'', meldungZeit:0, kapId:null,
+  ctx:null, canvas:null, anpassen:null, bebt:0
+};
+
+/* ---------- Kartenzugriff ---------- */
+function kachelAt(tx, ty){
+  if(ty < 0) return '.';
+  if(ty >= P.hoehe) return '.';           /* unter dem Level: Absturz, kein Boden */
+  if(tx < 0 || tx >= P.breite) return '#'; /* Seitenwände halten */
+  return P.karte[ty][tx] || '.';
+}
+const FEST = ch => ch === '#';
+const HALB = ch => ch === '=' || ch === 'B' || ch === 'D';
+
+function festAn(x, y, held){
+  const tx = Math.floor(x/KACHEL), ty = Math.floor(y/KACHEL);
+  const ch = kachelAt(tx, ty);
+  /* Geheimwände: für die Figur immer durchlässig (jede Figur kann Geheimnisse
+     finden), für Zauber und Gegner aber undurchdringlich. Theos Sternenpuls
+     macht sie sichtbar — er findet sie, die anderen müssen suchen. */
+  if(ch === 'G') return !held;
+  if(FEST(ch)) return true;
+  if(HALB(ch)){
+    if(ch === 'B' && P.kaputt && P.kaputt[tx+','+ty]) return false;
+    if(ch === 'D' && P.weg && P.weg[tx+','+ty] > 0) return false;
+    if(!held) return false;
+    /* Einwegplattform: nur von oben */
+    return held.vy >= 0 && (held.y + held.h) <= ty*KACHEL + 8;
+  }
+  return false;
+}
+
+/* ---------- LEVEL LADEN ---------- */
+function plattformStarten(kapId, levelId){
+  const lv = LEVELS[levelId];
+  P.kapId = kapId; P.level = lv;
+  P.karte = lv.karte.map(z => z.split(''));
+  P.hoehe = P.karte.length; P.breite = P.karte[0].length;
+  P.kaputt = {}; P.weg = {};
+  P.gegner = []; P.schuesse = []; P.sachen = []; P.plattformen = []; P.ranken = [];
+  P.boss = null; P.zeit = 0; P.pause = false; P.fertig = false;
+  P.siegel = 0; P.monde = 0; P.gefunden = []; P.tode = 0; P.puls = 0;
+  P.meldung = ''; P.meldungZeit = 0; P.bebt = 0;
+  P.teil = Teilchen(); P.kam = Kamera();
+
+  const fig = aktiveFigur();
+  let start = { x:2*KACHEL, y:(P.hoehe-4)*KACHEL };
+  P.siegelGesamt = 0;
+
+  for(let y=0;y<P.hoehe;y++) for(let x=0;x<P.breite;x++){
+    const ch = P.karte[y][x];
+    const px = x*KACHEL, py = y*KACHEL;
+    if(ch === 'S'){ start = { x:px+4, y:py-6 }; P.karte[y][x]='.'; }
+    if(ch === 'o'){ P.sachen.push({ art:'mond', x:px+9, y:py+9, b:12, h:12, ph:Math.random()*7 }); P.karte[y][x]='.'; }
+    if(ch === 'W'){ P.sachen.push({ art:'wappen', x:px+5, y:py+5, b:20, h:20, ph:0 }); P.karte[y][x]='.'; }
+    if(ch === 's'){ P.sachen.push({ art:'siegel', x:px+4, y:py+4, b:22, h:22, ph:Math.random()*7 }); P.siegelGesamt++; P.karte[y][x]='.'; }
+    if(ch === 'C'){ P.sachen.push({ art:'punkt', x:px+6, y:py-2, b:18, h:32, an:false }); P.karte[y][x]='.'; }
+    if(ch === 'X'){ P.sachen.push({ art:'ziel', x:px, y:py-KACHEL, b:KACHEL*2, h:KACHEL*2 }); P.karte[y][x]='.'; }
+    if(ch === 'H'){ P.sachen.push({ art:'kraft', typ:'schild', x:px+6, y:py+6, b:18, h:18, ph:0 }); P.karte[y][x]='.'; }
+    if(ch === 'P'){ P.sachen.push({ art:'kraft', typ:'magnet', x:px+6, y:py+6, b:18, h:18, ph:0 }); P.karte[y][x]='.'; }
+    if(ch === 'F'){ P.sachen.push({ art:'kraft', typ:'tempo', x:px+6, y:py+6, b:18, h:18, ph:0 }); P.karte[y][x]='.'; }
+    if(ch === 'M'){ P.plattformen.push({ x:px, y:py, b:KACHEL*2, h:14, x0:px, y0:py, achse:'x', weite:KACHEL*4, ph:Math.random()*7, tempo:0.55 }); P.karte[y][x]='.'; }
+    if(ch === 'V'){ P.plattformen.push({ x:px, y:py, b:KACHEL*2, h:14, x0:px, y0:py, achse:'y', weite:KACHEL*3.5, ph:Math.random()*7, tempo:0.5 }); P.karte[y][x]='.'; }
+    if(ch === 'R'){ P.sachen.push({ art:'rankenpunkt', x:px, y:py, b:KACHEL, h:KACHEL }); P.karte[y][x]='.'; }
+    if(ch === '1'){ P.gegner.push(gegnerNeu('fledermaus', px, py)); P.karte[y][x]='.'; }
+    if(ch === '2'){ P.gegner.push(gegnerNeu('buch', px, py)); P.karte[y][x]='.'; }
+    if(ch === '3'){ P.gegner.push(gegnerNeu('ruestung', px, py)); P.karte[y][x]='.'; }
+    if(ch === '4'){ P.gegner.push(gegnerNeu('kaefer', px, py)); P.karte[y][x]='.'; }
+    if(ch === 'Z'){ P.boss = gegnerNeu('waechter', px, py); P.gegner.push(P.boss); P.karte[y][x]='.'; }
+  }
+
+  P.held = {
+    x:start.x, y:start.y, b:18, h:34, vx:0, vy:0, amBoden:false, blick:1,
+    coyote:0, puffer:0, sprungGehalten:false, doppelt:false, dash:0, dashKuehl:0,
+    leben:fig.werte.leben, maxLeben:fig.werte.leben, unverwundbar:0,
+    zauberKuehl:0, zustand:'idle', zustandZeit:0, gleitZeit:0,
+    schild:0, magnet:0, tempo:0, hoch:0, unbesiegbar:0,
+    checkpoint:{ x:start.x, y:start.y }, tot:false, totZeit:0, ketten:0
+  };
+
+  zeige('plattform', true);
+  plattformAufbauen();
+  Eing.start(); Eing.alleLos();
+  P.schleife = Schleife(plattformSchritt, plattformMalen);
+  P.schleife.start();
+  Ton.start();
+}
+beimVerlassen['plattform'] = ()=>{
+  if(P.schleife) P.schleife.stopp();
+  if(P.anpassen) window.removeEventListener('resize', P.anpassen);
+};
+
+function plattformAufbauen(){
+  const fig = aktiveFigur();
+  const s = $('#szene-plattform');
+  s.innerHTML =
+    '<canvas id="spielLeinwand"></canvas>'+
+    '<div class="spiel-hud">'+
+      '<div class="leben-reihe" id="hudLeben"></div>'+
+      '<div class="hud-mitte">'+
+        '<span class="hud-zahl" id="hudMonde">'+ico('mondstein',16)+' 0</span>'+
+        '<span class="hud-zahl" id="hudSiegel">'+ico('rune',16)+' 0/'+P.siegelGesamt+'</span>'+
+      '</div>'+
+      '<button class="ikon-btn" id="spielPause" aria-label="Pause">'+ico('pause',20)+'</button>'+
+    '</div>'+
+    '<div class="kraft-leiste" id="hudKraft"></div>'+
+    '<div class="spiel-meldung" id="spielMeldung"></div>'+
+    '<div class="faehig-knopf" id="faehigInfo">'+esc(fig.traversal.name)+'</div>'+
+    steuerungHtml('plattform');
+  P.canvas = $('#spielLeinwand');
+  P.ctx = P.canvas.getContext('2d');
+  P.anpassen = leinwandEinrichten(P.canvas);
+  window.addEventListener('resize', P.anpassen);
+  steuerungBinden();
+  $('#spielPause').onclick = plattformPause;
+  lebenMalen();
+}
+function lebenMalen(){
+  const e = $('#hudLeben'); if(!e) return;
+  const h = P.held;
+  e.innerHTML = Array.from({length:h.maxLeben},(_,i)=>
+    '<span class="herz'+(i<h.leben?'':' leer')+'">'+ico('herz',18)+'</span>').join('')+
+    (h.schild>0?'<span class="herz schild">'+ico('schild',18)+'</span>':'');
+}
+function meldung2(t, dauer){ P.meldung = t; P.meldungZeit = dauer||1.6;
+  const m = $('#spielMeldung'); if(m){ m.textContent = t; m.classList.add('an'); } }
+
+/* ---------- GEGNER ---------- */
+function gegnerNeu(art, x, y){
+  const g = { art, x, y, vx:0, vy:0, tot:false, blitz:0, ph:Math.random()*7, zeit:0, phase:0, kuehl:0 };
+  if(art === 'fledermaus'){ Object.assign(g, { b:22, h:16, leben:1, y0:y, tempo:56, sturz:false }); }
+  if(art === 'buch'){ Object.assign(g, { b:24, h:20, leben:1, x0:x, weite:KACHEL*3, tempo:58, richtung:1 }); }
+  if(art === 'ruestung'){ Object.assign(g, { b:26, h:38, leben:2, x0:x, weite:KACHEL*4, tempo:42, richtung:-1 }); }
+  if(art === 'kaefer'){ Object.assign(g, { b:24, h:16, leben:1, tempo:96, richtung:1 }); }
+  if(art === 'waechter'){ Object.assign(g, { b:44, h:60, leben:6, maxLeben:6, tempo:70, richtung:-1,
+    y0:y, phase:0, phasenZeit:0, wurf:null }); }
+  return g;
+}
+
+/* ---------- SCHRITT ---------- */
+function plattformSchritt(dt){
+  if(P.pause || P.fertig) return;
+  P.zeit += dt;
+  const h = P.held, fig = aktiveFigur();
+
+  if(P.puls > 0) P.puls -= dt;
+  if(P.meldungZeit > 0){ P.meldungZeit -= dt;
+    if(P.meldungZeit <= 0){ const m=$('#spielMeldung'); if(m) m.classList.remove('an'); } }
+  ['schild','magnet','tempo','hoch','unbesiegbar'].forEach(k=>{ if(h[k] > 0) h[k] = Math.max(0, h[k]-dt); });
+  if(h.unverwundbar > 0) h.unverwundbar -= dt;
+  if(h.zauberKuehl > 0) h.zauberKuehl -= dt;
+  if(h.dashKuehl > 0) h.dashKuehl -= dt;
+  h.zustandZeit += dt;
+
+  /* Tod / Wiedereinstieg */
+  if(h.tot){
+    h.totZeit -= dt;
+    if(h.totZeit <= 0) wiederbeleben();
+    return;
+  }
+
+  /* --- Eingabe --- */
+  const links = Eing.an('links'), rechts = Eing.an('rechts');
+  const wunschRutschen = Eing.an('runter') || Eing.an('rutschen');
+  if(Eing.neu('pause')) { plattformPause(); return; }
+  if(Eing.neu('sprung') || Eing.neu('hoch')) h.puffer = 0.13;
+  if(h.puffer > 0) h.puffer -= dt;
+  if(Eing.neu('zauber')) zaubern();
+  if(Eing.neu('faehig')) faehigkeit();
+
+  const tempoF = (h.tempo > 0 ? 1.35 : 1);
+  const zielTempo = (links ? -1 : 0) + (rechts ? 1 : 0);
+  const maxV = fig.werte.tempo * tempoF;
+  const luft = h.amBoden ? 1 : fig.werte.luft;
+
+  /* Rutschen */
+  const rutscht = h.amBoden && wunschRutschen && Math.abs(h.vx) > 60;
+  if(rutscht){
+    h.gleitZeit += dt;
+    h.vx *= (1 - 1.2*dt);
+    h.h = 20;
+  } else {
+    h.gleitZeit = 0;
+    if(h.h !== 34){
+      /* Nur aufrichten, wenn Platz ist */
+      const frei = !festAn(h.x+2, h.y-14, h) && !festAn(h.x+h.b-2, h.y-14, h);
+      if(frei){ h.y -= 14; h.h = 34; }
+    }
+  }
+
+  if(!rutscht){
+    if(zielTempo !== 0){
+      h.vx += zielTempo * fig.werte.beschleunigung * luft * dt;
+      h.vx = klemm(h.vx, -maxV, maxV);
+      h.blick = zielTempo;
+    } else if(h.amBoden){
+      const br = 2600*dt;
+      h.vx = Math.abs(h.vx) <= br ? 0 : h.vx - Math.sign(h.vx)*br;
+    } else {
+      h.vx *= (1 - 0.6*dt);
+    }
+  }
+
+  /* Sprung */
+  if(h.amBoden) h.coyote = 0.11; else h.coyote -= dt;
+  const sprungKraft = fig.werte.sprung * (h.hoch > 0 ? 1.18 : 1);
+  if(h.puffer > 0 && h.coyote > 0){
+    h.vy = -sprungKraft; h.amBoden = false; h.coyote = 0; h.puffer = 0;
+    h.sprungGehalten = true; h.doppelt = false;
+    P.teil.los(h.x+h.b/2, h.y+h.h, 8, { farbe:'#C9D6E8', tempo:70, leben:.35, winkel:Math.PI/2, streuung:1.4, schwer:120 });
+    Ton.note(420,.1,'triangle',.07); Ton.note(620,.1,'triangle',.05,.05);
+  }
+  else if(h.puffer > 0 && !h.amBoden && fig.traversal.id === 'doppel' && !h.doppelt){
+    h.vy = -sprungKraft*0.92; h.doppelt = true; h.puffer = 0;
+    P.teil.los(h.x+h.b/2, h.y+h.h, 14, { farbe:'#93C97E', tempo:110, leben:.5, schwer:60 });
+    Ton.note(520,.12,'sine',.08); Ton.note(760,.12,'sine',.06,.06);
+  }
+  if((Eing.weg('sprung') || Eing.weg('hoch')) && h.vy < -160) h.vy *= 0.42;
+
+  /* Dash (Finn) */
+  if(h.dash > 0){
+    h.dash -= dt;
+    h.vx = h.blick * 620;
+    h.vy = 0;
+    P.teil.los(h.x+h.b/2, h.y+h.h/2, 2, { farbe:'#F3C86A', tempo:40, leben:.3, schwer:0 });
+  } else {
+    h.vy += 2100*dt;
+    if(h.vy > 900) h.vy = 900;
+  }
+
+  /* --- Bewegung mit Kachelprüfung --- */
+  bewegen(h, dt);
+
+  /* Plattformen */
+  P.plattformen.forEach(pl=>{
+    pl.ph += dt*pl.tempo;
+    const alt = { x:pl.x, y:pl.y };
+    if(pl.achse === 'x') pl.x = pl.x0 + Math.sin(pl.ph)*pl.weite;
+    else pl.y = pl.y0 + Math.sin(pl.ph)*pl.weite;
+    /* Held mitnehmen */
+    if(h.vy >= 0 && h.x+h.b > pl.x && h.x < pl.x+pl.b &&
+       h.y+h.h >= pl.y-2 && h.y+h.h <= pl.y+pl.h){
+      h.y = pl.y - h.h; h.vy = 0; h.amBoden = true; h.doppelt = false;
+      h.x += pl.x - alt.x; h.y += pl.y - alt.y;
+    }
+  });
+  /* Ranken (Miras Podeste) */
+  for(let i=P.ranken.length-1;i>=0;i--){
+    const r = P.ranken[i];
+    r.leben -= dt;
+    if(r.leben <= 0){ P.ranken.splice(i,1); continue; }
+    if(h.vy >= 0 && h.x+h.b > r.x && h.x < r.x+r.b && h.y+h.h >= r.y-2 && h.y+h.h <= r.y+14){
+      h.y = r.y - h.h; h.vy = 0; h.amBoden = true; h.doppelt = false;
+    }
+  }
+
+  /* Zustand bestimmen */
+  let z = 'idle';
+  if(h.unverwundbar > 0.85) z = 'treffer';
+  else if(h.zustand === 'zauber' && h.zustandZeit < 0.28) z = 'zauber';
+  else if(rutscht) z = 'rutsch';
+  else if(!h.amBoden) z = h.vy < -40 ? 'sprung' : 'fall';
+  else if(Math.abs(h.vx) > 24) z = 'lauf';
+  if(z !== h.zustand && !(h.zustand==='zauber' && h.zustandZeit<0.28)){ h.zustand = z; h.zustandZeit = 0; }
+
+  /* Gefahr / Abgrund */
+  const mx = h.x + h.b/2;
+  if(h.y > P.hoehe*KACHEL + 60) schaden(99, 0);
+  if(kachelAt(Math.floor(mx/KACHEL), Math.floor((h.y+h.h-4)/KACHEL)) === '^' ||
+     kachelAt(Math.floor(mx/KACHEL), Math.floor((h.y+4)/KACHEL)) === '^') schaden(1, Math.sign(h.vx||1)*-1);
+
+  /* Zerbrechliche / verschwindende Kacheln */
+  const utx = Math.floor(mx/KACHEL), uty = Math.floor((h.y+h.h+2)/KACHEL);
+  const uch = kachelAt(utx, uty);
+  if(h.amBoden && uch === 'B'){
+    const k = utx+','+uty;
+    P.kaputt[k] = (P.kaputt[k]||0);
+    if(!P.kaputtZeit) P.kaputtZeit = {};
+    P.kaputtZeit[k] = (P.kaputtZeit[k]||0) + dt;
+    if(P.kaputtZeit[k] > 0.45){
+      P.kaputt[k] = 1;
+      P.teil.los(utx*KACHEL+15, uty*KACHEL+15, 12, { farbe:'#8E7318', tempo:130, leben:.5 });
+      Ton.note(180,.16,'square',.07); P.kam.stoss(3);
+    }
+  }
+  if(h.amBoden && uch === 'D'){
+    const k = utx+','+uty;
+    if(!P.wegZeit) P.wegZeit = {};
+    P.wegZeit[k] = (P.wegZeit[k]||0) + dt;
+    if(P.wegZeit[k] > 0.5){ P.weg[k] = 2.4; P.wegZeit[k] = 0; Ton.note(300,.12,'sine',.06); }
+  }
+  Object.keys(P.weg).forEach(k=>{ P.weg[k] -= dt; if(P.weg[k] <= 0) delete P.weg[k]; });
+
+  /* Sachen einsammeln */
+  for(let i=P.sachen.length-1;i>=0;i--){
+    const o = P.sachen[i];
+    o.ph = (o.ph||0) + dt;
+    if(o.art === 'mond' && h.magnet > 0){
+      const d = Math.hypot(h.x+9-o.x, h.y+17-o.y);
+      if(d < 190){ o.x += (h.x+9-o.x)*dt*5.5; o.y += (h.y+17-o.y)*dt*5.5; }
+    }
+    if(!ueberlappt(h, o)) continue;
+    if(o.art === 'mond'){
+      P.monde++; P.sachen.splice(i,1); Ton.muenze();
+      P.teil.los(o.x+6, o.y+6, 9, { farbe:'#E8D48A', tempo:150, leben:.5, form:'stern', schwer:60 });
+      const e = $('#hudMonde'); if(e) e.innerHTML = ico('mondstein',16)+' '+P.monde;
+    }
+    else if(o.art === 'siegel'){
+      P.siegel++; P.sachen.splice(i,1); Ton.stufe(); P.kam.stoss(4);
+      P.teil.los(o.x+11, o.y+11, 24, { farbe:'#8FE0FF', tempo:200, leben:.8, form:'stern', schwer:0 });
+      const e = $('#hudSiegel'); if(e) e.innerHTML = ico('rune',16)+' '+P.siegel+'/'+P.siegelGesamt;
+      meldung2(P.siegel < P.siegelGesamt
+        ? 'Runensiegel '+P.siegel+' von '+P.siegelGesamt
+        : 'Alle Siegel! Das Gewölbe ist offen.', 2.2);
+    }
+    else if(o.art === 'wappen'){
+      P.sachen.splice(i,1); Ton.toll();
+      if(P.gefunden.indexOf('wappen') < 0) P.gefunden.push('wappen');
+      P.teil.los(o.x+10, o.y+10, 26, { farbe:'#C9A227', tempo:180, leben:.9, form:'stern', schwer:20 });
+      meldung2('Verstecktes Akademie-Wappen gefunden!', 2.4);
+    }
+    else if(o.art === 'kraft'){
+      P.sachen.splice(i,1); Ton.gut();
+      kraftNehmen(o.typ);
+    }
+    else if(o.art === 'punkt' && !o.an){
+      o.an = true; Ton.auf();
+      h.checkpoint = { x:o.x-2, y:o.y };
+      P.teil.los(o.x+9, o.y+8, 16, { farbe:'#8FE08A', tempo:120, leben:.7, schwer:40 });
+      meldung2('Kontrollpunkt erreicht', 1.6);
+    }
+    else if(o.art === 'ziel'){
+      if(P.siegel >= P.siegelGesamt && (!P.boss || P.boss.tot)) plattformGewonnen();
+      else if(P.siegel < P.siegelGesamt) meldung2('Das Gewölbe braucht alle '+P.siegelGesamt+' Runensiegel.', 1.8);
+    }
+  }
+
+  /* Schüsse */
+  for(let i=P.schuesse.length-1;i>=0;i--){
+    const s = P.schuesse[i];
+    s.x += s.vx*dt; s.leben -= dt;
+    P.teil.los(s.x, s.y, 1, { farbe:s.farbe, tempo:20, leben:.25, schwer:0, groesse:2.5 });
+    if(s.leben <= 0 || festAn(s.x, s.y, null)){ P.schuesse.splice(i,1); continue; }
+    let getroffen = false;
+    P.gegner.forEach(g=>{
+      if(g.tot || getroffen) return;
+      if(s.x > g.x && s.x < g.x+g.b && s.y > g.y && s.y < g.y+g.h){
+        gegnerTreffen(g, s.schaden||1, Math.sign(s.vx));
+        if(!s.durchdringend) getroffen = true;
+      }
+    });
+    if(getroffen) P.schuesse.splice(i,1);
+  }
+
+  /* Gegner */
+  P.gegner.forEach(g => gegnerSchritt(g, dt, h));
+
+  /* Kamera */
+  const sichtB = P.canvas.bw || 800, sichtH = P.canvas.bh || 400;
+  const weltH = P.hoehe*KACHEL;
+  const zielX = klemm(h.x + h.b/2 - sichtB/2 + h.blick*40, 0, Math.max(0, P.breite*KACHEL - sichtB));
+  /* Ist das Bild höher als das Level, wird der Überschuss nach oben
+     gelegt: der Boden sitzt dann unten im Bild statt in der Mitte. */
+  const ueberschuss = Math.max(0, sichtH - weltH);
+  const zielY = ueberschuss > 0
+    ? -ueberschuss*0.82
+    : klemm(h.y + h.h/2 - sichtH*0.56, -40, weltH - sichtH);
+  P.kam.folgen(zielX, zielY, dt, 7);
+  P.kam.ticken(dt);
+  P.teil.ticken(dt);
+}
+
+function bewegen(e, dt){
+  /* X */
+  let nx = e.x + e.vx*dt;
+  if(e.vx !== 0){
+    const seite = e.vx > 0 ? nx + e.b : nx;
+    if(festAn(seite, e.y+2, e) || festAn(seite, e.y+e.h/2, e) || festAn(seite, e.y+e.h-2, e)){
+      const tx = Math.floor(seite/KACHEL);
+      nx = e.vx > 0 ? tx*KACHEL - e.b - 0.01 : (tx+1)*KACHEL + 0.01;
+      e.vx = 0;
+    }
+  }
+  e.x = klemm(nx, 0, P.breite*KACHEL - e.b);
+  /* Y */
+  let ny = e.y + e.vy*dt;
+  e.amBoden = false;
+  if(e.vy >= 0){
+    const unten = ny + e.h;
+    if(festAn(e.x+2, unten, e) || festAn(e.x+e.b-2, unten, e)){
+      const ty = Math.floor(unten/KACHEL);
+      ny = ty*KACHEL - e.h - 0.01;
+      if(e.vy > 420){ P.teil.los(e.x+e.b/2, ny+e.h, 7, { farbe:'#B9C7D8', tempo:90, leben:.35, winkel:0, streuung:Math.PI, schwer:200 });
+        P.kam.stoss(Math.min(5, e.vy/220)); Ton.note(140,.09,'sine',.05); }
+      e.vy = 0; e.amBoden = true; e.doppelt = false;
+    }
+  } else {
+    if(festAn(e.x+2, ny, e) || festAn(e.x+e.b-2, ny, e)){
+      const ty = Math.floor(ny/KACHEL);
+      ny = (ty+1)*KACHEL + 0.01; e.vy = 0;
+    }
+  }
+  e.y = ny;
+}
+
+/* ---------- AKTIONEN ---------- */
+function zaubern(){
+  const h = P.held, fig = aktiveFigur();
+  if(h.zauberKuehl > 0 || h.tot) return;
+  h.zauberKuehl = fig.magie.id === 'funke' ? 0.16 : 0.34;
+  h.zustand = 'zauber'; h.zustandZeit = 0;
+  const y = h.y + 12;
+  const schnell = fig.magie.id === 'strahl' ? 620 : 480;
+  P.schuesse.push({ x:h.x + (h.blick>0?h.b:0), y, vx:h.blick*schnell, leben:fig.magie.id==='strahl'?1.4:0.9,
+    farbe:fig.akzent, schaden:fig.magie.id==='stoss'?2:1, durchdringend:fig.magie.id==='strahl' });
+  P.teil.los(h.x + (h.blick>0?h.b:0), y, 6, { farbe:fig.akzent, tempo:90, leben:.3, schwer:0 });
+  Ton.note(700,.09,'triangle',.06); Ton.note(980,.08,'triangle',.04,.04);
+}
+function faehigkeit(){
+  const h = P.held, fig = aktiveFigur();
+  if(h.tot) return;
+  const id = fig.traversal.id;
+  if(id === 'schild'){
+    if(h.schild > 0 || h.dashKuehl > 0) return;
+    h.schild = 12; h.dashKuehl = 8;
+    Ton.gut(); lebenMalen();
+    P.teil.los(h.x+9, h.y+17, 22, { farbe:'#8FE0FF', tempo:150, leben:.7, schwer:0 });
+    meldung2('Mondschild aktiv', 1.4);
+  }
+  else if(id === 'sprint'){
+    if(h.dashKuehl > 0) return;
+    h.dash = 0.18; h.dashKuehl = 0.75;
+    Ton.note(880,.12,'sawtooth',.07);
+    P.teil.los(h.x+9, h.y+17, 16, { farbe:'#F3C86A', tempo:180, leben:.4, schwer:0 });
+  }
+  else if(id === 'doppel'){
+    /* Doppelsprung wird beim Springen genutzt — hier: sofort auslösen */
+    if(!h.amBoden && !h.doppelt){ h.puffer = 0.12; }
+  }
+  else if(id === 'puls'){
+    if(h.dashKuehl > 0) return;
+    P.puls = 6; h.dashKuehl = 9;
+    Ton.stufe(); P.kam.stoss(4);
+    P.teil.los(h.x+9, h.y+17, 30, { farbe:'#B9A8F0', tempo:240, leben:.9, schwer:0 });
+    meldung2('Sternenpuls — verborgene Wege werden sichtbar', 2.2);
+  }
+}
+/* Mira: Ranke an markierter Stelle */
+function rankeSetzen(){
+  const h = P.held;
+  const punkt = P.sachen.find(o => o.art === 'rankenpunkt' &&
+    Math.abs((o.x+KACHEL/2) - (h.x+h.b/2)) < KACHEL*2.4 && Math.abs(o.y - h.y) < KACHEL*4);
+  if(!punkt) return false;
+  if(P.ranken.some(r => r.quelle === punkt)) return false;
+  P.ranken.push({ x:punkt.x-6, y:punkt.y, b:KACHEL+12, h:14, leben:7, quelle:punkt, wachs:0 });
+  Ton.gut();
+  P.teil.los(punkt.x+15, punkt.y+8, 18, { farbe:'#93C97E', tempo:130, leben:.7, schwer:60 });
+  meldung2('Rankenpodest wächst', 1.4);
+  return true;
+}
+function kraftNehmen(typ){
+  const h = P.held;
+  const namen = { schild:'Magischer Schild', magnet:'Mondstein-Magnet', tempo:'Temposchub',
+                  hoch:'Hochsprung', unbesiegbar:'Kurz unverwundbar', energie:'Zauberkraft aufgefüllt' };
+  if(typ === 'schild'){ h.schild = 999; lebenMalen(); }
+  if(typ === 'magnet') h.magnet = 10;
+  if(typ === 'tempo') h.tempo = 8;
+  if(typ === 'hoch') h.hoch = 10;
+  if(typ === 'unbesiegbar') h.unbesiegbar = 4;
+  if(typ === 'energie') h.zauberKuehl = 0;
+  meldung2(namen[typ] || 'Kraft erhalten', 1.8);
+  P.teil.los(h.x+9, h.y+17, 20, { farbe:'#8FE0FF', tempo:160, leben:.7, schwer:30 });
+  kraftLeisteMalen();
+}
+function kraftLeisteMalen(){
+  const e = $('#hudKraft'); if(!e) return;
+  const h = P.held;
+  const eintraege = [];
+  if(h.schild > 0) eintraege.push(['schild','Schild']);
+  if(h.magnet > 0) eintraege.push(['funken','Magnet '+Math.ceil(h.magnet)+'s']);
+  if(h.tempo > 0) eintraege.push(['besen','Tempo '+Math.ceil(h.tempo)+'s']);
+  if(h.hoch > 0) eintraege.push(['stern','Hochsprung '+Math.ceil(h.hoch)+'s']);
+  e.innerHTML = eintraege.map(x=>'<span class="kraftchip">'+ico(x[0],14)+' '+x[1]+'</span>').join('');
+}
+
+function schaden(menge, richtung){
+  const h = P.held;
+  if(h.tot || h.unverwundbar > 0 || h.unbesiegbar > 0) return;
+  if(h.schild > 0){
+    h.schild = 0; h.unverwundbar = 1.0; lebenMalen();
+    Ton.note(300,.2,'square',.09); P.kam.stoss(5);
+    P.teil.los(h.x+9, h.y+17, 22, { farbe:'#8FE0FF', tempo:180, leben:.6, schwer:0 });
+    meldung2('Schild hält!', 1.2);
+    return;
+  }
+  h.leben -= menge; h.unverwundbar = 1.25;
+  h.vx = (richtung||-h.blick) * 200; h.vy = -260;
+  h.zustand = 'treffer'; h.zustandZeit = 0;
+  P.kam.stoss(7); Ton.schlecht();
+  P.teil.los(h.x+9, h.y+17, 14, { farbe:'#E8785A', tempo:150, leben:.6 });
+  lebenMalen();
+  if(h.leben <= 0) sterben();
+}
+function sterben(){
+  const h = P.held;
+  h.tot = true; h.totZeit = 1.1; P.tode++;
+  P.kam.stoss(9);
+  P.teil.los(h.x+9, h.y+17, 30, { farbe:aktiveFigur().akzent, tempo:220, leben:1, schwer:200 });
+  Ton.note(180,.5,'sawtooth',.1);
+  meldung2('Noch einmal — der Kontrollpunkt ist nah.', 1.6);
+}
+function wiederbeleben(){
+  const h = P.held, fig = aktiveFigur();
+  h.tot = false; h.leben = h.maxLeben; h.unverwundbar = 1.2;
+  h.x = h.checkpoint.x; h.y = h.checkpoint.y; h.vx = 0; h.vy = 0;
+  h.schild = 0; lebenMalen();
+  P.gegner.forEach(g => { if(g.art !== 'waechter' && g.tot) { g.tot = false; g.leben = g.art==='ruestung'?2:1; } });
+  if(P.boss){ P.boss.leben = P.boss.maxLeben; P.boss.tot = false; P.boss.phase = 0; }
+}
+
+/* ---------- GEGNERVERHALTEN ---------- */
+function gegnerTreffen(g, schaden, richtung){
+  g.leben -= schaden; g.blitz = 0.22;
+  P.teil.los(g.x+g.b/2, g.y+g.h/2, 10, { farbe:'#FFD9A0', tempo:140, leben:.4 });
+  Ton.note(240,.1,'square',.06);
+  if(g.leben <= 0){
+    g.tot = true;
+    P.teil.los(g.x+g.b/2, g.y+g.h/2, 22, { farbe:'#9AA8C0', tempo:200, leben:.8, schwer:260 });
+    Ton.note(160,.2,'triangle',.07);
+    P.kam.stoss(g.art === 'waechter' ? 10 : 3);
+    if(g === P.boss){
+      meldung2('Der Wächter fällt auseinander. Das Gewölbe ist offen!', 3);
+      Ton.toll();
+    }
+  } else {
+    g.betaeubt = 0.55;
+    if(g.art === 'waechter'){ g.phase = (g.phase+1) % 3; g.phasenZeit = 0; }
+  }
+}
+function gegnerSchritt(g, dt, h){
+  if(g.tot) return;
+  g.zeit += dt; g.ph += dt;
+  if(g.blitz > 0) g.blitz -= dt;
+  if(g.betaeubt > 0){ g.betaeubt -= dt; return; }
+
+  if(g.art === 'fledermaus'){
+    const nah = Math.hypot(h.x-g.x, h.y-g.y) < 190;
+    g.y = g.y0 + Math.sin(g.ph*2.1)*26 + (nah ? Math.sin(g.ph*7)*6 : 0);
+    g.x += Math.sin(g.ph*0.9)*40*dt;
+    if(nah && !g.sturz && g.kuehl <= 0){ g.sturz = true; g.kuehl = 2.6; g.zielY = h.y; }
+    if(g.sturz){
+      g.x += Math.sign(h.x-g.x)*120*dt;
+      g.y += (h.y - g.y)*1.4*dt;
+      if(g.zeit % 3 < dt) g.sturz = false;
+    }
+    g.kuehl -= dt;
+    if(g.kuehl < 1.4) g.sturz = false;
+  }
+  else if(g.art === 'buch'){
+    g.x += g.richtung*g.tempo*dt;
+    if(g.x < g.x0 - g.weite || g.x > g.x0 + g.weite) g.richtung *= -1;
+    g.y += Math.sin(g.ph*4)*20*dt;
+  }
+  else if(g.art === 'kaefer'){
+    g.x += g.richtung*g.tempo*dt;
+    const vorn = g.richtung>0 ? g.x+g.b+2 : g.x-2;
+    if(festAn(vorn, g.y+g.h/2, null) || !festAn(vorn, g.y+g.h+4, null)) g.richtung *= -1;
+    g.x = klemm(g.x, 0, P.breite*KACHEL-g.b);
+  }
+  else if(g.art === 'ruestung'){
+    g.x += g.richtung*g.tempo*dt;
+    if(g.x < g.x0 - g.weite || g.x > g.x0 + g.weite) g.richtung *= -1;
+    const vorn = g.richtung>0 ? g.x+g.b+2 : g.x-2;
+    if(!festAn(vorn, g.y+g.h+4, null)) g.richtung *= -1;
+  }
+  else if(g.art === 'waechter'){
+    g.phasenZeit += dt;
+    const richtungZuHeld = Math.sign(h.x - g.x) || 1;
+    if(g.phase === 0){          /* Schreiten */
+      g.richtung = richtungZuHeld;
+      g.x += g.richtung*g.tempo*dt;
+      if(g.phasenZeit > 3.4){ g.phase = 1; g.phasenZeit = 0; }
+    }
+    else if(g.phase === 1){     /* Stampfen mit Druckwelle */
+      if(g.phasenZeit > 0.9 && !g.gestampft){
+        g.gestampft = true;
+        P.kam.stoss(12); Ton.note(80,.4,'sawtooth',.14);
+        P.teil.los(g.x+g.b/2, g.y+g.h, 26, { farbe:'#9AA8C0', tempo:220, leben:.7, winkel:0, streuung:Math.PI, schwer:400 });
+        if(h.amBoden && Math.abs((h.x+h.b/2)-(g.x+g.b/2)) < 190) schaden(1, Math.sign(h.x-g.x));
+      }
+      if(g.phasenZeit > 2.1){ g.phase = 2; g.phasenZeit = 0; g.gestampft = false; }
+    }
+    else {                      /* Helm werfen */
+      if(g.phasenZeit > 0.7 && !g.wurf){
+        g.wurf = true;
+        P.schuesse.push({ x:g.x+g.b/2, y:g.y+16, vx:richtungZuHeld*300, leben:2.2,
+          farbe:'#9AA8C0', schaden:0, feind:true });
+        Ton.note(220,.16,'square',.08);
+      }
+      if(g.phasenZeit > 2.4){ g.phase = 0; g.phasenZeit = 0; g.wurf = false; }
+    }
+    g.y = g.y0;
+  }
+
+  /* Berührung */
+  if(h.unverwundbar <= 0 && !h.tot && ueberlappt(h, g)){
+    /* Auf den Kopf springen erledigt leichte Gegner */
+    if(h.vy > 120 && (h.y + h.h) < g.y + 18 && g.art !== 'waechter' && g.art !== 'ruestung'){
+      gegnerTreffen(g, 99, 0);
+      h.vy = -520; h.doppelt = false;
+      Ton.note(600,.1,'triangle',.07);
+    } else {
+      schaden(1, Math.sign(h.x - g.x) || 1);
+    }
+  }
+}
+
+/* Feindliche Schüsse treffen den Helden */
+function feindSchuesse(dt){
+  const h = P.held;
+  P.schuesse.forEach(s=>{
+    if(!s.feind) return;
+    if(h.unverwundbar <= 0 && s.x > h.x && s.x < h.x+h.b && s.y > h.y && s.y < h.y+h.h){
+      schaden(1, Math.sign(s.vx)); s.leben = 0;
+    }
+  });
+}
+
+/* ---------- ABSCHLUSS ---------- */
+function plattformPause(){
+  if(P.fertig) return;
+  P.pause = true; Eing.alleLos();
+  const d = dialog('<div class="zentriert">'+
+    '<h2 class="serif" style="color:#20264A;margin:0 0 6px">Pause</h2>'+
+    '<p class="klein" style="color:#5A6288;margin:0 0 10px">Mondsteine: '+P.monde+
+      ' · Siegel: '+P.siegel+'/'+P.siegelGesamt+'</p>'+
+    '<div class="blatt" style="text-align:left;margin-bottom:10px"><span class="band l"></span>'+
+      '<div class="hand" style="font-size:1.05rem;color:#8E7318">Steuerung</div>'+
+      '<div style="color:#20264A;font-size:.9rem;line-height:1.55">'+
+      '← → laufen · Leertaste/↑ springen · ↓ rutschen · E zaubern · Q Fähigkeit · Esc Pause<br>'+
+      'Am Bildschirm: die Knöpfe unten.</div></div>'+
+    '<div class="reihe"><button class="btn" data-weiter>Weiterspielen</button>'+
+    '<button class="btn geist" data-raus style="color:#20264A;border-color:rgba(40,60,110,.4)">Kapitel verlassen</button></div></div>',
+    { klickAussen:false });
+  d.el.querySelector('[data-weiter]').onclick = ()=>{ Ton.klick(); d.schliessen(); P.pause = false; };
+  d.el.querySelector('[data-raus]').onclick = ()=>{ Ton.klick(); d.schliessen(); P.fertig = true;
+    if(P.schleife) P.schleife.stopp(); weltkarteZeigen(); };
+}
+function plattformGewonnen(){
+  if(P.fertig) return;
+  P.fertig = true;
+  if(P.schleife) P.schleife.stopp();
+  Ton.stufe();
+  const ziele = [
+    true,
+    P.gefunden.indexOf('wappen') >= 0,
+    P.tode === 0
+  ];
+  ergebnisZeigen(P.kapId, {
+    titel:'Kapitel geschafft', monde:P.monde, ziele,
+    zeit:P.zeit, gefunden:P.gefunden.slice(),
+    weiter:()=>{ const k = KAP_VON[P.kapId];
+      if(k && k.szeneNach) szeneSpielen(k.szeneNach, weltkarteZeigen); else weltkarteZeigen(); }
+  });
+}
+
+/* ---------- ZEICHNEN ---------- */
+function plattformMalen(dt, jetzt){
+  const c = P.ctx, w = P.canvas.bw, hh = P.canvas.bh;
+  if(!c || !w) return;
+  feindSchuesse(dt);
+  kraftLeisteMalen();
+  const v = P.kam.versatz();
+  const kx = P.kam.x + v.x, ky = P.kam.y + v.y;
+  const t = P.zeit;
+
+  /* Himmel */
+  const g = c.createLinearGradient(0,0,0,hh);
+  g.addColorStop(0,'#221F44'); g.addColorStop(.55,'#191C38'); g.addColorStop(1,'#12162C');
+  c.fillStyle = g; c.fillRect(0,0,w,hh);
+
+  /* Der Hintergrund hängt am Boden des Levels, nicht am unteren Bildrand —
+     sonst rutscht er auf hohen Bildschirmen unter das Spielfeld. */
+  const bodenY = P.hoehe*KACHEL - ky;
+
+  /* Parallax 1: ferne Türme */
+  c.fillStyle = '#20244A';
+  for(let i=0;i<14;i++){
+    const bx = (i*180 - kx*0.18) % (14*180);
+    const x = bx < -180 ? bx + 14*180 : bx;
+    const th = 90 + (i%4)*40;
+    c.fillRect(x, bodenY-th-40, 62, th+40);
+    c.beginPath(); c.moveTo(x-8, bodenY-th-40); c.lineTo(x+31, bodenY-th-76); c.lineTo(x+70, bodenY-th-40); c.fill();
+  }
+  /* Parallax 2: Fenster */
+  c.fillStyle = '#2B2F5C';
+  for(let i=0;i<12;i++){
+    const bx = (i*240 - kx*0.36) % (12*240);
+    const x = bx < -240 ? bx + 12*240 : bx;
+    c.fillRect(x, bodenY-190, 130, 190);
+    c.fillStyle = 'rgba(232,212,138,.28)';
+    for(let f=0; f<3; f++) c.fillRect(x+18+f*40, bodenY-160, 20, 30);
+    c.fillStyle = '#2B2F5C';
+  }
+  /* Parallax 3: Bögen */
+  c.strokeStyle = 'rgba(90,96,150,.6)'; c.lineWidth = 6;
+  for(let i=0;i<16;i++){
+    const bx = (i*160 - kx*0.62) % (16*160);
+    const x = bx < -160 ? bx + 16*160 : bx;
+    c.beginPath(); c.moveTo(x, bodenY); c.lineTo(x, bodenY-120); c.arc(x+52, bodenY-120, 52, Math.PI, 0); c.lineTo(x+104, bodenY); c.stroke();
+  }
+
+  /* Kacheln */
+  const x0 = Math.max(0, Math.floor(kx/KACHEL)-1), x1 = Math.min(P.breite, Math.ceil((kx+w)/KACHEL)+1);
+  const y0 = Math.max(0, Math.floor(ky/KACHEL)-1), y1 = Math.min(P.hoehe, Math.ceil((ky+hh)/KACHEL)+1);
+  for(let y=y0;y<y1;y++) for(let x=x0;x<x1;x++){
+    const ch = P.karte[y][x];
+    if(ch === '.' ) continue;
+    const px = x*KACHEL - kx, py = y*KACHEL - ky;
+    kachelMalen(c, ch, px, py, x, y, t);
+  }
+
+  /* Ranken */
+  P.ranken.forEach(r=>{
+    const a = Math.min(1, r.leben/1.2);
+    c.globalAlpha = a;
+    c.fillStyle = '#5B8C5A';
+    c.beginPath(); c.roundRect(r.x-kx, r.y-ky, r.b, r.h, 6); c.fill();
+    c.fillStyle = '#93C97E';
+    for(let i=0;i<4;i++){
+      c.beginPath(); c.ellipse(r.x-kx+8+i*10, r.y-ky-3, 6, 4, i*0.7, 0, 7); c.fill();
+    }
+    c.globalAlpha = 1;
+  });
+
+  /* Bewegliche Plattformen */
+  P.plattformen.forEach(pl=>{
+    const px = pl.x-kx, py = pl.y-ky;
+    c.fillStyle = '#6B5330';
+    c.beginPath(); c.roundRect(px, py, pl.b, pl.h, 4); c.fill();
+    c.fillStyle = '#8E7318'; c.fillRect(px+2, py+2, pl.b-4, 3);
+    c.strokeStyle = 'rgba(201,162,39,.5)'; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(px+pl.b/2, py); c.lineTo(px+pl.b/2, py-14); c.stroke();
+  });
+
+  /* Sachen */
+  P.sachen.forEach(o => sacheMalen(c, o, kx, ky, t));
+
+  /* Gegner */
+  P.gegner.forEach(g => { if(!g.tot) gegnerMalen(c, g, kx, ky, t); });
+
+  /* Schüsse */
+  P.schuesse.forEach(s=>{
+    c.save();
+    c.fillStyle = s.feind ? '#9AA8C0' : s.farbe;
+    c.shadowColor = s.farbe; c.shadowBlur = 12;
+    if(s.feind){
+      c.translate(s.x-kx, s.y-ky); c.rotate(P.zeit*9);
+      c.beginPath(); c.roundRect(-8,-8,16,16,4); c.fill();
+    } else {
+      c.beginPath(); c.ellipse(s.x-kx, s.y-ky, 9, 5, 0, 0, 7); c.fill();
+    }
+    c.restore();
+  });
+
+  /* Teilchen */
+  P.teil.malen(c, kx, ky);
+
+  /* Held */
+  const h = P.held;
+  if(!h.tot || h.totZeit > 0.6){
+    c.save();
+    if(h.unverwundbar > 0 && Math.floor(t*16)%2 === 0) c.globalAlpha = 0.45;
+    c.translate(h.x + h.b/2 - kx, h.y + h.h - ky);
+    figurMalen(c, aktiveFigur(), { art:h.zustand, phase:h.zustandZeit }, t, h.blick, 0.82);
+    c.restore();
+    if(h.schild > 0){
+      c.strokeStyle = 'rgba(143,224,255,'+(.5+Math.sin(t*7)*.2)+')';
+      c.lineWidth = 3;
+      c.beginPath(); c.arc(h.x+h.b/2-kx, h.y+h.h/2-ky, 26, 0, 7); c.stroke();
+    }
+    if(h.magnet > 0){
+      c.strokeStyle = 'rgba(201,162,39,.28)'; c.lineWidth = 2;
+      c.beginPath(); c.arc(h.x+h.b/2-kx, h.y+h.h/2-ky, 46+Math.sin(t*6)*7, 0, 7); c.stroke();
+    }
+  }
+
+  /* Sternenpuls-Schleier */
+  if(P.puls > 0){
+    c.fillStyle = 'rgba(185,168,240,'+(0.10*Math.min(1,P.puls))+')';
+    c.fillRect(0,0,w,hh);
+  }
+
+  /* Bosszustand */
+  if(P.boss && !P.boss.tot && Math.abs(P.boss.x - h.x) < w){
+    const bw = w*0.5;
+    c.fillStyle = 'rgba(9,12,26,.7)';
+    c.beginPath(); c.roundRect(w/2-bw/2, 12, bw, 16, 8); c.fill();
+    c.fillStyle = '#C0492E';
+    c.beginPath(); c.roundRect(w/2-bw/2+3, 15, (bw-6)*(P.boss.leben/P.boss.maxLeben), 10, 5); c.fill();
+    schattenText(c, 'Rüstungswächter', w/2, 40, 13, '#EDF2FF', 'center');
+  }
+}
+
+function kachelMalen(c, ch, px, py, tx, ty, t){
+  const k = KACHEL;
+  if(ch === '#' || ch === 'G'){
+    if(ch === 'G'){
+      if(P.puls > 0){ c.globalAlpha = 0.30; }
+      else { c.globalAlpha = 1; }
+    }
+    c.fillStyle = '#3A3F6B';
+    c.fillRect(px, py, k, k);
+    c.fillStyle = '#4A5085';
+    c.fillRect(px+2, py+2, k-4, 4);
+    c.fillStyle = '#2A2E52';
+    c.fillRect(px, py+k-4, k, 4);
+    c.strokeStyle = 'rgba(20,24,50,.7)'; c.lineWidth = 1;
+    c.strokeRect(px+.5, py+.5, k-1, k-1);
+    if(ch === 'G' && P.puls > 0){
+      c.strokeStyle = '#B9A8F0'; c.lineWidth = 2;
+      c.strokeRect(px+2, py+2, k-4, k-4);
+    }
+    c.globalAlpha = 1;
+  }
+  else if(ch === '='){
+    c.fillStyle = '#6B5330'; c.beginPath(); c.roundRect(px, py, k, 12, 3); c.fill();
+    c.fillStyle = '#8E7318'; c.fillRect(px+2, py+2, k-4, 3);
+  }
+  else if(ch === 'B'){
+    if(P.kaputt[tx+','+ty]) return;
+    const risse = (P.kaputtZeit && P.kaputtZeit[tx+','+ty]) || 0;
+    c.fillStyle = risse > 0 ? '#7A5B2E' : '#6B5330';
+    c.beginPath(); c.roundRect(px, py, k, 13, 3); c.fill();
+    c.strokeStyle = '#3A2A16'; c.lineWidth = 1.4;
+    c.beginPath(); c.moveTo(px+8, py); c.lineTo(px+12, py+13);
+    c.moveTo(px+20, py); c.lineTo(px+16, py+13); c.stroke();
+    if(risse > 0){ c.fillStyle = 'rgba(255,120,80,'+Math.min(.6,risse)+')'; c.fillRect(px, py, k, 13); }
+  }
+  else if(ch === 'D'){
+    const weg = P.weg[tx+','+ty];
+    if(weg > 0){
+      c.globalAlpha = .18;
+      c.strokeStyle = '#8FE0FF'; c.lineWidth = 1.5;
+      c.strokeRect(px+2, py+2, k-4, 9);
+      c.globalAlpha = 1; return;
+    }
+    const wz = (P.wegZeit && P.wegZeit[tx+','+ty]) || 0;
+    c.globalAlpha = wz > 0 ? (0.5 + Math.sin(P.zeit*24)*0.4) : 1;
+    c.fillStyle = '#4A6E88'; c.beginPath(); c.roundRect(px, py, k, 12, 3); c.fill();
+    c.fillStyle = '#8FE0FF'; c.fillRect(px+3, py+2, k-6, 3);
+    c.globalAlpha = 1;
+  }
+  else if(ch === '^'){
+    c.fillStyle = '#9AA8C0';
+    for(let i=0;i<3;i++){
+      c.beginPath();
+      c.moveTo(px+i*10, py+k); c.lineTo(px+5+i*10, py+k-15); c.lineTo(px+10+i*10, py+k);
+      c.closePath(); c.fill();
+    }
+    c.fillStyle = '#5E6472'; c.fillRect(px, py+k-3, k, 3);
+  }
+}
+
+function sacheMalen(c, o, kx, ky, t){
+  const x = o.x - kx, y = o.y - ky;
+  if(o.art === 'mond'){
+    const s = Math.sin((o.ph||0)*3)*2;
+    c.save(); c.translate(x+6, y+6+s);
+    c.shadowColor = '#E8D48A'; c.shadowBlur = 14;
+    c.fillStyle = '#F3E3A8';
+    c.beginPath();
+    c.moveTo(0,-8); c.lineTo(6,0); c.lineTo(0,8); c.lineTo(-6,0); c.closePath(); c.fill();
+    c.restore();
+  }
+  else if(o.art === 'siegel'){
+    c.save(); c.translate(x+11, y+11);
+    c.rotate(Math.sin((o.ph||0)*1.4)*0.25);
+    c.shadowColor = '#8FE0FF'; c.shadowBlur = 18;
+    c.strokeStyle = '#8FE0FF'; c.lineWidth = 3; c.lineCap='round'; c.lineJoin='round';
+    c.beginPath(); c.arc(0,0,11,0,7); c.stroke();
+    c.beginPath(); c.moveTo(-5,-5); c.lineTo(2,4); c.lineTo(-2,-4); c.lineTo(5,5); c.stroke();
+    c.restore();
+  }
+  else if(o.art === 'wappen'){
+    c.save(); c.translate(x+10, y+10);
+    c.globalAlpha = .55 + Math.sin((o.ph||0)*2.4)*.35;
+    c.shadowColor = '#C9A227'; c.shadowBlur = 16;
+    c.fillStyle = '#C9A227';
+    c.beginPath();
+    c.moveTo(0,-11); c.lineTo(10,-5); c.lineTo(10,4); c.lineTo(0,12); c.lineTo(-10,4); c.lineTo(-10,-5);
+    c.closePath(); c.fill();
+    c.restore();
+  }
+  else if(o.art === 'punkt'){
+    c.fillStyle = '#4A3B22';
+    c.fillRect(x+7, y+6, 4, 26);
+    c.fillStyle = o.an ? '#8FE08A' : '#5E6472';
+    c.beginPath();
+    c.moveTo(x+11, y+6); c.lineTo(x+11+18, y+11); c.lineTo(x+11, y+17); c.closePath(); c.fill();
+    if(o.an){
+      c.globalAlpha = .3 + Math.sin(t*4)*.2;
+      c.beginPath(); c.arc(x+11, y+18, 18, 0, 7); c.fillStyle='#8FE08A'; c.fill();
+      c.globalAlpha = 1;
+    }
+  }
+  else if(o.art === 'ziel'){
+    const offen = P.siegel >= P.siegelGesamt && (!P.boss || P.boss.tot);
+    c.save(); c.translate(x+KACHEL, y+KACHEL);
+    c.fillStyle = offen ? '#DDE5F8' : '#3A3F6B';
+    c.shadowColor = offen ? '#DDE5F8' : 'transparent'; c.shadowBlur = offen ? 30 : 0;
+    c.beginPath(); c.arc(0,0, 20 + (offen?Math.sin(t*3)*3:0), 0, 7); c.fill();
+    c.shadowBlur = 0;
+    c.strokeStyle = '#C9A227'; c.lineWidth = 3;
+    c.beginPath(); c.arc(0,0,27,0,7); c.stroke();
+    if(!offen){
+      c.fillStyle = '#9AA8C0';
+      schattenText(c, P.siegel+'/'+P.siegelGesamt, 0, 0, 14, '#DDE5F8', 'center');
+    }
+    c.restore();
+  }
+  else if(o.art === 'kraft'){
+    const farben = { schild:'#8FE0FF', magnet:'#C9A227', tempo:'#E8A33A' };
+    const sym = { schild:'schild', magnet:'funken', tempo:'besen' };
+    c.save(); c.translate(x+9, y+9 + Math.sin((o.ph||0)*3)*2.5);
+    c.fillStyle = 'rgba(9,12,26,.75)';
+    c.beginPath(); c.arc(0,0,14,0,7); c.fill();
+    c.strokeStyle = farben[o.typ]; c.lineWidth = 2.4;
+    c.beginPath(); c.arc(0,0,14,0,7); c.stroke();
+    c.globalAlpha = .25;
+    c.fillStyle = farben[o.typ]; c.beginPath(); c.arc(0,0,22,0,7); c.fill();
+    c.globalAlpha = 1;
+    c.restore();
+    /* Symbol als Pfad */
+    c.save(); c.translate(x+9-8, y+9-8 + Math.sin((o.ph||0)*3)*2.5);
+    c.strokeStyle = farben[o.typ]; c.lineWidth = 1.6; c.lineCap='round'; c.lineJoin='round';
+    c.scale(16/24, 16/24);
+    (PFADE[sym[o.typ]]||'').split(' M').forEach((d,i)=>{
+      const p2 = new Path2D((i?'M'+d:d)); c.stroke(p2);
+    });
+    c.restore();
+  }
+  else if(o.art === 'rankenpunkt'){
+    c.globalAlpha = aktiveFigur().traversal.id === 'ranke' || aktiveFigur().magie.id === 'ranke' ? .8 : .3;
+    c.strokeStyle = '#93C97E'; c.lineWidth = 2; c.setLineDash([4,4]);
+    c.strokeRect(x+3, y+3, KACHEL-6, KACHEL-6);
+    c.setLineDash([]);
+    c.globalAlpha = 1;
+  }
+}
+
+function gegnerMalen(c, g, kx, ky, t){
+  const x = g.x - kx, y = g.y - ky;
+  c.save();
+  if(g.blitz > 0){ c.globalAlpha = 0.85; }
+  if(g.art === 'fledermaus'){
+    const f = Math.sin(t*16)*10;
+    c.fillStyle = g.blitz>0 ? '#fff' : '#3A3550';
+    c.beginPath(); c.ellipse(x+11, y+9, 8, 6.5, 0, 0, 7); c.fill();
+    c.strokeStyle = g.blitz>0 ? '#fff' : '#4A4468'; c.lineWidth = 3; c.lineCap='round';
+    c.beginPath(); c.moveTo(x+4, y+8); c.quadraticCurveTo(x-6, y+2-f, x-9, y+12); c.stroke();
+    c.beginPath(); c.moveTo(x+18, y+8); c.quadraticCurveTo(x+28, y+2-f, x+31, y+12); c.stroke();
+    c.fillStyle = '#E8785A';
+    c.beginPath(); c.arc(x+9, y+7, 1.6, 0, 7); c.fill();
+    c.beginPath(); c.arc(x+14, y+7, 1.6, 0, 7); c.fill();
+  }
+  else if(g.art === 'buch'){
+    const f = Math.sin(t*10)*0.5;
+    c.save(); c.translate(x+12, y+10); c.rotate(Math.sin(t*3)*0.15);
+    c.fillStyle = g.blitz>0 ? '#fff' : '#8B3A3A';
+    c.beginPath(); c.roundRect(-11,-9,22,18,3); c.fill();
+    c.fillStyle = '#EFE4C8';
+    c.save(); c.rotate(f); c.beginPath(); c.roundRect(-10,-8,10,16,2); c.fill(); c.restore();
+    c.save(); c.rotate(-f); c.beginPath(); c.roundRect(0,-8,10,16,2); c.fill(); c.restore();
+    c.fillStyle = '#20264A';
+    c.beginPath(); c.arc(-3,-2,1.5,0,7); c.fill();
+    c.beginPath(); c.arc(3,-2,1.5,0,7); c.fill();
+    c.restore();
+  }
+  else if(g.art === 'kaefer'){
+    c.fillStyle = g.blitz>0 ? '#fff' : '#5E6472';
+    c.beginPath(); c.ellipse(x+12, y+9, 11, 7, 0, 0, 7); c.fill();
+    c.fillStyle = '#3A3F6B';
+    c.beginPath(); c.ellipse(x+12, y+6, 11, 4, 0, 0, 7); c.fill();
+    c.strokeStyle = '#3A3F6B'; c.lineWidth = 2; c.lineCap='round';
+    for(let i=0;i<3;i++){
+      const o = Math.sin(t*14 + i)*3;
+      c.beginPath(); c.moveTo(x+6+i*6, y+14); c.lineTo(x+4+i*6+o, y+18); c.stroke();
+    }
+    c.fillStyle = '#E8A33A';
+    c.beginPath(); c.arc(x+12+g.richtung*7, y+8, 1.8, 0, 7); c.fill();
+  }
+  else if(g.art === 'ruestung' || g.art === 'waechter'){
+    const gross = g.art === 'waechter';
+    const s = gross ? 1.5 : 1;
+    c.save(); c.translate(x+g.b/2, y+g.h);
+    c.scale(g.richtung < 0 ? -s : s, s);
+    const grau = g.blitz>0 ? '#fff' : '#7B8296';
+    const dunkel = g.blitz>0 ? '#ddd' : '#4A5065';
+    /* Beine */
+    const schritt = Math.sin(t*(gross?4:6))*(gross?7:5);
+    c.fillStyle = dunkel;
+    c.beginPath(); c.roundRect(-8, -14, 6, 14, 3); c.fill();
+    c.beginPath(); c.roundRect(2, -14+schritt*0.2, 6, 14, 3); c.fill();
+    /* Rumpf */
+    c.fillStyle = grau;
+    c.beginPath(); c.roundRect(-10, -32, 20, 20, 5); c.fill();
+    c.fillStyle = dunkel; c.fillRect(-10, -24, 20, 3);
+    /* Arme */
+    c.fillStyle = dunkel;
+    c.save(); c.translate(-9, -29); c.rotate(schritt*0.02); c.beginPath(); c.roundRect(-3,0,6,15,3); c.fill(); c.restore();
+    c.save(); c.translate(9, -29); c.rotate(-schritt*0.02); c.beginPath(); c.roundRect(-3,0,6,15,3); c.fill(); c.restore();
+    /* Helm */
+    c.fillStyle = grau;
+    c.beginPath(); c.roundRect(-8, -46, 16, 15, 5); c.fill();
+    c.fillStyle = '#12162C'; c.fillRect(-6, -40, 12, 4);
+    c.fillStyle = '#E8785A';
+    c.beginPath(); c.arc(-3, -38, 1.5, 0, 7); c.fill();
+    c.beginPath(); c.arc(3, -38, 1.5, 0, 7); c.fill();
+    /* Federbusch beim Wächter */
+    if(gross){
+      c.fillStyle = '#7A4FD0';
+      c.beginPath(); c.moveTo(0,-46); c.quadraticCurveTo(6,-58,0,-62); c.quadraticCurveTo(-6,-58,0,-46); c.fill();
+    }
+    c.restore();
+    if(gross && g.phase === 1){
+      c.globalAlpha = .3 + Math.sin(t*22)*.2;
+      c.fillStyle = '#E8785A';
+      c.beginPath(); c.ellipse(x+g.b/2, y+g.h, 120*(g.phasenZeit/0.9), 12, 0, 0, 7); c.fill();
+      c.globalAlpha = 1;
+    }
+  }
+  c.restore();
+}
+
+
+/* ===== laeufer.js ===== */
+/* ============================================================
+   LÄUFER — dreispurige Flucht mit Tiefenwirkung
+   Handgebaute Story-Mission mit Gabelungen, Käfig und Finale
+   ============================================================ */
+
+const L = {
+  level:null, kapId:null, schleife:null, canvas:null, ctx:null, anpassen:null,
+  z:0, tempo:0, spur:1, spurX:0, sprung:0, sprungV:0, rutsch:0,
+  leben:3, monde:0, treffer:0, zauberKuehl:0, zauber:0,
+  ereignisse:[], naechstes:0, aktiv:[], zweig:null, gabel:null,
+  jaeger:120, finale:false, fertig:false, pause:false,
+  teil:null, kam:null, zeit:0, meldung:'', meldungZeit:0,
+  eule:false, kaefigDa:null, punkteStand:0, letzterPunkt:0, baeume:[], blitze:0
+};
+
+const SPUR_X = [-1, 0, 1];
+const FOV = 230;
+
+function projektion(d, w, h){
+  const sk = FOV / Math.max(1, d + FOV);
+  const horizont = h*0.40;
+  const boden = h*0.94;
+  return { sk, y: horizont + (boden - horizont)*sk, breite: w*0.46 };
+}
+
+function laeuferStarten(kapId, levelId){
+  const lv = LEVELS[levelId];
+  L.level = lv; L.kapId = kapId;
+  L.ereignisse = lv.ereignisse.map(e => Object.assign({}, e, { weg:false }));
+  L.z = 0; L.tempo = lv.tempoStart; L.spur = 1; L.spurX = 0;
+  L.sprung = 0; L.sprungV = 0; L.rutsch = 0;
+  L.leben = 3; L.monde = 0; L.treffer = 0; L.zauberKuehl = 0; L.zauber = 0;
+  L.naechstes = 0; L.aktiv = []; L.zweig = null; L.gabel = null;
+  L.jaeger = 130; L.finale = false; L.fertig = false; L.pause = false;
+  L.zeit = 0; L.meldung = ''; L.meldungZeit = 0;
+  L.eule = false; L.kaefigDa = null; L.letzterPunkt = 0; L.blitze = 0; L.unverwundbar = 0;
+  L.teil = Teilchen(); L.kam = Kamera();
+  L.baeume = [];
+  for(let i=0;i<80;i++) L.baeume.push({ z: i*22 + Math.random()*12, seite: Math.random()<.5?-1:1,
+    h: 0.8+Math.random()*0.8, art: Math.random()<.3?'busch':'baum' });
+
+  zeige('laeufer', true);
+  laeuferAufbauen();
+  Eing.start(); Eing.alleLos();
+  L.schleife = Schleife(laeuferSchritt, laeuferMalen);
+  L.schleife.start();
+  Ton.start();
+}
+beimVerlassen['laeufer'] = ()=>{
+  if(L.schleife) L.schleife.stopp();
+  if(L.anpassen) window.removeEventListener('resize', L.anpassen);
+};
+
+function laeuferAufbauen(){
+  const s = $('#szene-laeufer');
+  s.innerHTML =
+    '<canvas id="laufLeinwand"></canvas>'+
+    '<div class="spiel-hud">'+
+      '<div class="leben-reihe" id="laufLeben"></div>'+
+      '<div class="hud-mitte">'+
+        '<span class="hud-zahl" id="laufMonde">'+ico('mondstein',16)+' 0</span>'+
+        '<span class="hud-zahl" id="laufWeg">0 %</span>'+
+      '</div>'+
+      '<button class="ikon-btn" id="laufPause" aria-label="Pause">'+ico('pause',20)+'</button>'+
+    '</div>'+
+    '<div class="jaeger-leiste"><i id="jaegerBalken"></i><span>Verfolger</span></div>'+
+    '<div class="spiel-meldung" id="laufMeldung"></div>'+
+    '<div class="gabel-wahl" id="gabelWahl"></div>'+
+    steuerungHtml('laeufer');
+  L.canvas = $('#laufLeinwand');
+  L.ctx = L.canvas.getContext('2d');
+  L.anpassen = leinwandEinrichten(L.canvas);
+  window.addEventListener('resize', L.anpassen);
+  steuerungBinden();
+  Eing.wischenBinden(L.canvas, richtung => {
+    if(richtung === 'links') spurWechsel(-1);
+    if(richtung === 'rechts') spurWechsel(1);
+    if(richtung === 'hoch') springen();
+    if(richtung === 'runter') rutschen();
+    if(richtung === 'tipp') laufZaubern();
+  });
+  $('#laufPause').onclick = laeuferPause;
+  laufLebenMalen();
+}
+function laufLebenMalen(){
+  const e = $('#laufLeben'); if(!e) return;
+  e.innerHTML = Array.from({length:3},(_,i)=>
+    '<span class="herz'+(i<L.leben?'':' leer')+'">'+ico('herz',18)+'</span>').join('');
+}
+function laufMeldung(t, d){
+  L.meldung = t; L.meldungZeit = d||1.6;
+  const m = $('#laufMeldung'); if(m){ m.textContent = t; m.classList.add('an'); }
+}
+
+/* ---------- Aktionen ---------- */
+function spurWechsel(d){
+  if(L.gabel) return;
+  const neu = klemm(L.spur + d, 0, 2);
+  if(neu !== L.spur){ L.spur = neu; Ton.note(520,.06,'triangle',.05); }
+}
+function springen(){
+  if(L.sprung > 0 || L.rutsch > 0) return;
+  L.sprungV = 560; L.sprung = 0.01;
+  Ton.note(440,.1,'triangle',.07);
+  L.teil.los(0,0,0,{});
+}
+function rutschen(){
+  if(L.sprung > 0 || L.rutsch > 0) return;
+  L.rutsch = 0.62;
+  Ton.rausch(.2,.05);
+}
+function laufZaubern(){
+  if(L.zauberKuehl > 0) return;
+  L.zauberKuehl = 0.4; L.zauber = 0.3;
+  Ton.note(760,.1,'triangle',.07);
+  /* Barriere in Reichweite auflösen */
+  L.aktiv.forEach(o=>{
+    if(o.art === 'hindernis' && o.typ === 'barriere' && !o.weg){
+      const d = o.z - L.z;
+      if(d > -4 && d < 60){
+        o.weg = true;
+        laufMeldung('Barriere zersprungen!', 1.1);
+        Ton.gut();
+      }
+    }
+  });
+}
+
+/* ---------- Schritt ---------- */
+function laeuferSchritt(dt){
+  if(L.pause || L.fertig) return;
+  L.zeit += dt;
+  if(L.meldungZeit > 0){ L.meldungZeit -= dt;
+    if(L.meldungZeit <= 0){ const m=$('#laufMeldung'); if(m) m.classList.remove('an'); } }
+  if(L.zauberKuehl > 0) L.zauberKuehl -= dt;
+  if(L.zauber > 0) L.zauber -= dt;
+  if(L.unverwundbar > 0) L.unverwundbar -= dt;
+
+  if(Eing.neu('pause')){ laeuferPause(); return; }
+
+  /* Gabelung: Lauf hält an, bis entschieden ist */
+  if(L.gabel){
+    if(Eing.neu('links'))  gabelWaehlen('links');
+    if(Eing.neu('rechts')) gabelWaehlen('rechts');
+    return;
+  }
+
+  if(Eing.neu('links')) spurWechsel(-1);
+  if(Eing.neu('rechts')) spurWechsel(1);
+  if(Eing.neu('hoch') || Eing.neu('sprung')) springen();
+  if(Eing.neu('runter') || Eing.neu('rutschen')) rutschen();
+  if(Eing.neu('zauber')) laufZaubern();
+
+  /* Tempo */
+  const anteil = klemm(L.z / L.level.laenge, 0, 1);
+  let zielTempo = lerp(L.level.tempoStart, L.level.tempoEnde, anteil);
+  if(L.finale) zielTempo *= 1.16;
+  if(L.bremse > 0){ L.bremse -= dt; zielTempo *= 0.55; }
+  L.tempo += (zielTempo - L.tempo) * Math.min(1, dt*1.6);
+  L.z += L.tempo*dt;
+
+  /* Spurposition weich */
+  L.spurX += (SPUR_X[L.spur] - L.spurX) * Math.min(1, dt*11);
+
+  /* Sprung */
+  if(L.sprung > 0){
+    L.sprung += dt;
+    L.sprungV -= 1500*dt;
+    L.sprungH = (L.sprungH||0) + L.sprungV*dt;
+    if(L.sprungH <= 0){ L.sprungH = 0; L.sprung = 0; L.sprungV = 0;
+      L.teil.los(0,0,0,{}); Ton.note(180,.07,'sine',.04); }
+  } else L.sprungH = 0;
+  if(L.rutsch > 0) L.rutsch -= dt;
+
+  /* Rastpunkte: alle 150 Meter merkt sich der Lauf, wo es weitergeht.
+     Ohne sie würfe ein Fehlschlag die Kinder bis zur letzten Gabelung
+     zurück — und sie liefen dieselbe Stelle immer wieder. */
+  if(!L.gabel && L.z - L.letzterPunkt > L.level.laenge/14){
+    L.letzterPunkt = Math.round(L.z);
+    laufMeldung('Rastpunkt', 1.1);
+    Ton.auf();
+  }
+
+  /* Jäger */
+  L.jaeger += (L.finale ? 6 : 14) * dt;
+  L.jaeger = Math.min(150, L.jaeger);
+  if(L.finale) L.jaeger -= 22*dt;
+  const jb = $('#jaegerBalken');
+  if(jb) jb.style.width = klemm(100 - L.jaeger/1.5, 0, 100)+'%';
+  if(L.jaeger <= 0) gefangen();
+
+  /* Ereignisse aktivieren */
+  while(L.naechstes < L.ereignisse.length && L.ereignisse[L.naechstes].z < L.z + 900){
+    const e = L.ereignisse[L.naechstes++];
+    if(e.zweig && e.zweig !== L.zweig) continue;
+    L.aktiv.push(e);
+  }
+
+  /* Aktive Objekte prüfen */
+  for(let i=L.aktiv.length-1;i>=0;i--){
+    const o = L.aktiv[i];
+    const d = o.z - L.z;
+    if(d < -40){ L.aktiv.splice(i,1); continue; }
+
+    if(o.art === 'gabel' && d < 6 && !o.benutzt){
+      o.benutzt = true;
+      gabelZeigen(o);
+      return;
+    }
+    if(o.art === 'finale' && d < 4 && !o.benutzt){
+      o.benutzt = true; L.finale = true; L.jaeger = Math.min(L.jaeger, 90);
+      laufMeldung('Sie hat dich gesehen. LAUF!', 2.6);
+      L.kam.stoss(10); Ton.note(60,.9,'sawtooth',.16);
+    }
+    if(o.art === 'ziel' && d < 4){ gewonnen(); return; }
+
+    if(o.weg) continue;
+    const nah = d > -3.2 && d < 3.2;
+    if(!nah) continue;
+
+    if(o.art === 'mond'){
+      if(o.spur === L.spur || (L.magnet > 0 && Math.abs(o.spur - L.spur) <= 1)){
+        o.weg = true; L.monde++;
+        Ton.muenze();
+        const e2 = $('#laufMonde'); if(e2) e2.innerHTML = ico('mondstein',16)+' '+L.monde;
+      }
+    }
+    else if(o.art === 'kraft'){
+      if(o.spur === L.spur){
+        o.weg = true;
+        if(o.typ === 'magnet'){ L.magnet = 9; laufMeldung('Mondstein-Magnet', 1.4); }
+        if(o.typ === 'schild'){ L.schild = 1; laufMeldung('Schild — ein Treffer geht auf ihn', 1.6); }
+        if(o.typ === 'tempo'){ L.tempoBonus = 5; laufMeldung('Temposchub!', 1.4); }
+        Ton.gut();
+        L.teil.los(0,0,0,{});
+      }
+    }
+    else if(o.art === 'kaefig'){
+      if(o.spur === L.spur){
+        o.weg = true; L.eule = true;
+        Ton.toll(); L.kam.stoss(6);
+        laufMeldung('Du reißt den Käfig auf — die Eule ist frei!', 2.6);
+      }
+    }
+    else if(o.art === 'hindernis'){
+      if(o.spur !== L.spur) continue;
+      let getroffen = false;
+      if(o.typ === 'wurzel') getroffen = !(L.sprung > 0);
+      else if(o.typ === 'ast') getroffen = !(L.rutsch > 0);
+      else if(o.typ === 'stein') getroffen = true;
+      else if(o.typ === 'barriere') getroffen = true;
+      if(getroffen){ o.weg = true; treffen(o.typ); }
+    }
+  }
+  if(L.magnet > 0) L.magnet -= dt;
+  if(L.tempoBonus > 0){ L.tempoBonus -= dt; L.z += 60*dt; }
+
+  L.kam.ticken(dt); L.teil.ticken(dt);
+  const wg = $('#laufWeg');
+  if(wg) wg.textContent = Math.round(anteil*100)+' %';
+}
+
+function treffen(typ){
+  /* Kurz unverwundbar: zwei Hindernisse nebeneinander dürfen nicht
+     zweimal in derselben Zehntelsekunde treffen. */
+  if(L.unverwundbar > 0) return;
+  if(L.schild > 0){
+    L.schild = 0; laufMeldung('Der Schild fängt es ab.', 1.4);
+    Ton.note(300,.2,'square',.08); L.kam.stoss(5);
+    return;
+  }
+  L.treffer++; L.leben--; L.bremse = 0.9; L.jaeger -= 28; L.unverwundbar = 0.9;
+  L.kam.stoss(11); Ton.schlecht();
+  laufLebenMalen();
+  const texte = { wurzel:'Wurzel! Beim nächsten Mal springen.', ast:'Ast! Da musst du drunter durch.',
+    stein:'Stein! Spur wechseln.', barriere:'Barriere! Vorher zaubern.' };
+  laufMeldung(texte[typ] || 'Autsch!', 1.8);
+  if(L.leben <= 0) gefangen();
+}
+function gefangen(){
+  if(L.fertig) return;
+  L.pause = true;
+  Ton.note(70,.8,'sawtooth',.15);
+  const d = dialog('<div class="zentriert">'+
+    '<div class="hand" style="font-size:1.4rem;color:#C0492E">Sie hat dich eingeholt.</div>'+
+    '<p style="color:#20264A;margin:6px 0 12px">Kein Beinbruch — du wachst am letzten sicheren Punkt auf '+
+    'und läufst weiter. Nichts geht verloren.</p>'+
+    '<div class="reihe"><button class="btn" data-weiter>Weiterlaufen</button>'+
+    '<button class="btn geist" data-raus style="color:#20264A;border-color:rgba(40,60,110,.4)">Zur Karte</button></div></div>',
+    { klickAussen:false });
+  d.el.querySelector('[data-weiter]').onclick = ()=>{
+    Ton.klick(); d.schliessen();
+    L.z = L.letzterPunkt; L.leben = 3; L.jaeger = 120; L.spur = 1; L.unverwundbar = 1.2;
+    L.aktiv = []; L.naechstes = 0;
+    while(L.naechstes < L.ereignisse.length && L.ereignisse[L.naechstes].z < L.z) L.naechstes++;
+    L.ereignisse.forEach(e => { if(e.z > L.z && e.art !== 'gabel') e.weg = false; });
+    laufLebenMalen(); L.pause = false;
+  };
+  d.el.querySelector('[data-raus]').onclick = ()=>{ Ton.klick(); d.schliessen(); L.fertig = true;
+    if(L.schleife) L.schleife.stopp(); weltkarteZeigen(); };
+}
+
+/* ---------- Gabelung ---------- */
+function gabelZeigen(o){
+  L.gabel = o;
+  L.letzterPunkt = o.z;
+  /* Angefangene Eingaben verwerfen: ein Spurwechsel, der einen Sekunden-
+     bruchteil vor der Gabelung gedrückt wurde, darf nicht sofort den Weg
+     wählen — sonst entscheidet das Spiel und nicht das Kind. */
+  Eing.alleLos();
+  const el = $('#gabelWahl');
+  el.classList.add('an');
+  el.innerHTML =
+    '<div class="gabel-titel hand">Wohin?</div>'+
+    '<div class="gabel-karten">'+
+      '<button class="gabel-karte" data-g="links"><span class="pfeil">◀</span>'+
+        '<b>'+esc(o.links.name)+'</b><span>'+esc(o.links.text)+'</span>'+
+        '<span class="klein">← Pfeiltaste links</span></button>'+
+      '<button class="gabel-karte riskant" data-g="rechts"><span class="pfeil">▶</span>'+
+        '<b>'+esc(o.rechts.name)+'</b><span>'+esc(o.rechts.text)+'</span>'+
+        '<span class="klein">→ Pfeiltaste rechts</span></button>'+
+    '</div>';
+  el.querySelectorAll('[data-g]').forEach(b => b.onclick = ()=>gabelWaehlen(b.dataset.g));
+  Ton.auf();
+}
+function gabelWaehlen(seite){
+  const o = L.gabel;
+  if(!o) return;
+  L.zweig = seite;
+  L.gabel = null;
+  const el = $('#gabelWahl'); el.classList.remove('an'); el.innerHTML = '';
+  laufMeldung(seite === 'links' ? o.links.name : o.rechts.name, 1.8);
+  Ton.klick();
+  /* Ereignisse des gewählten Zweigs nachladen. Alles hinter der Gabelung
+     fliegt raus und wird gleich sauber neu geladen — sonst stünde jedes
+     Hindernis doppelt auf der Strecke. */
+  L.aktiv = L.aktiv.filter(x => (!x.zweig || x.zweig === seite) && x.z <= o.z);
+  L.naechstes = 0;
+  while(L.naechstes < L.ereignisse.length && L.ereignisse[L.naechstes].z <= o.z) L.naechstes++;
+}
+
+/* ---------- Ende ---------- */
+function laeuferPause(){
+  if(L.fertig) return;
+  L.pause = true; Eing.alleLos();
+  const d = dialog('<div class="zentriert">'+
+    '<h2 class="serif" style="color:#20264A;margin:0 0 6px">Pause</h2>'+
+    '<p class="klein" style="color:#5A6288;margin:0 0 10px">Mondsteine: '+L.monde+' · Strecke: '+
+      Math.round(L.z/L.level.laenge*100)+' %</p>'+
+    '<div class="blatt" style="text-align:left;margin-bottom:10px"><span class="band l"></span>'+
+      '<div class="hand" style="font-size:1.05rem;color:#8E7318">Steuerung</div>'+
+      '<div style="color:#20264A;font-size:.9rem;line-height:1.55">'+
+      '← → Spur wechseln · ↑ springen · ↓ rutschen · E zaubern<br>'+
+      'Am Bildschirm: wischen oder die Knöpfe unten.</div></div>'+
+    '<div class="reihe"><button class="btn" data-weiter>Weiterlaufen</button>'+
+    '<button class="btn geist" data-raus style="color:#20264A;border-color:rgba(40,60,110,.4)">Kapitel verlassen</button></div></div>',
+    { klickAussen:false });
+  d.el.querySelector('[data-weiter]').onclick = ()=>{ Ton.klick(); d.schliessen(); L.pause = false; };
+  d.el.querySelector('[data-raus]').onclick = ()=>{ Ton.klick(); d.schliessen(); L.fertig = true;
+    if(L.schleife) L.schleife.stopp(); weltkarteZeigen(); };
+}
+function gewonnen(){
+  if(L.fertig) return;
+  L.fertig = true;
+  if(L.schleife) L.schleife.stopp();
+  Ton.stufe();
+  if(L.eule){
+    setzeFlagge(S, 'bo_gerettet');
+    if(S.begleiterTiere && S.begleiterTiere.indexOf('bo') < 0) S.begleiterTiere.push('bo');
+  } else setzeFlagge(S, 'bo_zurueckgelassen');
+  S.journal.entscheidungen.push({ quest:'kap2', wahl: L.eule ? 'eule_gerettet' : 'eule_gelassen',
+    titel: L.eule ? 'Du hast die Eule befreit' : 'Du bist am Käfig vorbeigelaufen',
+    text: L.eule ? 'Bo folgt dir seitdem und findet Verstecktes.'
+                 : 'Der Käfig blieb zu. Halbritter hat nichts gesagt — aber er hat es gesehen.' });
+  sichern();
+  ergebnisZeigen(L.kapId, {
+    titel:'Draußen!', monde:L.monde,
+    ziele:[ true, L.monde >= 200, L.treffer === 0 ],
+    gefunden: L.eule ? ['eule'] : [],
+    weiter:()=>szeneSpielen(L.eule ? 'kap2_nach_eule' : 'kap2_nach_ohne', weltkarteZeigen)
+  });
+}
+
+/* ---------- Zeichnen ---------- */
+function laeuferMalen(dt, jetzt){
+  const c = L.ctx, w = L.canvas.bw, h = L.canvas.bh;
+  if(!c || !w) return;
+  const v = L.kam.versatz();
+  c.save(); c.translate(v.x, v.y);
+  const t = L.zeit;
+  const horizont = h*0.40;
+
+  /* Himmel */
+  const g = c.createLinearGradient(0,0,0,h);
+  if(L.finale){ g.addColorStop(0,'#2A0F1A'); g.addColorStop(.5,'#160C1E'); }
+  else { g.addColorStop(0,'#16233A'); g.addColorStop(.5,'#0F1A22'); }
+  g.addColorStop(1,'#0A1210');
+  c.fillStyle = g; c.fillRect(-20,-20,w+40,h+40);
+
+  /* Mond */
+  c.fillStyle = 'rgba(221,229,248,.85)';
+  c.beginPath(); c.arc(w*0.78, horizont*0.42, 20, 0, 7); c.fill();
+  c.fillStyle = 'rgba(221,229,248,.12)';
+  c.beginPath(); c.arc(w*0.78, horizont*0.42, 44, 0, 7); c.fill();
+
+  /* Ferne Baumsilhouette */
+  c.fillStyle = L.finale ? '#25121C' : '#101C18';
+  c.beginPath(); c.moveTo(0, horizont);
+  for(let i=0;i<=20;i++){
+    const x = i*w/20;
+    const hh = 22 + Math.sin(i*1.7 + L.z*0.004)*10 + (i%3)*8;
+    c.lineTo(x, horizont - hh);
+  }
+  c.lineTo(w, horizont); c.closePath(); c.fill();
+
+  /* Boden */
+  c.fillStyle = '#16211A';
+  c.fillRect(0, horizont, w, h-horizont);
+
+  /* Weg in Segmenten */
+  const segmente = 46;
+  for(let i=segmente;i>=1;i--){
+    const d1 = i*13, d2 = (i-1)*13;
+    const p1 = projektion(d1, w, h), p2 = projektion(d2, w, h);
+    const hell = (Math.floor((L.z+d1)/13) % 2) === 0;
+    c.fillStyle = hell ? '#2A3524' : '#243020';
+    c.beginPath();
+    c.moveTo(w/2 - p1.breite*p1.sk*1.6, p1.y);
+    c.lineTo(w/2 + p1.breite*p1.sk*1.6, p1.y);
+    c.lineTo(w/2 + p2.breite*p2.sk*1.6, p2.y);
+    c.lineTo(w/2 - p2.breite*p2.sk*1.6, p2.y);
+    c.closePath(); c.fill();
+    /* Spurlinien */
+    if(hell){
+      c.strokeStyle = 'rgba(180,200,160,.18)'; c.lineWidth = Math.max(1, 3*p1.sk);
+      [-0.5, 0.5].forEach(off=>{
+        c.beginPath();
+        c.moveTo(w/2 + off*p1.breite*p1.sk*1.6, p1.y);
+        c.lineTo(w/2 + off*p2.breite*p2.sk*1.6, p2.y);
+        c.stroke();
+      });
+    }
+  }
+
+  /* Bäume am Rand */
+  L.baeume.forEach(b=>{
+    let d = b.z - (L.z % (80*22));
+    while(d < -20) d += 80*22;
+    if(d > 600) return;
+    const p = projektion(d, w, h);
+    const x = w/2 + b.seite * p.breite * p.sk * 2.4;
+    const hoehe = 150*p.sk*b.h;
+    if(hoehe < 2) return;
+    c.fillStyle = L.finale ? '#1E1018' : '#0D1712';
+    if(b.art === 'busch'){
+      c.beginPath(); c.ellipse(x, p.y, hoehe*0.5, hoehe*0.35, 0, 0, 7); c.fill();
+    } else {
+      c.fillRect(x-hoehe*0.06, p.y-hoehe, hoehe*0.12, hoehe);
+      c.beginPath();
+      c.moveTo(x, p.y-hoehe*1.5); c.lineTo(x+hoehe*0.4, p.y-hoehe*0.6);
+      c.lineTo(x-hoehe*0.4, p.y-hoehe*0.6); c.closePath(); c.fill();
+    }
+  });
+
+  /* Objekte von hinten nach vorn */
+  const sichtbar = L.aktiv.filter(o => !o.weg && o.z - L.z > -6 && o.z - L.z < 560)
+    .sort((a,b)=>(b.z-a.z));
+  sichtbar.forEach(o => objektMalen(c, o, w, h));
+
+  /* Verfolger */
+  jaegerMalen(c, w, h, t);
+
+  /* Spieler */
+  const pp = projektion(0, w, h);
+  const px = w/2 + L.spurX * pp.breite * 0.62;
+  const py = pp.y - (L.sprungH||0)*0.55;
+  c.save();
+  c.fillStyle = 'rgba(0,0,0,.35)';
+  c.beginPath(); c.ellipse(px, pp.y+2, 22 - (L.sprungH||0)*0.03, 6, 0, 0, 7); c.fill();
+  c.translate(px, py);
+  const art = L.rutsch > 0 ? 'rutsch' : (L.sprung > 0 ? (L.sprungV>0?'sprung':'fall') :
+    (L.zauber > 0 ? 'zauber' : 'lauf'));
+  figurMalen(c, aktiveFigur(), { art, phase:L.zauber }, t, 1, 1.25);
+  c.restore();
+
+  if(L.schild > 0){
+    c.strokeStyle = 'rgba(143,224,255,'+(.5+Math.sin(t*7)*.2)+')'; c.lineWidth = 3;
+    c.beginPath(); c.arc(px, py-24, 34, 0, 7); c.stroke();
+  }
+  if(L.magnet > 0){
+    c.strokeStyle = 'rgba(201,162,39,.3)'; c.lineWidth = 2;
+    c.beginPath(); c.arc(px, py-24, 52+Math.sin(t*6)*8, 0, 7); c.stroke();
+  }
+  if(L.zauber > 0){
+    c.save();
+    c.globalAlpha = L.zauber*3;
+    c.fillStyle = aktiveFigur().akzent;
+    c.beginPath(); c.ellipse(px, py-30, 30, 12, 0, 0, 7); c.fill();
+    c.restore();
+  }
+
+  L.teil.malen(c, 0, 0);
+
+  /* Finale-Schleier */
+  if(L.finale){
+    c.fillStyle = 'rgba(120,20,40,'+(0.10+Math.sin(t*4)*0.04)+')';
+    c.fillRect(0,0,w,h);
+  }
+  c.restore();
+
+  /* Eule auf der Schulter */
+  if(L.eule){
+    c.save();
+    c.translate(px+18, py-40);
+    c.fillStyle = '#C9D6E8';
+    c.beginPath(); c.ellipse(0,0,7,8,0,0,7); c.fill();
+    c.fillStyle = '#20264A';
+    c.beginPath(); c.arc(-2.4,-2,1.4,0,7); c.fill();
+    c.beginPath(); c.arc(2.4,-2,1.4,0,7); c.fill();
+    c.fillStyle = '#E8D48A';
+    c.beginPath(); c.moveTo(0,0); c.lineTo(2,3); c.lineTo(-2,3); c.fill();
+    c.restore();
+  }
+}
+
+function objektMalen(c, o, w, h){
+  const d = o.z - L.z;
+  const p = projektion(d, w, h);
+  if(p.sk < 0.02) return;
+  const x = w/2 + SPUR_X[o.spur !== undefined ? o.spur : 1] * p.breite * p.sk * 0.62 * (1/Math.max(0.12,p.sk)) * p.sk;
+  const gx = w/2 + (o.spur !== undefined ? SPUR_X[o.spur] : 0) * p.breite * p.sk * 1.06;
+  const gy = p.y;
+  const s = p.sk;
+
+  if(o.art === 'mond'){
+    c.save();
+    c.translate(gx, gy - 34*s);
+    c.shadowColor = '#E8D48A'; c.shadowBlur = 20*s;
+    c.fillStyle = '#F3E3A8';
+    const r = 13*s;
+    c.beginPath(); c.moveTo(0,-r); c.lineTo(r*.72,0); c.lineTo(0,r); c.lineTo(-r*.72,0); c.closePath(); c.fill();
+    c.restore();
+  }
+  else if(o.art === 'kraft'){
+    const farben = { magnet:'#C9A227', schild:'#8FE0FF', tempo:'#E8A33A' };
+    c.save(); c.translate(gx, gy - 36*s);
+    c.strokeStyle = farben[o.typ]; c.lineWidth = 3*s;
+    c.fillStyle = 'rgba(9,12,26,.7)';
+    c.beginPath(); c.arc(0,0,16*s,0,7); c.fill(); c.stroke();
+    c.globalAlpha = .3; c.fillStyle = farben[o.typ];
+    c.beginPath(); c.arc(0,0,26*s,0,7); c.fill();
+    c.restore();
+  }
+  else if(o.art === 'kaefig'){
+    c.save(); c.translate(gx, gy);
+    c.strokeStyle = '#C9A227'; c.lineWidth = 3*s; c.fillStyle = 'rgba(40,34,20,.85)';
+    c.beginPath(); c.roundRect(-24*s, -46*s, 48*s, 46*s, 5*s); c.fill(); c.stroke();
+    for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(-24*s+i*12*s, -46*s); c.lineTo(-24*s+i*12*s, 0); c.stroke(); }
+    /* Eule drin */
+    c.fillStyle = '#C9D6E8';
+    c.beginPath(); c.ellipse(0, -20*s, 12*s, 14*s, 0, 0, 7); c.fill();
+    c.fillStyle = '#20264A';
+    c.beginPath(); c.arc(-4*s, -24*s, 2.4*s, 0, 7); c.fill();
+    c.beginPath(); c.arc(4*s, -24*s, 2.4*s, 0, 7); c.fill();
+    if(d < 160){
+      schattenText(c, 'Bo!', 0, -60*s, Math.max(10, 20*s), '#E8D48A', 'center');
+    }
+    c.restore();
+  }
+  else if(o.art === 'hindernis'){
+    c.save(); c.translate(gx, gy);
+    if(o.typ === 'wurzel'){
+      c.fillStyle = '#4A3B22'; c.strokeStyle = '#2A2418'; c.lineWidth = 2*s;
+      c.beginPath();
+      c.moveTo(-30*s, 0); c.quadraticCurveTo(-10*s, -26*s, 6*s, -12*s);
+      c.quadraticCurveTo(20*s, -2*s, 30*s, -16*s);
+      c.lineTo(30*s, 4*s); c.lineTo(-30*s, 4*s); c.closePath();
+      c.fill(); c.stroke();
+    }
+    else if(o.typ === 'stein'){
+      c.fillStyle = '#5E6472'; c.strokeStyle = '#3A3F4B'; c.lineWidth = 2*s;
+      c.beginPath();
+      c.moveTo(-26*s, 2*s); c.lineTo(-18*s, -34*s); c.lineTo(8*s, -44*s);
+      c.lineTo(26*s, -20*s); c.lineTo(24*s, 2*s); c.closePath();
+      c.fill(); c.stroke();
+      c.fillStyle = '#767D8E';
+      c.beginPath(); c.moveTo(-14*s,-28*s); c.lineTo(4*s,-36*s); c.lineTo(8*s,-20*s); c.closePath(); c.fill();
+    }
+    else if(o.typ === 'ast'){
+      c.strokeStyle = '#3A2E20'; c.lineWidth = 14*s; c.lineCap='round';
+      c.beginPath(); c.moveTo(-34*s, -66*s); c.lineTo(34*s, -60*s); c.stroke();
+      c.fillStyle = '#2F4A2C';
+      for(let i=-2;i<=2;i++){
+        c.beginPath(); c.ellipse(i*15*s, -58*s, 11*s, 6*s, i*0.3, 0, 7); c.fill();
+      }
+    }
+    else if(o.typ === 'barriere'){
+      const puls = 0.55 + Math.sin(L.zeit*6)*0.2;
+      c.fillStyle = 'rgba(140,90,220,'+puls+')';
+      c.fillRect(-32*s, -76*s, 64*s, 78*s);
+      c.strokeStyle = '#B9A8F0'; c.lineWidth = 3*s;
+      c.strokeRect(-32*s, -76*s, 64*s, 78*s);
+      c.fillStyle = 'rgba(255,255,255,.5)';
+      for(let i=0;i<4;i++) c.fillRect(-32*s, -70*s+i*18*s, 64*s, 2*s);
+      if(d < 140) schattenText(c, 'Zaubern!', 0, -92*s, Math.max(10, 18*s), '#E8D48A', 'center');
+    }
+    c.restore();
+  }
+  else if(o.art === 'gabel'){
+    c.save(); c.translate(w/2, gy);
+    c.strokeStyle = '#C9A227'; c.lineWidth = 4*s;
+    c.beginPath(); c.moveTo(0, 0); c.lineTo(-70*s, -40*s); c.moveTo(0,0); c.lineTo(70*s, -40*s); c.stroke();
+    c.restore();
+  }
+}
+
+function jaegerMalen(c, w, h, t){
+  const naehe = klemm(1 - L.jaeger/150, 0, 1);
+  if(naehe < 0.05) return;
+  const groesse = 90 + naehe*260;
+  const x = w/2 + Math.sin(t*1.3)*w*0.10;
+  const y = h*0.94;
+  c.save();
+  c.globalAlpha = 0.35 + naehe*0.5;
+  c.fillStyle = '#0A0410';
+  c.beginPath();
+  c.moveTo(x-groesse*0.5, y+20);
+  c.quadraticCurveTo(x-groesse*0.55, y-groesse*0.9, x, y-groesse);
+  c.quadraticCurveTo(x+groesse*0.55, y-groesse*0.9, x+groesse*0.5, y+20);
+  c.closePath(); c.fill();
+  /* Augen */
+  c.globalAlpha = 0.7 + naehe*0.3;
+  c.fillStyle = '#E8785A';
+  c.beginPath(); c.ellipse(x-groesse*0.16, y-groesse*0.62, groesse*0.07, groesse*0.045, -0.2, 0, 7); c.fill();
+  c.beginPath(); c.ellipse(x+groesse*0.16, y-groesse*0.62, groesse*0.07, groesse*0.045, 0.2, 0, 7); c.fill();
+  /* Klauenarme */
+  c.globalAlpha = 0.3 + naehe*0.4;
+  c.strokeStyle = '#0A0410'; c.lineWidth = groesse*0.06; c.lineCap='round';
+  for(let i=-1;i<=1;i+=2){
+    c.beginPath();
+    c.moveTo(x+i*groesse*0.42, y-groesse*0.3);
+    c.quadraticCurveTo(x+i*groesse*0.75, y-groesse*0.1+Math.sin(t*4+i)*10, x+i*groesse*0.66, y+20);
+    c.stroke();
+  }
+  c.restore();
+}
+
+
+/* ===== kampagne.js ===== */
+/* ============================================================
+   KAMPAGNE — Figurenauswahl, Weltkarte, Ergebnisbildschirm
+   ============================================================ */
+
+/* ---------- FIGURENAUSWAHL ---------- */
+function figurWahlZeigen(ersteWahl){
+  const s = $('#szene-figurwahl');
+  const gewaehlt = S.figur || SPIELFIGUREN[0].id;
+  s.innerHTML =
+    (ersteWahl ? '' : '<div class="kopf" data-kopf data-zurueck="1"></div>')+
+    '<div class="rollen"><div class="abschnitt" style="max-width:720px">'+
+      '<div class="wahl-kopf">'+
+        '<div class="gotisch" style="font-size:clamp(1.4rem,6vw,2rem)">Wer bist du?</div>'+
+        '<div class="hand" style="font-size:1.2rem;color:var(--haus2)">'+
+          'Jede Figur spielt sich anders — nicht nur andere Farben.</div>'+
+      '</div>'+
+      '<div class="figurgitter" id="figurGitter">'+
+        SPIELFIGUREN.map(f=>{
+          const offen = S.figuren.indexOf(f.id) >= 0;
+          return '<button class="figurkarte'+(f.id===gewaehlt?' an':'')+(offen?'':' zu')+'" data-f="'+f.id+'"'+
+            (offen?'':' disabled')+' aria-label="'+esc(f.name)+'">'+
+            '<canvas class="figurbuehne" data-figur="'+f.id+'"></canvas>'+
+            '<div class="fk-name">'+esc(f.name)+'</div>'+
+            '<div class="fk-rolle">'+esc(f.rolle)+'</div>'+
+          '</button>';
+        }).join('')+
+      '</div>'+
+      '<div id="figurDetail"></div>'+
+      '<div class="zentriert" style="margin-top:16px">'+
+        '<button class="btn" id="figurNehmen">Mit dieser Figur spielen</button></div>'+
+    '</div></div>';
+  if(!ersteWahl) kopfAktualisieren();
+  s.querySelectorAll('[data-f]').forEach(b => b.onclick = ()=>{
+    Ton.klick();
+    s.querySelectorAll('.figurkarte').forEach(x=>x.classList.remove('an'));
+    b.classList.add('an');
+    figurDetailMalen(b.dataset.f);
+  });
+  $('#figurNehmen').onclick = ()=>{
+    const an = s.querySelector('.figurkarte.an');
+    S.figur = an ? an.dataset.f : SPIELFIGUREN[0].id;
+    sichern(); Ton.stufe();
+    vorschauStoppen();
+    if(ersteWahl) szeneSpielen('ankunft_1', ()=>{
+      szeneSpielen('ankunft_2', ()=>{
+        kapitelStand('prolog').geschafft = true;
+        sichern();
+        weltkarteZeigen(true);
+      });
+    });
+    else weltkarteZeigen();
+  };
+  figurDetailMalen(gewaehlt);
+  zeige('figurwahl', true);
+  vorschauStarten();
+}
+beimVerlassen['figurwahl'] = vorschauStoppen;
+
+function figurDetailMalen(id){
+  const f = FIGUR_VON[id]; if(!f) return;
+  const e = $('#figurDetail'); if(!e) return;
+  const balken = (name, wert, max) =>
+    '<div class="wertzeile"><span>'+name+'</span><div class="balken">'+
+    '<i style="width:'+Math.round(wert/max*100)+'%"></i></div></div>';
+  e.innerHTML =
+    '<div class="blatt figurdetail"><span class="band l"></span><span class="band r"></span>'+
+      '<h2 class="serif" style="color:#20264A;margin:0 0 2px">'+esc(f.name)+'</h2>'+
+      '<p style="color:#20264A;margin:0 0 8px;font-size:.95rem;line-height:1.5">'+esc(f.text)+'</p>'+
+      '<div class="werte">'+
+        balken('Tempo', f.werte.tempo, 340)+
+        balken('Sprung', f.werte.sprung, 720)+
+        balken('Leben', f.werte.leben, 5)+
+      '</div>'+
+      '<div class="faehigkeiten">'+
+        '<div class="fk-block"><span class="chip">Bewegung</span>'+
+          '<b>'+esc(f.traversal.name)+'</b><span>'+esc(f.traversal.text)+'</span></div>'+
+        '<div class="fk-block"><span class="chip">Magie</span>'+
+          '<b>'+esc(f.magie.name)+'</b><span>'+esc(f.magie.text)+'</span></div>'+
+      '</div>'+
+      '<div class="hand" style="color:#C0492E;font-size:1.1rem;margin-top:6px">'+esc(f.tipp)+'</div>'+
+    '</div>';
+}
+
+/* ---------- WELTKARTE ---------- */
+let kampagneRaf = null;
+function weltkarteZeigen(feierlich){
+  sitzungStarten();
+  const s = $('#szene-kampagne');
+  const fig = aktiveFigur();
+  const splitter = splitterZahl();
+
+  s.innerHTML =
+    '<div class="kopf" data-kopf></div>'+
+    '<div class="kampagne-kopf">'+
+      '<button class="figur-knopf" id="figurWechsel" aria-label="Figur wechseln">'+
+        '<canvas class="figurmini" data-figur="'+fig.id+'"></canvas>'+
+        '<span><b>'+esc(fig.name.split(' ')[0])+'</b><span>wechseln</span></span></button>'+
+      '<div class="splitter-anzeige" aria-label="Mondsteinsplitter: '+splitter+' von 7">'+
+        Array.from({length:7},(_,i)=>'<i class="'+(i<splitter?'an':'')+'"></i>').join('')+
+        '<span>'+splitter+'/7 Splitter</span></div>'+
+    '</div>'+
+    '<div class="weltkarte" id="weltKarte">'+
+      '<canvas class="wk-hintergrund" id="wkHintergrund"></canvas>'+
+      '<svg class="wk-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'+
+        KAPITEL_KAMPAGNE.filter(k=>k.braucht).map(k=>{
+          const v = KAP_VON[k.braucht];
+          const offen = kapitelOffen(k);
+          return '<line x1="'+v.x+'" y1="'+v.y+'" x2="'+k.x+'" y2="'+k.y+'" class="wk-weg'+(offen?' offen':'')+'"/>';
+        }).join('')+
+      '</svg>'+
+      '<div class="wk-knoten">'+ KAPITEL_KAMPAGNE.map(k=>{
+        const st = kapitelStand(k.id);
+        const offen = kapitelOffen(k);
+        const naechstes = offen && !st.geschafft && k.art !== 'kommt';
+        return '<button class="wk-punkt'+(offen?'':' zu')+(st.geschafft?' fertig':'')+
+          (naechstes?' naechstes':'')+' art-'+k.art+'" data-k="'+k.id+'"'+
+          ' style="left:'+k.x+'%;top:'+k.y+'%"'+(offen?'':' disabled')+
+          ' aria-label="'+esc(k.name)+(offen?'':', noch verschlossen')+'">'+
+          '<span class="wkp-kreis">'+(k.nr !== null && k.nr !== undefined
+            ? '<b>'+k.nr+'</b>' : ico(k.art==='unterricht'?'kessel':(k.art==='nebenquest'?'blatt':'stern'),20))+'</span>'+
+          '<span class="wkp-name">'+esc(k.name)+'</span>'+
+          (st.sterne ? '<span class="wkp-sterne">'+'★'.repeat(st.sterne)+'☆'.repeat(3-st.sterne)+'</span>' : '')+
+          (naechstes ? '<span class="questpin"></span>' : '')+
+        '</button>';
+      }).join('') +'</div>'+
+    '</div>'+
+    '<div class="leiste kartenleiste">'+
+      '<button class="btn klein geist" data-nav="journal">'+ico('buch',18)+' Journal</button>'+
+      '<button class="btn klein geist" data-nav="kammer">'+ico('tuer',18)+' Kammer</button>'+
+      '<button class="btn klein geist" data-nav="hilfe">'+ico('frage',18)+' Hilfe</button>'+
+    '</div>';
+
+  kopfAktualisieren();
+  s.querySelectorAll('[data-k]').forEach(b => b.onclick = ()=>kapitelOeffnen(b.dataset.k));
+  $('#figurWechsel').onclick = ()=>{ Ton.klick(); figurWahlZeigen(false); };
+  s.querySelectorAll('[data-nav]').forEach(b => b.onclick = ()=>{
+    Ton.klick();
+    if(b.dataset.nav === 'journal'){ zeige('journal'); journalZeigen(); }
+    if(b.dataset.nav === 'kammer'){ zeige('kammer'); kammerZeigen(); }
+    if(b.dataset.nav === 'hilfe') hilfeZeigen();
+  });
+  zeige('kampagne', true);
+  vorschauStarten();
+  weltkarteHintergrund();
+  if(feierlich) laufMeldungKarte();
+}
+beimVerlassen['kampagne'] = ()=>{ cancelAnimationFrame(kampagneRaf); vorschauStoppen(); };
+
+function laufMeldungKarte(){
+  const k = $('#weltKarte');
+  if(!k) return;
+  const d = el('div','karten-enthuellung',
+    '<div class="gotisch">Die Akademie</div><div class="hand">Sieben Splitter. Finde den ersten.</div>');
+  k.appendChild(d);
+  setTimeout(()=>d.remove(), 2600);
+}
+
+function weltkarteHintergrund(){
+  const c = $('#wkHintergrund'); if(!c) return;
+  const anpassen = leinwandEinrichten(c);
+  window.addEventListener('resize', anpassen);
+  const ctx = c.getContext('2d');
+  const reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sterne = [];
+  for(let i=0;i<60;i++) sterne.push({x:Math.random(), y:Math.random()*0.8, r:Math.random()*1.6+.4, p:Math.random()*7});
+  cancelAnimationFrame(kampagneRaf);
+  const t0 = performance.now();
+  const mal = (jetzt)=>{
+    if(!document.body.contains(c)) return;
+    const t = (jetzt-t0)/1000, w = c.bw, h = c.bh;
+    if(w){
+      const g = ctx.createLinearGradient(0,0,0,h);
+      g.addColorStop(0,'#1B1F42'); g.addColorStop(.6,'#141833'); g.addColorStop(1,'#0D1024');
+      ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle = '#DDE5F8';
+      sterne.forEach(s=>{
+        ctx.globalAlpha = reduziert ? .5 : .3 + Math.sin(t*1.6 + s.p)*.3;
+        ctx.fillRect(s.x*w, s.y*h, s.r, s.r);
+      });
+      ctx.globalAlpha = 1;
+      /* Akademie-Silhouette unten */
+      ctx.fillStyle = '#0A0D1E';
+      ctx.beginPath(); ctx.moveTo(0,h);
+      const tuerme = [[.08,.30],[.18,.46],[.30,.24],[.44,.40],[.58,.20],[.72,.38],[.86,.28],[.96,.44]];
+      tuerme.forEach(p=>{
+        const x = p[0]*w, th = p[1]*h;
+        ctx.lineTo(x-w*0.045, h-th*0.55);
+        ctx.lineTo(x, h-th);
+        ctx.lineTo(x+w*0.045, h-th*0.55);
+      });
+      ctx.lineTo(w,h); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = 'rgba(232,212,138,.5)';
+      tuerme.forEach((p,i)=>{
+        if(i%2) return;
+        ctx.globalAlpha = .35 + Math.sin(t*2+i)*.2;
+        ctx.fillRect(p[0]*w-4, h-p[1]*h*0.7, 8, 12);
+      });
+      ctx.globalAlpha = 1;
+    }
+    kampagneRaf = requestAnimationFrame(mal);
+  };
+  kampagneRaf = requestAnimationFrame(mal);
+}
+
+/* ---------- KAPITEL ÖFFNEN ---------- */
+function kapitelOeffnen(id){
+  Ton.klick();
+  const k = KAP_VON[id];
+  const st = kapitelStand(id);
+
+  if(k.art === 'unterricht'){ hubZeigen(); return; }
+  if(k.art === 'nebenquest'){
+    const q = questStand(S, 'kap1');
+    if(!q.gestartet) briefSzene();
+    else { const sch = aktiverSchritt(); if(sch) schrittStarten(sch.id); else karteZeigen(); }
+    return;
+  }
+  if(k.art === 'kommt'){
+    dialog('<div class="zentriert">'+
+      '<div style="color:var(--haus)">'+ico('schloss',44)+'</div>'+
+      '<h2 class="serif" style="color:#20264A;margin:6px 0 4px">'+esc(k.name)+'</h2>'+
+      '<p style="color:#20264A;margin:0 0 8px">'+esc(k.text)+'</p>'+
+      '<p class="hand" style="font-size:1.15rem;color:#C0492E;margin:0">'+
+        'Bis dahin: Splitter suchen, Unterricht nehmen, den Wald erkunden.</p>'+
+      '<div style="margin-top:14px"><button class="btn" data-zu>Verstanden</button></div></div>');
+    return;
+  }
+
+  const ziele = k.ziele || [];
+  const inhalt =
+    '<div class="zentriert">'+
+      '<span class="chip">Kapitel '+(k.nr||'')+'</span>'+
+      '<h2 class="serif" style="color:#20264A;margin:6px 0 2px">'+esc(k.name)+'</h2>'+
+      '<p style="color:#20264A;margin:0 0 10px;font-size:.95rem">'+esc(k.text)+'</p>'+
+      (ziele.length ? '<div class="zielliste">'+ziele.map((z,i)=>
+        '<div class="zielzeile"><span class="zstern'+(st.sterne>i?' an':'')+'">★</span>'+esc(z)+'</div>').join('')+'</div>' : '')+
+      (st.geschafft ? '<div class="hand" style="color:#8E7318;font-size:1.15rem;margin-top:6px">'+
+        'Schon geschafft — du kannst es für mehr Sterne wiederholen.</div>' : '')+
+      '<div class="reihe" style="margin-top:14px">'+
+        '<button class="btn" data-los>'+(st.geschafft?'Noch einmal spielen':'Kapitel starten')+'</button>'+
+        '<button class="btn geist" data-zu style="color:#20264A;border-color:rgba(40,60,110,.4)">Zurück</button>'+
+      '</div>'+
+    '</div>';
+  const d = dialog(inhalt);
+  d.el.querySelector('[data-los]').onclick = ()=>{
+    Ton.klick(); d.schliessen();
+    st.versuche++;
+    sichern();
+    const starten = ()=>{
+      if(k.art === 'plattform') plattformStarten(k.id, k.level);
+      else if(k.art === 'laeufer') laeuferStarten(k.id, k.level);
+      else if(k.art === 'story') szeneSpielen(k.szeneVor, ()=>{
+        if(k.szeneNach) szeneSpielen(k.szeneNach, ()=>{ st.geschafft = true; sichern(); weltkarteZeigen(); });
+        else { st.geschafft = true; sichern(); weltkarteZeigen(); }
+      });
+    };
+    if(k.szeneVor && k.art !== 'story') szeneSpielen(k.szeneVor, starten); else starten();
+  };
+}
+
+/* ---------- ERGEBNIS ---------- */
+function ergebnisZeigen(kapId, daten){
+  const k = KAP_VON[kapId] || { name:'Kapitel', ziele:[] };
+  const st = kapitelStand(kapId);
+  const sterne = sterneBerechnen(daten.ziele);
+  const neu = sterne > st.sterne;
+  kapErgebnisSpeichern(S, kapId, daten.ziele, daten.gefunden);
+
+  const steine = (daten.monde||0) + sterne*40;
+  S.steine += steine; S.gesamt += steine;
+  const hp = gibHauspunkte(20 + sterne*10);
+  if(kapId === 'kap1' || kapId === 'kap2'){
+    if(!S.splitter) S.splitter = [];
+    if(S.splitter.indexOf(kapId) < 0) S.splitter.push(kapId);
+  }
+  pruefeAbzeichen(); sichern();
+
+  const s = $('#szene-ergebnis');
+  s.innerHTML =
+    '<div class="mitte">'+
+      '<div class="ergebnis gross-moment">'+
+        '<div class="hand" style="font-size:1.4rem;color:var(--haus2)">'+esc(daten.titel||'Geschafft')+'</div>'+
+        '<h2 class="gotisch" style="font-size:clamp(1.4rem,6vw,2rem);margin:2px 0 10px">'+esc(k.name)+'</h2>'+
+        '<div class="sternreihe" id="sternReihe">'+
+          [0,1,2].map(i=>'<span class="gross-stern'+(sterne>i?' an':'')+'" style="animation-delay:'+(i*0.25)+'s">★</span>').join('')+
+        '</div>'+
+        '<div class="zielliste hell">'+ (k.ziele||[]).map((z,i)=>
+          '<div class="zielzeile"><span class="zstern'+((daten.ziele||[])[i]?' an':'')+'">★</span>'+esc(z)+'</div>').join('') +'</div>'+
+        '<div class="reihe" style="margin:12px 0">'+
+          '<span class="chip">'+ico('mondstein',14)+' '+(daten.monde||0)+' gesammelt</span>'+
+          '<span class="chip">+'+steine+' Mondsteine</span>'+
+          '<span class="chip">+'+hp+' Hauspunkte</span>'+
+        '</div>'+
+        (neu ? '<div class="hand" style="color:#8FE08A;font-size:1.2rem">Neue Bestleistung!</div>' : '')+
+        '<div class="reihe" style="margin-top:14px">'+
+          '<button class="btn" id="ergWeiter">Weiter</button>'+
+          '<button class="btn geist" id="ergNochmal">Noch einmal</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  zeige('ergebnis', true);
+  Ton.toll();
+  $('#ergWeiter').onclick = ()=>{ Ton.klick(); if(daten.weiter) daten.weiter(); else weltkarteZeigen(); };
+  $('#ergNochmal').onclick = ()=>{
+    Ton.klick();
+    if(k.art === 'plattform') plattformStarten(k.id, k.level);
+    else if(k.art === 'laeufer') laeuferStarten(k.id, k.level);
+    else weltkarteZeigen();
+  };
 }
 
 
@@ -2497,7 +6051,7 @@ function hausErgebnis(hausId){
     '</div>';
   $('#btnHaus').onclick = ()=>{
     Ton.auf();
-    briefSzene();
+    figurWahlZeigen(true);
   };
 }
 
@@ -3061,6 +6615,7 @@ function karteZeigen(feierlich){
         (S.journal.hinweise.length?'<span class="zahl">'+S.journal.hinweise.length+'</span>':'')+'</button>'+
       '<button class="btn klein geist" data-nav="unterricht">'+ico('kessel',18)+' Unterricht</button>'+
       '<button class="btn klein geist" data-nav="kammer">'+ico('tuer',18)+' Kammer</button>'+
+      '<button class="btn klein geist" data-nav="kampagne">'+ico('stern',18)+' Kampagne</button>'+
     '</div>';
 
   kopfAktualisieren();
@@ -3071,6 +6626,7 @@ function karteZeigen(feierlich){
     if(n==='journal'){ zeige('journal'); journalZeigen(); }
     if(n==='unterricht') hubZeigen();
     if(n==='kammer'){ zeige('kammer'); kammerZeigen(); }
+    if(n==='kampagne') weltkarteZeigen();
   });
   const qb = $('#questBand');
   if(qb) qb.onclick = ()=>{
@@ -5517,7 +9073,8 @@ function hubZeigen(){
         '</div>'+
 
         '<div class="werkzeuge">'+
-          wzHtml('karte','wappen','Zur Karte', false)+
+          wzHtml('kampagne','stern','Zur Kampagne', false)+
+          wzHtml('karte','wappen','Nebenquest-Karte', false)+
           wzHtml('journal','buch','Journal', false)+
           wzHtml('post','eule','Eulenpost', postOffen)+
           wzHtml('pokal','wappen','Hauspokal', false)+
@@ -5576,6 +9133,7 @@ function werkzeugOeffnen(id){
   if(id==='geschichte'){ zeige('geschichte'); geschichteZeigen(); }
   if(id==='journal'){ zeige('journal'); journalZeigen(); }
   if(id==='karte') karteZeigen();
+  if(id==='kampagne') weltkarteZeigen();
   if(id==='abzeichen'){ zeige('abzeichen'); abzeichenZeigenAlle(); }
   if(id==='hilfe') hilfeZeigen();
 }
@@ -6086,14 +9644,16 @@ function kerzenBauen(){
   document.addEventListener('pointerdown', anTon, {once:true});
   document.addEventListener('keydown', anTon, {once:true});
 
-  if(S.haus && S.name){
-    /* Alter Spielstand ohne Kapitel: Brief nachliefern */
-    const q = questStand(S, 'kap1');
-    if(!q.gestartet && !S.journal.hinweise.length){ briefSzene(); }
-    else karteZeigen();
-  } else {
+  Eing.start();
+
+  if(!S.haus || !S.name){
     ankunftAufbauen();
     zeige('ankunft', true);
+  } else if(!S.figur){
+    /* Auch alte Spielstände wählen jetzt eine Figur */
+    figurWahlZeigen(true);
+  } else {
+    weltkarteZeigen();
   }
 
   window.addEventListener('beforeunload', ()=>{ try{ Speicher.sichern(S); }catch(e){} });
