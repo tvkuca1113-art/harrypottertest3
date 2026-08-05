@@ -793,10 +793,14 @@ input[type=text]{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15r
 /* Die Spielfläche bleibt breiter als hoch. Auf einem hochkanten Handy
    nimmt sie den oberen Teil ein, die Daumenknöpfe sitzen darunter —
    sonst stünde die Figur mitten im Steuerkreuz. */
-#spielLeinwand,#laufLeinwand{position:absolute;left:0;right:0;top:0;
-  height:100%;display:block;touch-action:none}
+#spielLeinwand,#laufLeinwand{position:absolute;left:0;top:0;
+  width:100%;height:100%;display:block;touch-action:none}
 @media (max-aspect-ratio: 5/6){
-  #spielLeinwand,#laufLeinwand{height:min(100%, max(72%, 100vw * 0.78))}
+  #spielLeinwand,#laufLeinwand{height:min(100%, max(74%, 100vw * 0.9))}
+  /* Unter dem Spielfeld sitzt eine ruhige Leiste für die Daumen */
+  #szene-plattform::after,#szene-laeufer::after{content:'';position:absolute;left:0;right:0;bottom:0;
+    height:26%;background:linear-gradient(180deg,#0B0F22,#141A34);
+    box-shadow:inset 0 1px 0 rgba(221,229,248,.08);z-index:1;pointer-events:none}
 }
 .spiel-hud{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;
   padding:8px 10px;z-index:6;pointer-events:none}
@@ -815,7 +819,7 @@ input[type=text]{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15r
   font-family:'Caveat',cursive;font-weight:700;font-size:1.5rem;color:#EDF2FF;text-align:center;
   text-shadow:0 2px 12px #000;opacity:0;transition:opacity .25s;max-width:86vw}
 .spiel-meldung.an{opacity:1}
-.faehig-knopf{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;
+.faehig-knopf{position:absolute;top:46px;left:10px;z-index:6;pointer-events:none;
   font-size:.72rem;color:var(--haus2);background:rgba(9,12,26,.6);border-radius:999px;padding:2px 10px}
 .jaeger-leiste{position:absolute;top:44px;left:50%;transform:translateX(-50%);width:min(240px,70vw);height:10px;
   background:rgba(9,12,26,.6);border:1px solid rgba(232,120,90,.5);border-radius:999px;z-index:6;pointer-events:none}
@@ -841,18 +845,24 @@ input[type=text]{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.15r
 
 /* ---------- Bildschirmsteuerung ---------- */
 .tastfeld{position:absolute;left:0;right:0;bottom:0;z-index:8;display:flex;justify-content:space-between;
-  align-items:flex-end;padding:10px 12px 14px;pointer-events:none;gap:10px}
-.tk-gruppe{display:flex;gap:8px;pointer-events:auto}
-.tk-gruppe.rechts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.tk{width:56px;height:56px;border-radius:50%;border:2px solid rgba(221,229,248,.35);
-  background:rgba(20,24,48,.55);color:#EDF2FF;font-size:1.2rem;font-weight:900;cursor:pointer;
-  display:grid;place-items:center;pointer-events:auto;backdrop-filter:blur(2px);
-  transition:transform .08s ease, background .08s ease;touch-action:none;-webkit-user-select:none;user-select:none}
-.tk.gedrueckt{transform:scale(.9);background:rgba(201,162,39,.5)}
-.tk.sprung{background:rgba(201,162,39,.4);border-color:var(--haus)}
-.tk.zauber{background:rgba(140,90,220,.4);border-color:#B9A8F0}
-.tk.faehig{background:rgba(78,138,76,.4);border-color:#8FE08A}
-.tk.gross{width:66px;height:66px;font-size:1.5rem}
+  align-items:flex-end;padding:10px 14px calc(14px + env(safe-area-inset-bottom,0px));
+  pointer-events:none;gap:10px}
+.tk-gruppe{display:flex;gap:12px;pointer-events:auto}
+.tk-gruppe.rechts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tk{width:64px;height:64px;border-radius:50%;border:2px solid rgba(221,229,248,.4);
+  background:radial-gradient(circle at 34% 28%, rgba(255,255,255,.16), rgba(24,29,58,.85) 70%);
+  color:#EDF2FF;font-size:1.35rem;font-weight:900;cursor:pointer;
+  display:grid;place-items:center;pointer-events:auto;backdrop-filter:blur(3px);
+  box-shadow:0 4px 14px rgba(0,0,0,.45), inset 0 -3px 8px rgba(0,0,0,.35);
+  transition:transform .07s ease, filter .07s ease;touch-action:none;-webkit-user-select:none;user-select:none}
+.tk.gedrueckt{transform:scale(.88) translateY(2px);filter:brightness(1.6)}
+.tk.sprung{border-color:var(--haus);
+  background:radial-gradient(circle at 34% 28%, rgba(255,236,180,.4), rgba(140,110,30,.9) 70%)}
+.tk.zauber{border-color:#B9A8F0;
+  background:radial-gradient(circle at 34% 28%, rgba(210,196,255,.42), rgba(72,50,140,.9) 70%)}
+.tk.faehig{border-color:#8FE08A;
+  background:radial-gradient(circle at 34% 28%, rgba(190,240,185,.4), rgba(40,90,50,.9) 70%)}
+.tk.gross{width:74px;height:74px;font-size:1.6rem}
 .tastfeld.laeufer{justify-content:space-between;align-items:center;bottom:6px}
 .tastfeld.laeufer .tk-mitte{display:flex;flex-direction:column;gap:8px;pointer-events:auto}
 @media (min-width:900px) and (pointer:fine){ .tastfeld{opacity:.28} .tastfeld:hover{opacity:1} }
@@ -3815,8 +3825,21 @@ const P = {
   boss:null, zeit:0, pause:false, fertig:false,
   siegel:0, siegelGesamt:3, monde:0, gefunden:[], tode:0,
   puls:0, meldung:'', meldungZeit:0, kapId:null,
-  ctx:null, canvas:null, anpassen:null, bebt:0
+  ctx:null, canvas:null, anpassen:null, bebt:0, zoom:1, sterne:null, staub:null
 };
+
+/* Wie nah geht die Kamera heran? Auf einem Handy sollen ungefähr neun
+   Kacheln nebeneinander passen — sonst ist die Figur ein Krümel und man
+   sieht nicht, wo man hintritt. Auf großen Schirmen darf mehr Welt ins
+   Bild, aber die Figur behält überall ungefähr dieselbe Größe. */
+function zoomBerechnen(w, h){
+  const kacheln = w < 560 ? 9 : (w < 950 ? 14 : 20);
+  let z = w / (kacheln * KACHEL);
+  /* nicht so weit heranzoomen, dass senkrecht kaum noch etwas zu sehen ist */
+  const senkrecht = h / (8.5 * KACHEL);
+  z = Math.min(z, Math.max(1, senkrecht));
+  return Math.max(1, Math.min(2.6, z));
+}
 
 /* ---------- Kartenzugriff ---------- */
 function kachelAt(tx, ty){
@@ -3856,7 +3879,7 @@ function plattformStarten(kapId, levelId){
   P.gegner = []; P.schuesse = []; P.sachen = []; P.plattformen = []; P.ranken = [];
   P.boss = null; P.zeit = 0; P.pause = false; P.fertig = false;
   P.siegel = 0; P.monde = 0; P.gefunden = []; P.tode = 0; P.puls = 0;
-  P.meldung = ''; P.meldungZeit = 0; P.bebt = 0;
+  P.meldung = ''; P.meldungZeit = 0; P.bebt = 0; P.sterne = null; P.staub = null;
   P.teil = Teilchen(); P.kam = Kamera();
 
   const fig = aktiveFigur();
@@ -3925,7 +3948,9 @@ function plattformAufbauen(){
     steuerungHtml('plattform');
   P.canvas = $('#spielLeinwand');
   P.ctx = P.canvas.getContext('2d');
-  P.anpassen = leinwandEinrichten(P.canvas);
+  const grundAnpassen = leinwandEinrichten(P.canvas);
+  P.anpassen = ()=>{ grundAnpassen(); P.zoom = zoomBerechnen(P.canvas.bw, P.canvas.bh); };
+  P.anpassen();
   window.addEventListener('resize', P.anpassen);
   steuerungBinden();
   $('#spielPause').onclick = plattformPause;
@@ -4172,7 +4197,8 @@ function plattformSchritt(dt){
   P.gegner.forEach(g => gegnerSchritt(g, dt, h));
 
   /* Kamera */
-  const sichtB = P.canvas.bw || 800, sichtH = P.canvas.bh || 400;
+  const zoom = P.zoom || 1;
+  const sichtB = (P.canvas.bw || 800)/zoom, sichtH = (P.canvas.bh || 400)/zoom;
   const weltH = P.hoehe*KACHEL;
   const zielX = klemm(h.x + h.b/2 - sichtB/2 + h.blick*40, 0, Math.max(0, P.breite*KACHEL - sichtB));
   /* Ist das Bild höher als das Level, wird der Überschuss nach oben
@@ -4495,18 +4521,76 @@ function plattformMalen(dt, jetzt){
   g.addColorStop(0,'#221F44'); g.addColorStop(.55,'#191C38'); g.addColorStop(1,'#12162C');
   c.fillStyle = g; c.fillRect(0,0,w,hh);
 
+  /* Nachthimmel: Mond, Sterne, treibender Staub. Ohne das ist die obere
+     Bildhälfte auf hohen Handys eine leere Fläche. */
+  if(!P.sterne){
+    P.sterne = [];
+    for(let i=0;i<70;i++) P.sterne.push({ x:Math.random(), y:Math.random()*0.72,
+      r:0.6+Math.random()*1.7, p:Math.random()*7, tief:0.05+Math.random()*0.22 });
+    P.staub = [];
+    for(let i=0;i<26;i++) P.staub.push({ x:Math.random(), y:Math.random(),
+      r:0.8+Math.random()*1.6, p:Math.random()*7, tief:0.25+Math.random()*0.3 });
+  }
+  const mondX = w*0.76 - kx*0.04, mondY = hh*0.16;
+  c.fillStyle = 'rgba(221,229,248,.10)';
+  c.beginPath(); c.arc(mondX, mondY, 52, 0, 7); c.fill();
+  c.fillStyle = 'rgba(232,236,252,.88)';
+  c.beginPath(); c.arc(mondX, mondY, 24, 0, 7); c.fill();
+  c.fillStyle = 'rgba(196,204,232,.55)';
+  c.beginPath(); c.arc(mondX-7, mondY-5, 5, 0, 7); c.fill();
+  c.beginPath(); c.arc(mondX+8, mondY+7, 3.4, 0, 7); c.fill();
+  c.beginPath(); c.arc(mondX+2, mondY-11, 2.6, 0, 7); c.fill();
+  P.sterne.forEach(st=>{
+    const sx = ((st.x*w - kx*st.tief) % w + w) % w;
+    c.globalAlpha = 0.30 + Math.sin(t*1.5 + st.p)*0.28;
+    c.fillStyle = '#DDE5F8';
+    c.beginPath(); c.arc(sx, st.y*hh, st.r, 0, 7); c.fill();
+  });
+  P.staub.forEach(d=>{
+    const sx = ((d.x*w - kx*d.tief) % w + w) % w;
+    const sy = ((d.y*hh + Math.sin(t*0.5 + d.p)*16) % hh + hh) % hh;
+    c.globalAlpha = 0.16 + Math.sin(t*0.9 + d.p)*0.10;
+    c.fillStyle = '#E8D48A';
+    c.beginPath(); c.arc(sx, sy, d.r, 0, 7); c.fill();
+  });
+  c.globalAlpha = 1;
+
+  /* Ab hier wird in Weltmaßen gezeichnet: die Kamera zoomt heran, damit
+     die Figur auf dem Handy groß genug ist. */
+  const zoom = P.zoom || 1;
+  const W = w/zoom, H = hh/zoom;
+  c.save();
+  c.scale(zoom, zoom);
+
   /* Der Hintergrund hängt am Boden des Levels, nicht am unteren Bildrand —
      sonst rutscht er auf hohen Bildschirmen unter das Spielfeld. */
   const bodenY = P.hoehe*KACHEL - ky;
+
+  /* Parallax 0: sehr ferne Spitzen — füllen die Mitte des Bildes,
+     die auf hochkanten Handys sonst leer bleibt */
+  c.fillStyle = '#1A1D3E';
+  for(let i=0;i<10;i++){
+    const bx = (i*260 - kx*0.08) % (10*260);
+    const x = bx < -260 ? bx + 10*260 : bx;
+    const th = 300 + (i%5)*70;
+    c.fillRect(x, bodenY-th, 84, th);
+    c.beginPath(); c.moveTo(x-12, bodenY-th); c.lineTo(x+42, bodenY-th-92); c.lineTo(x+96, bodenY-th); c.fill();
+    c.fillStyle = 'rgba(232,212,138,.10)';
+    c.fillRect(x+34, bodenY-th+40, 16, 26);
+    c.fillStyle = '#1A1D3E';
+  }
 
   /* Parallax 1: ferne Türme */
   c.fillStyle = '#20244A';
   for(let i=0;i<14;i++){
     const bx = (i*180 - kx*0.18) % (14*180);
     const x = bx < -180 ? bx + 14*180 : bx;
-    const th = 90 + (i%4)*40;
+    const th = 170 + (i%4)*62;
     c.fillRect(x, bodenY-th-40, 62, th+40);
-    c.beginPath(); c.moveTo(x-8, bodenY-th-40); c.lineTo(x+31, bodenY-th-76); c.lineTo(x+70, bodenY-th-40); c.fill();
+    c.beginPath(); c.moveTo(x-8, bodenY-th-40); c.lineTo(x+31, bodenY-th-84); c.lineTo(x+70, bodenY-th-40); c.fill();
+    c.fillStyle = 'rgba(232,212,138,.13)';
+    c.fillRect(x+24, bodenY-th+16, 14, 22);
+    c.fillStyle = '#20244A';
   }
   /* Parallax 2: Fenster */
   c.fillStyle = '#2B2F5C';
@@ -4527,8 +4611,8 @@ function plattformMalen(dt, jetzt){
   }
 
   /* Kacheln */
-  const x0 = Math.max(0, Math.floor(kx/KACHEL)-1), x1 = Math.min(P.breite, Math.ceil((kx+w)/KACHEL)+1);
-  const y0 = Math.max(0, Math.floor(ky/KACHEL)-1), y1 = Math.min(P.hoehe, Math.ceil((ky+hh)/KACHEL)+1);
+  const x0 = Math.max(0, Math.floor(kx/KACHEL)-1), x1 = Math.min(P.breite, Math.ceil((kx+W)/KACHEL)+1);
+  const y0 = Math.max(0, Math.floor(ky/KACHEL)-1), y1 = Math.min(P.hoehe, Math.ceil((ky+H)/KACHEL)+1);
   for(let y=y0;y<y1;y++) for(let x=x0;x<x1;x++){
     const ch = P.karte[y][x];
     if(ch === '.' ) continue;
@@ -4601,14 +4685,21 @@ function plattformMalen(dt, jetzt){
     }
   }
 
+  c.restore();                     /* zurück in Bildschirmmaße */
+
   /* Sternenpuls-Schleier */
   if(P.puls > 0){
     c.fillStyle = 'rgba(185,168,240,'+(0.10*Math.min(1,P.puls))+')';
     c.fillRect(0,0,w,hh);
   }
 
+  /* Sanfte Vignette: lenkt den Blick zur Mitte */
+  const vg = c.createRadialGradient(w/2, hh*0.55, Math.min(w,hh)*0.36, w/2, hh*0.55, Math.max(w,hh)*0.78);
+  vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(4,6,16,.5)');
+  c.fillStyle = vg; c.fillRect(0,0,w,hh);
+
   /* Bosszustand */
-  if(P.boss && !P.boss.tot && Math.abs(P.boss.x - h.x) < w){
+  if(P.boss && !P.boss.tot && Math.abs(P.boss.x - h.x) < W){
     const bw = w*0.5;
     c.fillStyle = 'rgba(9,12,26,.7)';
     c.beginPath(); c.roundRect(w/2-bw/2, 12, bw, 16, 8); c.fill();
@@ -4625,14 +4716,33 @@ function kachelMalen(c, ch, px, py, tx, ty, t){
       if(P.puls > 0){ c.globalAlpha = 0.30; }
       else { c.globalAlpha = 1; }
     }
-    c.fillStyle = '#3A3F6B';
+    /* Leichte Streuung je Kachel, damit die Mauer nicht wie Karopapier
+       aussieht — fest an der Position, also immer gleich. */
+    const mix = ((tx*73856093) ^ (ty*19349663)) >>> 0;
+    const hell = 0.94 + ((mix % 13) / 100);
+    const grund = mischFarbe('#3A3F6B', '#5A61A0', ((mix >> 4) % 9) / 34);
+    c.fillStyle = grund;
     c.fillRect(px, py, k, k);
-    c.fillStyle = '#4A5085';
-    c.fillRect(px+2, py+2, k-4, 4);
-    c.fillStyle = '#2A2E52';
+    /* Oberkante: nur wenn oben nichts liegt, bekommt sie Licht */
+    const obenFrei = !FEST(kachelAt(tx, ty-1));
+    if(obenFrei){
+      c.fillStyle = mischFarbe(grund, '#C9D6E8', 0.34*hell);
+      c.fillRect(px, py, k, 5);
+      c.fillStyle = mischFarbe(grund, '#8FA0D8', 0.20);
+      c.fillRect(px, py+5, k, 2);
+    } else {
+      c.fillStyle = mischFarbe(grund, '#FFFFFF', 0.06);
+      c.fillRect(px+2, py+2, k-4, 3);
+    }
+    c.fillStyle = 'rgba(18,21,44,.55)';
     c.fillRect(px, py+k-4, k, 4);
-    c.strokeStyle = 'rgba(20,24,50,.7)'; c.lineWidth = 1;
+    /* Fugen */
+    c.strokeStyle = 'rgba(16,19,40,.55)'; c.lineWidth = 1;
     c.strokeRect(px+.5, py+.5, k-1, k-1);
+    if((mix >> 8) % 7 === 0){
+      c.fillStyle = 'rgba(147,201,126,.16)';
+      c.beginPath(); c.ellipse(px + 6 + (mix%12), py + k - 7, 5, 2.4, 0, 0, 7); c.fill();
+    }
     if(ch === 'G' && P.puls > 0){
       c.strokeStyle = '#B9A8F0'; c.lineWidth = 2;
       c.strokeRect(px+2, py+2, k-4, k-4);
@@ -4640,8 +4750,14 @@ function kachelMalen(c, ch, px, py, tx, ty, t){
     c.globalAlpha = 1;
   }
   else if(ch === '='){
-    c.fillStyle = '#6B5330'; c.beginPath(); c.roundRect(px, py, k, 12, 3); c.fill();
-    c.fillStyle = '#8E7318'; c.fillRect(px+2, py+2, k-4, 3);
+    c.fillStyle = 'rgba(0,0,0,.28)';
+    c.beginPath(); c.roundRect(px+1, py+4, k-2, 11, 4); c.fill();
+    const bal = c.createLinearGradient(0, py, 0, py+12);
+    bal.addColorStop(0,'#A8863A'); bal.addColorStop(.45,'#7A5F2A'); bal.addColorStop(1,'#57411C');
+    c.fillStyle = bal; c.beginPath(); c.roundRect(px, py, k, 12, 3); c.fill();
+    c.fillStyle = 'rgba(255,232,168,.55)'; c.fillRect(px+2, py+1.5, k-4, 2);
+    c.strokeStyle = 'rgba(40,28,10,.5)'; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(px+.5, py+2); c.lineTo(px+.5, py+10); c.stroke();
   }
   else if(ch === 'B'){
     if(P.kaputt[tx+','+ty]) return;
@@ -4869,10 +4985,11 @@ const L = {
 const SPUR_X = [-1, 0, 1];
 const FOV = 230;
 
+const HORIZONT = 0.30;             /* Anteil der Bildhöhe bis zum Horizont */
 function projektion(d, w, h){
   const sk = FOV / Math.max(1, d + FOV);
-  const horizont = h*0.40;
-  const boden = h*0.94;
+  const horizont = h*HORIZONT;
+  const boden = h*0.95;
   return { sk, y: horizont + (boden - horizont)*sk, breite: w*0.46 };
 }
 
@@ -5241,7 +5358,7 @@ function laeuferMalen(dt, jetzt){
   const v = L.kam.versatz();
   c.save(); c.translate(v.x, v.y);
   const t = L.zeit;
-  const horizont = h*0.40;
+  const horizont = h*HORIZONT;
 
   /* Himmel */
   const g = c.createLinearGradient(0,0,0,h);
@@ -5470,11 +5587,13 @@ function objektMalen(c, o, w, h){
 function jaegerMalen(c, w, h, t){
   const naehe = klemm(1 - L.jaeger/150, 0, 1);
   if(naehe < 0.05) return;
-  const groesse = 90 + naehe*260;
-  const x = w/2 + Math.sin(t*1.3)*w*0.10;
-  const y = h*0.94;
+  /* Er bleibt eine Ahnung im Rücken — nicht ein Klotz mitten auf dem Weg.
+     Je näher er kommt, desto größer und deutlicher wird er. */
+  const groesse = Math.min(h*0.42, 70 + naehe*170);
+  const x = w/2 + Math.sin(t*1.3)*w*0.16;
+  const y = h*1.02;
   c.save();
-  c.globalAlpha = 0.35 + naehe*0.5;
+  c.globalAlpha = 0.18 + naehe*0.42;
   c.fillStyle = '#0A0410';
   c.beginPath();
   c.moveTo(x-groesse*0.5, y+20);
